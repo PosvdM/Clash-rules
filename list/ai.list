@@ -1,5 +1,8 @@
 # Microsoft Copilot
+
 DOMAIN-KEYWORD,bing
+DOMAIN-KEYWORD,copilot
+DOMAIN-SUFFIX,copilot.microsoft.com
 DOMAIN-SUFFIX,bing.com
 DOMAIN-SUFFIX,bingapis.com
 DOMAIN,gateway.bingviz.microsoftapp.net
