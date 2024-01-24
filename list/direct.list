@@ -1,2 +1,4 @@
 DOMAIN-SUFFIX,steamserver.net
+
 DOMAIN-KEYWORD,xbox
+PROCESS-NAME,XboxPcApp.exe
