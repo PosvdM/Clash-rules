@@ -10,3 +10,5 @@ DOMAIN,gateway.bingviz.microsoftapp.net
 DOMAIN-SUFFIX,bing-shopping.microsoft-falcon.io
 
 # DOMAIN-SUFFIX,perplexity.ai
+
+DOMAIN-SUFFIX,huggingface.co
