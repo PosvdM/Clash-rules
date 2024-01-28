@@ -1,3 +1,5 @@
+https://raw.githubusercontent.com/PosvdM/Clash-rules/main/rules/use.ini
+
 基于 https://raw.githubusercontent.com/juewuy/ShellClash/master/rules/ShellClash_Full.ini 规则修改
 
 主要修改如下：
