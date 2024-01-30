@@ -63,7 +63,7 @@ experimental:
 #   'alpha.clash.dev': '::1'
 
 dns:
-  enable: false # 是否启用dns false
+  enable: true # 是否启用dns false
   ipv6: true
   use-hosts: true
   listen: 0.0.0.0:53
@@ -91,8 +91,8 @@ dns:
      # - tls://dns.google:853
      # - https://dns.rubyfish.cn/dns-query
      - https://1.1.1.1/dns-query
-     - https://cloudflare-dns.com/dns-query
-     - https://dns.google/dns-query
+     # - https://cloudflare-dns.com/dns-query
+     # - https://dns.google/dns-query
   fallback-filter:
      geoip: true # 默认
      geoip-code: CN
