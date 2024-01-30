@@ -1,1 +1,1 @@
-
+https://raw.githubusercontent.com/txyyh/ClashFiles/master/Clash/GeneralClashConfig_redir-host.yml
