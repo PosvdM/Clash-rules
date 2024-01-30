@@ -1,1 +1,4 @@
+;clash_rule_base=
+
 https://raw.githubusercontent.com/txyyh/ClashFiles/master/Clash/GeneralClashConfig_redir-host.yml
+https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/GeneralClashConfig.yml
