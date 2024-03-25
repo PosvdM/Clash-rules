@@ -30,4 +30,4 @@ rule-providers:
     interval: 86400
     
 rules:
-  - RULE-SET,AWAvenue,🛑 广告拦截
+  - 'RULE-SET,AWAvenue,🛑 广告拦截'
