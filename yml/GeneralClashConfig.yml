@@ -29,5 +29,3 @@ rule-providers:
     url: "https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/AWAvenue-Ads-Rule-Clash.yaml"
     interval: 86400
     
-rules:
-  - RULE-SET,秋风广告规则,🛑 广告拦截
