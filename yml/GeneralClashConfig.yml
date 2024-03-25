@@ -21,7 +21,7 @@ dns:
        - 240.0.0.0/4
 
 rule-providers:  
-  秋风广告规则:
+  AWAvenue:
     type: http
     behavior: domain
     format: yaml
@@ -30,4 +30,4 @@ rule-providers:
     interval: 86400
     
 rules:
-  - RULE-SET,秋风广告规则,🛑 广告拦截
+  - RULE-SET,AWAvenue,🛑 广告拦截
