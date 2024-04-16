@@ -1,9 +1,13 @@
+# 禁漫
 DOMAIN-KEYWORD,18comic
 DOMAIN-KEYWORD,jmcomic
 DOMAIN-SUFFIX,18comic.vip
-DOMAIN-SUFFIX,manhuabika.com
+
+# e-hentai
 DOMAIN-SUFFIX,e-hentai.org
 DOMAIN-SUFFIX,exhentai.org
+
+DOMAIN-SUFFIX,manhuabika.com
 DOMAIN-SUFFIX,iwara.tv
 DOMAIN-SUFFIX,njav.tv
 DOMAIN-SUFFIX,hanime1.me
