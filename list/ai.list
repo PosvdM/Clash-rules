@@ -12,3 +12,5 @@ DOMAIN-SUFFIX,bing-shopping.microsoft-falcon.io
 # DOMAIN-SUFFIX,perplexity.ai
 
 DOMAIN-SUFFIX,huggingface.co
+
+DOMAIN-SUFFIX,geospy.ai
