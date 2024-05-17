@@ -1,5 +1,8 @@
-# Microsoft Copilot
+# OpenAI
+DOMAIN-SUFFIX,openai.com
+DOMAIN-SUFFIX,chatgpt.com
 
+# Microsoft Copilot
 # DOMAIN-KEYWORD,bing
 # DOMAIN-KEYWORD,copilot
 DOMAIN-SUFFIX,copilot.microsoft.com
@@ -7,8 +10,6 @@ DOMAIN-SUFFIX,bing.com
 DOMAIN-SUFFIX,bingapis.com
 DOMAIN,gateway.bingviz.microsoftapp.net
 DOMAIN-SUFFIX,bing-shopping.microsoft-falcon.io
-
-DOMAIN-SUFFIX,chatgpt.com
 
 # DOMAIN-SUFFIX,perplexity.ai
 
