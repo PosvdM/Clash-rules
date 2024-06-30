@@ -1,5 +1,4 @@
 # Steam下载
-DOMAIN,api.steampowered.com
 DOMAIN-SUFFIX,steamserver.net
 DOMAIN-SUFFIX,cdn.steamstatic.com
 DOMAIN,dl.steam.clngaa.com
