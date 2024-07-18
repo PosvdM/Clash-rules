@@ -8,6 +8,7 @@ DOMAIN,xz.pphimalayanrt.com
 # Xbox
 DOMAIN-KEYWORD,xbox
 PROCESS-NAME,XboxPcApp.exe
+PROCESS-NAME,ForzaHorizon5.exe
 
 PROCESS-NAME,legendary.exe
 
