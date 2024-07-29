@@ -1,4 +1,10 @@
+自用
+
 https://raw.githubusercontent.com/PosvdM/Clash-rules/main/rules/use.ini
+
+排除流量信息等不会使用的节点
+
+安全的自动策略组，所有自动选择不会自动选到高倍率节点导致流量消耗过快
 
 增加DoH，使用 阿里DoH 和 Cloudflare DoH
 
