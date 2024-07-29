@@ -20,6 +20,13 @@ DOMAIN-SUFFIX,msauth.net
 DOMAIN-SUFFIX,msftauth.net
 
 
+# Claude
+DOMAIN-SUFFIX,claude.ai
+DOMAIN-SUFFIX,anthropic.com
+DOMAIN-SUFFIX,intercom.io
+DOMAIN-SUFFIX,intercomcdn.com
+
+
 # DOMAIN-SUFFIX,perplexity.ai
 
 DOMAIN-SUFFIX,huggingface.co
