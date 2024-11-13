@@ -7,6 +7,11 @@ DOMAIN-SUFFIX,paopao.dog
 DOMAIN-SUFFIX,z-library.se
 DOMAIN-SUFFIX,singlelogin.re
 
+# 小说
+DOMAIN-SUFFIX,timotxt.com
+DOMAIN-SUFFIX,69shu.biz
+DOMAIN-SUFFIX,trxs.me
+
 DOMAIN,wiki.metacubex.one
 DOMAIN,goo.su
 DOMAIN,open.spotify.com
@@ -19,6 +24,5 @@ DOMAIN-SUFFIX,whatshub.top
 DOMAIN-SUFFIX,apkcombo.com
 DOMAIN-SUFFIX,sleazyfork.org
 DOMAIN,scripthub.vercel.app
-DOMAIN-SUFFIX,69shu.me
 DOMAIN-SUFFIX,asmr.one
-DOMAIN-SUFFIX,timotxt.com
+
