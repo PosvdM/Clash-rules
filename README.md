@@ -1,6 +1,6 @@
 自用
 
-https://raw.githubusercontent.com/PosvdM/Clash-rules/main/rules/use.ini
+https://raw.githubusercontent.com/PosvdM/Clash-rules/main/rules/main.ini
 
 排除流量信息等不会使用的节点
 
