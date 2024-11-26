@@ -12,6 +12,12 @@ DOMAIN-SUFFIX,timotxt.com
 DOMAIN-SUFFIX,69shu.biz
 DOMAIN-SUFFIX,trxs.me
 
+# ASMR Online
+DOMAIN-SUFFIX,asmr.one
+DOMAIN-SUFFIX,asmr-100.com
+DOMAIN-SUFFIX,asmr-200.com
+DOMAIN-SUFFIX,asmr-300.com
+
 DOMAIN,wiki.metacubex.one
 DOMAIN,goo.su
 DOMAIN,open.spotify.com
@@ -24,6 +30,5 @@ DOMAIN-SUFFIX,whatshub.top
 DOMAIN-SUFFIX,apkcombo.com
 DOMAIN-SUFFIX,sleazyfork.org
 DOMAIN,scripthub.vercel.app
-DOMAIN-SUFFIX,asmr.one
 DOMAIN-SUFFIX,artstation.com
 DOMAIN-SUFFIX,dlsite.com
