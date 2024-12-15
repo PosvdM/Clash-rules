@@ -1,5 +1,7 @@
 # 解决Steam下载区无法使用国内CDN下载
 # 来源 https://www.dogfight360.com/blog/knowledge-base/fix_steamdl_region/
+
+
 DOMAIN,steamcdn-a.akamaihd.net
 DOMAIN-SUFFIX,cm.steampowered.com
 DOMAIN-SUFFIX,steamserver.net
