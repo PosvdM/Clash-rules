@@ -1,7 +1,7 @@
 # 机场
 DOMAIN-SUFFIX,xftld.org
-DOMAIN-SUFFIX,一元机场.com
 DOMAIN-SUFFIX,paopao.dog
+DOMAIN-SUFFIX,hhneko.xyz
 
 # z-library
 DOMAIN-SUFFIX,go-to-library.sk
@@ -20,6 +20,9 @@ DOMAIN-SUFFIX,asmr-300.com
 
 # ASMRGAY
 DOMAIN-SUFFIX,asmrgay.com
+
+# YouTube
+DOMAIN,jnn-pa.googleapis.com
 
 # YouTube Download
 DOMAIN,ddownr.com
