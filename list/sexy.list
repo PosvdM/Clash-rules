@@ -7,6 +7,11 @@ DOMAIN-SUFFIX,18comic.vip
 DOMAIN-SUFFIX,e-hentai.org
 DOMAIN-SUFFIX,exhentai.org
 
+# MissAV
+DOMAIN-SUFFIX,missav.com
+DOMAIN-SUFFIX,missav.ws
+DOMAIN-SUFFIX,missav.live
+
 DOMAIN-SUFFIX,manhuabika.com
 DOMAIN-SUFFIX,iwara.tv
 DOMAIN-SUFFIX,njav.tv
@@ -14,7 +19,6 @@ DOMAIN-SUFFIX,hanime1.me
 DOMAIN-SUFFIX,rule34video.com
 DOMAIN-SUFFIX,rule34video.party
 DOMAIN-SUFFIX,rule34.xxx
-DOMAIN-SUFFIX,missav.com
 DOMAIN-SUFFIX,supjav.com
 DOMAIN-SUFFIX,xslist.org
 DOMAIN-SUFFIX,netflav.com
