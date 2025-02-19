@@ -28,6 +28,9 @@ DOMAIN,ddownr.com
 DOMAIN-SUFFIX,greasyfork.org
 DOMAIN-SUFFIX,sleazyfork.org
 
+# Google Password Manager
+DOMAIN,enclave.ua5v.com
+
 DOMAIN,wiki.metacubex.one
 DOMAIN,goo.su
 DOMAIN,open.spotify.com
