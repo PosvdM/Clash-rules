@@ -3,6 +3,9 @@ DOMAIN-SUFFIX,xftld.org
 DOMAIN-SUFFIX,paopao.dog
 DOMAIN-SUFFIX,hhneko.xyz
 
+# 订阅转换
+DOMAIN,api.ytools.cc
+
 # z-library
 DOMAIN-SUFFIX,go-to-library.sk
 DOMAIN-SUFFIX,z-library.sk
