@@ -14,11 +14,11 @@ dns:
     - ntp.*.com
     - +.market.xiaomi.com
   default-nameserver:
-    - https://1.1.1.1/dns-query
+    - https://223.5.5.5/dns-query
   nameserver:
     - https://223.5.5.5/dns-query
   fallback:
-    - https://223.5.5.5/dns-query
+    - https://dns.cloudflare.com/dns-query
   fallback-filter:
     geoip: true # 默认
     geoip-code: CN
@@ -31,4 +31,4 @@ dns:
     '+.deepl.com': https://223.5.5.5/dns-query
   
     "geosite:cn": https://223.5.5.5/dns-query
-    "geosite:!cn": https://223.5.5.5/dns-query
+    "geosite:!cn": https://dns.cloudflare.com/dns-query
