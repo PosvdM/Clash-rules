@@ -34,6 +34,8 @@ DOMAIN-SUFFIX,sleazyfork.org
 # Google Password Manager
 DOMAIN,enclave.ua5v.com
 
+DOMAIN-SUFFIX,vercel.app
+
 DOMAIN,wiki.metacubex.one
 DOMAIN,goo.su
 DOMAIN,open.spotify.com
