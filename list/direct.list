@@ -15,6 +15,9 @@ DOMAIN-KEYWORD,xbox
 PROCESS-NAME,XboxPcApp.exe
 PROCESS-NAME,ForzaHorizon5.exe
 
+# Emby
+DOMAIN,tv.micu.hk
+
 PROCESS-NAME,legendary.exe
 
 DOMAIN-SUFFIX,cdndrive.uk
@@ -22,3 +25,4 @@ DOMAIN-SUFFIX,cdndrive.uk
 DOMAIN-KEYWORD,adobe
 
 DOMAIN,api-free.deepl.com
+
