@@ -16,7 +16,7 @@ PROCESS-NAME,XboxPcApp.exe
 PROCESS-NAME,ForzaHorizon5.exe
 
 # Emby
-DOMAIN,tv.micu.hk
+DOMAIN-SUFFIX,micu.hk
 
 PROCESS-NAME,legendary.exe
 
