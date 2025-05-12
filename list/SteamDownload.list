@@ -1,10 +1,20 @@
-# 解决Steam下载区无法使用国内CDN下载
-# 来源 https://www.dogfight360.com/blog/knowledge-base/fix_steamdl_region/
+# 解决Steam下载无法使用国内CDN的问题
+
+DOMAIN-SUFFIX,steamserver.net
+DOMAIN-SUFFIX,cdn.steamstatic.com
+DOMAIN,dl.steam.clngaa.com
+DOMAIN,st.dl.eccdnx.com
+DOMAIN,xz.pphimalayanrt.com
 
 
+
+# 参考 https://femoon.top/article/f5540f1e-fa0b-4883-9104-21ffee1e2f1b
 DOMAIN,steamcdn-a.akamaihd.net
+
+# 参考 https://www.dogfight360.com/blog/knowledge-base/fix_steamdl_region/
 DOMAIN-SUFFIX,cm.steampowered.com
 DOMAIN-SUFFIX,steamserver.net
+
 IP-CIDR,45.121.184.0/24
 IP-CIDR,103.10.124.0/23
 IP-CIDR,103.28.54.0/24
