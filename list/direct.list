@@ -4,6 +4,7 @@ DOMAIN-SUFFIX,05vr9nyqg5.download
 DOMAIN-SUFFIX,p9999.space
 
 # Steam下载
+DOMAIN,test.steampowered.com
 DOMAIN-SUFFIX,steamserver.net
 DOMAIN-SUFFIX,cdn.steamstatic.com
 DOMAIN,dl.steam.clngaa.com
