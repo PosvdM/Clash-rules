@@ -1,5 +1,6 @@
 # 解决Steam下载无法使用国内CDN的问题
 
+DOMAIN,test.steampowered.com
 DOMAIN-SUFFIX,steamserver.net
 DOMAIN-SUFFIX,cdn.steamstatic.com
 DOMAIN,dl.steam.clngaa.com
