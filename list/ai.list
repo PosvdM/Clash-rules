@@ -27,6 +27,11 @@ DOMAIN-SUFFIX,intercom.io
 DOMAIN-SUFFIX,intercomcdn.com
 
 
+# Google AI Studio
+DOMAIN-SUFFIX,aistudio.google.com
+DOMAIN-SUFFIX,scf.usercontent.goog
+
+
 # DOMAIN-SUFFIX,perplexity.ai
 
 DOMAIN-SUFFIX,huggingface.co
