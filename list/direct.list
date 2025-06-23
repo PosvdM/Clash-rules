@@ -14,6 +14,7 @@ DOMAIN,xz.pphimalayanrt.com
 # Xbox
 DOMAIN-SUFFIX,xboxlive.cn
 DOMAIN-KEYWORD,xbox
+DOMAIN-SUFFIX,gamepass.com
 PROCESS-NAME,XboxPcApp.exe
 PROCESS-NAME,ForzaHorizon5.exe
 
