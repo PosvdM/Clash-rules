@@ -12,9 +12,14 @@ DOMAIN,st.dl.eccdnx.com
 DOMAIN,xz.pphimalayanrt.com
 
 # Xbox
+DOMAIN-SUFFIX,xboxlive.cn
 DOMAIN-KEYWORD,xbox
 PROCESS-NAME,XboxPcApp.exe
 PROCESS-NAME,ForzaHorizon5.exe
+
+# DeepL
+DOMAIN-SUFFIX,deepl.com
+DOMAIN,api-free.deepl.com
 
 # Emby
 DOMAIN-SUFFIX,micu.hk
@@ -25,5 +30,4 @@ DOMAIN-SUFFIX,cdndrive.uk
 
 DOMAIN-KEYWORD,adobe
 
-DOMAIN,api-free.deepl.com
 
