@@ -13,8 +13,8 @@ DOMAIN,xz.pphimalayanrt.com
 DOMAIN,steamcdn-a.akamaihd.net
 
 # 参考 https://www.dogfight360.com/blog/knowledge-base/fix_steamdl_region/
+# DOMAIN-SUFFIX,steamserver.net
 DOMAIN-SUFFIX,cm.steampowered.com
-DOMAIN-SUFFIX,steamserver.net
 
 IP-CIDR,45.121.184.0/24
 IP-CIDR,103.10.124.0/23
