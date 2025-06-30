@@ -5,10 +5,15 @@ DOMAIN-SUFFIX,p9999.space #hneko
 
 # Xbox
 DOMAIN-SUFFIX,xboxlive.cn
-DOMAIN-KEYWORD,xbox
+DOMAIN-SUFFIX,xboxlive.com
 DOMAIN-SUFFIX,gamepass.com
+DOMAIN-SUFFIX,xboxservices.com
+DOMAIN-SUFFIX,digicert.com
+DOMAIN-SUFFIX,azurefd.net
+
 PROCESS-NAME,XboxPcApp.exe
 PROCESS-NAME,ForzaHorizon5.exe
+
 
 PROCESS-NAME,legendary.exe
 
