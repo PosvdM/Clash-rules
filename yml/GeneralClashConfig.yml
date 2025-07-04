@@ -32,7 +32,9 @@ dns:
     rule-set:SteamDownload (Domain): https://dns.alidns.com/dns-query
 
     geosite:cn,private,apple: https://dns.alidns.com/dns-query
-    geosite:!cn,gfw: https://dns.cloudflare.com/dns-query
+    geosite:!cn,gfw: 
+      - https://dns.cloudflare.com/dns-query
+      - https://posvdm.cloudflare-gateway.com/dns-query
 
 
 
