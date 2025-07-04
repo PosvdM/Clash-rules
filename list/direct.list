@@ -11,6 +11,7 @@ DOMAIN-SUFFIX,xboxservices.com
 DOMAIN-SUFFIX,digicert.com
 DOMAIN-SUFFIX,azurefd.net
 DOMAIN-SUFFIX,dl.delivery.mp.microsoft.com
+DOMAIN-SUFFIX,store-images.s-microsoft.com
 
 PROCESS-NAME,XboxPcApp.exe
 PROCESS-NAME,ForzaHorizon5.exe
