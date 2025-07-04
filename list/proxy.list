@@ -14,6 +14,8 @@ DOMAIN-SUFFIX,z-library.sk
 DOMAIN-SUFFIX,timotxt.com
 DOMAIN-SUFFIX,69shu.biz
 DOMAIN-SUFFIX,trxs.me
+DOMAIN-SUFFIX,book18.org
+DOMAIN-SUFFIX,ibbs.pro
 
 # ASMR Online
 DOMAIN-SUFFIX,asmr.one
@@ -34,9 +36,6 @@ DOMAIN-SUFFIX,sleazyfork.org
 # Google Password Manager
 DOMAIN,enclave.ua5v.com
 
-# 小说
-DOMAIN-SUFFIX,ibbs.pro
-DOMAIN-SUFFIX,book18.org
 
 DOMAIN,anti-ad.net
 
