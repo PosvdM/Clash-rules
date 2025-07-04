@@ -34,6 +34,10 @@ DOMAIN-SUFFIX,sleazyfork.org
 # Google Password Manager
 DOMAIN,enclave.ua5v.com
 
+# 小说
+DOMAIN-SUFFIX,ibbs.pro
+DOMAIN-SUFFIX,book18.org
+
 DOMAIN,anti-ad.net
 
 DOMAIN-SUFFIX,vercel.app
