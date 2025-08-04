@@ -37,6 +37,9 @@ DOMAIN-SUFFIX,sleazyfork.org
 # Google Password Manager
 DOMAIN,enclave.ua5v.com
 
+# Google 证书
+DOMAIN-SUFFIX,pki.goog
+
 # sexy
 DOMAIN-SUFFIX,hanime1.me
 
