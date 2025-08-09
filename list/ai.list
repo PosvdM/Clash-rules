@@ -1,7 +1,7 @@
 # OpenAI
 DOMAIN-SUFFIX,openai.com
 DOMAIN-SUFFIX,chatgpt.com
-
+DOMAIN,files.oaiusercontent.com
 
 # Microsoft Copilot
 # DOMAIN-KEYWORD,copilot
