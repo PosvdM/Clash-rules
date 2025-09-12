@@ -1,4 +1,6 @@
-DOMAIN-KEYWORD,spotify
+# Spotify
+DOMAIN-SUFFIX,spotify.com
+DOMAIN-SUFFIX,spotifycdn.com
 
 # Epicgames
 DOMAIN-SUFFIX,battlebreakers.com
