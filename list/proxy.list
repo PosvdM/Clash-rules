@@ -8,6 +8,11 @@ DOMAIN,api-flowercloud.com
 # Subconverter后端
 DOMAIN,api.ytools.cc
 
+# IPcheck
+DOMAIN,ping0.cc
+DOMAIN,scamalytics.com
+DOMAIN,ippure.com
+
 # z-library
 DOMAIN-SUFFIX,go-to-library.sk
 DOMAIN-SUFFIX,z-library.sk
