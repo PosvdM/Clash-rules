@@ -51,6 +51,9 @@ DOMAIN-SUFFIX,pki.goog
 DOMAIN-SUFFIX,hanime1.me
 DOMAIN,mrds.com
 DOMAIN,asmrlib.com
+# cosergirl
+DOMAIN-SUFFIX,coser.asia
+DOMAIN-SUFFIX,cosersilo.com
 
 DOMAIN,anti-ad.net
 
@@ -81,7 +84,6 @@ DOMAIN-SUFFIX,bad.news
 DOMAIN-SUFFIX,anfuns.cc
 DOMAIN,www.ahhhhfs.com
 DOMAIN-SUFFIX,neoacg.com
-DOMAIN-SUFFIX,coser.asia
 DOMAIN-SUFFIX,yhg007.com
 DOMAIN-SUFFIX,kelee.one
 DOMAIN-SUFFIX,pdf24.org
