@@ -17,6 +17,9 @@ DOMAIN-SUFFIX,ippure.com
 DOMAIN-SUFFIX,go-to-library.sk
 DOMAIN-SUFFIX,z-library.sk
 
+# Spotify
+DOMAIN-SUFFIX,spotify.com
+
 # 小说
 DOMAIN-SUFFIX,timotxt.com
 DOMAIN-SUFFIX,69shu.biz
