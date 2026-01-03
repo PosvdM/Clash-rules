@@ -9,6 +9,11 @@ DOMAIN-SUFFIX,p9999.space
 # Bitz
 DOMAIN-SUFFIX,bnsepserv.com
 
+
+# Spotify
+DOMAIN-SUFFIX,spotifycdn.com
+DOMAIN-SUFFIX,scdn.co
+
 # Xbox
 DOMAIN-SUFFIX,xboxlive.cn
 DOMAIN-SUFFIX,xboxlive.com
@@ -18,10 +23,9 @@ DOMAIN-SUFFIX,digicert.com
 DOMAIN-SUFFIX,azurefd.net
 DOMAIN-SUFFIX,dl.delivery.mp.microsoft.com
 DOMAIN-SUFFIX,store-images.s-microsoft.com
-
+#
 PROCESS-NAME,XboxPcApp.exe
 PROCESS-NAME,ForzaHorizon5.exe
-
 
 DOMAIN-SUFFIX,deepl.com
 
