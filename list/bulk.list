@@ -6,3 +6,6 @@ DOMAIN,drive.usercontent.google.com
 
 # PornHub
 DOMAIN-SUFFIX,phncdn.com
+
+# Twitter
+DOMAIN-SUFFIX,twimg.com
