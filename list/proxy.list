@@ -5,9 +5,6 @@ DOMAIN-SUFFIX,hhneko.xyz
 DOMAIN-SUFFIX,neobitznet.com
 DOMAIN,api-flowercloud.com
 
-# Subconverter后端
-DOMAIN,api.ytools.cc
-
 # IPcheck
 DOMAIN-SUFFIX,ping0.cc
 DOMAIN-SUFFIX,scamalytics.com
