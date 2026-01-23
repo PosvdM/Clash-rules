@@ -24,6 +24,8 @@ DOMAIN-SUFFIX,anthropic.com
 DOMAIN-SUFFIX,intercom.io
 DOMAIN-SUFFIX,intercomcdn.com
 
+# Gemini
+DOMAIN,notebooklm-pa.googleapis.com
 
 # Google AI Studio
 DOMAIN-SUFFIX,aistudio.google.com
