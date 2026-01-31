@@ -59,6 +59,9 @@ DOMAIN-SUFFIX,cosersilo.com
 DOMAIN-SUFFIX,vndb.org
 DOMAIN-SUFFIX,ymgal.games
 
+# Patreon
+DOMAIN-SUFFIX,patreon.com
+DOMAIN-SUFFIX,patreonusercontent.com
 
 DOMAIN,anti-ad.net
 
