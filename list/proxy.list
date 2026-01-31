@@ -55,6 +55,11 @@ DOMAIN,asmrlib.com
 DOMAIN-SUFFIX,coser.asia
 DOMAIN-SUFFIX,cosersilo.com
 
+# GalGame db
+DOMAIN-SUFFIX,vndb.org
+DOMAIN-SUFFIX,ymgal.games
+
+
 DOMAIN,anti-ad.net
 
 DOMAIN,www.recaptcha.net
