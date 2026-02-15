@@ -5,6 +5,9 @@ DOMAIN,emby.dnscf.dpdns.org
 # Google Drive
 DOMAIN,drive.usercontent.google.com
 
+# MEGA
+DOMAIN-SUFFIX,mega.co.nz
+
 # PornHub
 DOMAIN-SUFFIX,phncdn.com
 
