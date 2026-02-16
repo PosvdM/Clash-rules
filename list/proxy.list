@@ -25,6 +25,9 @@ DOMAIN-SUFFIX,book18.org
 DOMAIN-SUFFIX,ibbs.pro
 DOMAIN-SUFFIX,uaa.com
 
+# 漫画
+DOMAIN-SUFFIX,happymh.com
+
 # ASMR Online
 DOMAIN-SUFFIX,asmr.one
 DOMAIN-SUFFIX,asmr-100.com
