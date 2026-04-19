@@ -69,6 +69,10 @@ DOMAIN-SUFFIX,ymgal.games
 DOMAIN-SUFFIX,patreon.com
 DOMAIN-SUFFIX,patreonusercontent.com
 
+# LINUX DO
+DOMAIN-SUFFIX,linux.do
+DOMAIN-SUFFIX,ldstore.cc.cd
+
 DOMAIN,anti-ad.net
 
 DOMAIN,www.recaptcha.net
@@ -83,7 +87,6 @@ DOMAIN,goo.su
 DOMAIN,open.spotify.com
 DOMAIN,x.com
 DOMAIN,bit.ly
-DOMAIN-SUFFIX,linux.do
 DOMAIN-SUFFIX,proton.me
 DOMAIN-SUFFIX,imgur.com
 DOMAIN-SUFFIX,whatshub.top
