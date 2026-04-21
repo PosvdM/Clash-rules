@@ -13,6 +13,13 @@ DOMAIN-SUFFIX,ping0.cc
 DOMAIN-SUFFIX,scamalytics.com
 DOMAIN-SUFFIX,ippure.com
 
+# Steam 云存档
+# DOMAIN-WILDCARD,steamcloud-*.aliyuncs.com
+# DOMAIN-WILDCARD,steamcloud-*.amazonaws.com
+DOMAIN,steamcloud-hkg.oss-accelerate.aliyuncs.com
+DOMAIN,steamcloud-sgp.oss-accelerate.aliyuncs.com
+DOMAIN,steamcloud-sg.s3.dualstack.ap-southeast-1.amazonaws.com
+
 # z-library
 DOMAIN-SUFFIX,go-to-library.sk
 DOMAIN-SUFFIX,z-library.sk
