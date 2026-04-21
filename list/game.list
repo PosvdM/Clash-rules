@@ -1,3 +1,6 @@
-# Steam
-DOMAIN-WILDCARD,steamcloud-*.aliyuncs.com
-DOMAIN-WILDCARD,steamcloud-*.amazonaws.com
+# Steam 云存档
+# DOMAIN-WILDCARD,steamcloud-*.aliyuncs.com
+# DOMAIN-WILDCARD,steamcloud-*.amazonaws.com
+DOMAIN,steamcloud-hkg.oss-accelerate.aliyuncs.com
+DOMAIN,steamcloud-sgp.oss-accelerate.aliyuncs.com
+DOMAIN,steamcloud-sg.s3.dualstack.ap-southeast-1.amazonaws.com
