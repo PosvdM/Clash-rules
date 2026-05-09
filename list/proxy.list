@@ -38,14 +38,13 @@ DOMAIN-SUFFIX,uaa.com
 # 漫画
 DOMAIN-SUFFIX,happymh.com
 
-# ASMR Online
+# ASMR
 DOMAIN-SUFFIX,asmr.one
 DOMAIN-SUFFIX,asmr-100.com
 DOMAIN-SUFFIX,asmr-200.com
 DOMAIN-SUFFIX,asmr-300.com
-
-# ASMRGAY
 DOMAIN-SUFFIX,asmrgay.com
+DOMAIN-SUFFIX,asmr1.cc
 
 # YouTube Download
 DOMAIN,ddownr.com
