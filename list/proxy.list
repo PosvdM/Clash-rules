@@ -84,6 +84,10 @@ DOMAIN-SUFFIX,ldcstore.com
 DOMAIN-SUFFIX,ldstatic.com
 DOMAIN-SUFFIX,ldspro.qzz.io
 
+# Bybit
+DOMAIN-SUFFIX,bybit.biz
+DOMAIN-SUFFIX,jbybit.com
+
 DOMAIN,anti-ad.net
 
 DOMAIN,www.recaptcha.net
