@@ -31,6 +31,9 @@ DOMAIN,notebooklm-pa.googleapis.com
 DOMAIN-SUFFIX,aistudio.google.com
 DOMAIN-SUFFIX,scf.usercontent.goog
 
+# Grok
+DOMAIN-SUFFIX,grokipedia.com
+
 DOMAIN-SUFFIX,lmarena.ai
 
 # DOMAIN-SUFFIX,perplexity.ai
