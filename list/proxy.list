@@ -87,6 +87,10 @@ DOMAIN-SUFFIX,jbybit.com
 DOMAIN-SUFFIX,byapps.net
 DOMAIN-SUFFIX,ng-dex.com
 
+# plasma
+DOMAIN-SUFFIX,plasma.org
+DOMAIN-SUFFIX,plasma-one.tech
+
 DOMAIN,anti-ad.net
 
 DOMAIN,www.recaptcha.net
