@@ -5,6 +5,9 @@ DOMAIN-SUFFIX,hhneko.xyz
 DOMAIN-SUFFIX,neobitznet.com
 DOMAIN,api-flowercloud.com
 
+# 家宽
+DOMAIN-SUFFIX,ipweb.cc
+
 # IPcheck
 DOMAIN-SUFFIX,ping0.cc
 DOMAIN-SUFFIX,scamalytics.com
