@@ -8,6 +8,9 @@ DOMAIN,drive.usercontent.google.com
 # MEGA
 DOMAIN-SUFFIX,mega.co.nz
 
+# Gofile
+DOMAIN-SUFFIX,gofile.io
+
 # PornHub
 DOMAIN-SUFFIX,phncdn.com
 
