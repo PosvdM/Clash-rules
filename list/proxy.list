@@ -96,6 +96,10 @@ DOMAIN-SUFFIX,plasma-one.tech
 
 DOMAIN-SUFFIX,ether.fi
 
+# bandisoft
+DOMAIN-SUFFIX,bandisoft.com
+DOMAIN-SUFFIX,bandisoft.app
+
 DOMAIN,anti-ad.net
 
 DOMAIN,www.recaptcha.net
