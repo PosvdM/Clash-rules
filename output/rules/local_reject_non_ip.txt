@@ -1,0 +1,6 @@
+# Generated from source.yaml by scripts/generate.py; do not edit.
+# Source: https://raw.githubusercontent.com/PosvdM/Clash-rules/main/list/reject.list
+# IDM
+DOMAIN-SUFFIX,tonec.com
+DOMAIN-SUFFIX,registeridm.com
+DOMAIN-SUFFIX,internetdownloadmanager.com

@@ -1,0 +1,454 @@
+# 唯一配置源：规则、策略组、DNS、TUN 全平台共用。output/ 和旧入口由脚本生成。
+repository: PosvdM/Clash-rules
+branch: main
+exclude_remarks: (?i)(?:\d+(\.\d*)?\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)
+settings:
+  mode: rule
+  dns:
+    enable: true
+    ipv6: true
+    use-hosts: true
+    prefer-h3: true
+    listen: 0.0.0.0:53
+    enhanced-mode: fake-ip
+    fake-ip-range: 198.18.0.1/16
+    fake-ip-filter:
+    - geosite:private
+    - geosite:connectivity-check
+    - time.*.com
+    - ntp.*.com
+    default-nameserver:
+    - https://223.5.5.5/dns-query
+    nameserver:
+    - https://dns.alidns.com/dns-query
+    proxy-server-nameserver:
+    - https://dns.alidns.com/dns-query
+    fallback:
+    - https://dns.cloudflare.com/dns-query
+    fallback-filter:
+      geoip: true
+      geoip-code: CN
+      geosite:
+      - gfw
+      ipcidr:
+      - 240.0.0.0/4
+    nameserver-policy:
+      geosite:cn,private,apple: https://dns.alidns.com/dns-query
+      geosite:!cn,gfw: https://posvdm.cloudflare-gateway.com/dns-query
+  hosts:
+    iosapps.itunes.apple.com: hls.itunes.apple.com.mwcname.com
+  tun:
+    enable: true
+    stack: mixed
+    auto-route: true
+    auto-detect-interface: true
+    dns-hijack:
+    - any:53
+dns_direct_lists:
+- list/direct.list
+- list/SteamDownload.list
+rulesets:
+- id: external_anti_ad_net_clash
+  group: 🛑 广告隐私
+  behavior: domain
+  format: yaml
+  url: https://anti-ad.net/clash.yaml
+  stage: non_ip
+- id: local_reject
+  group: 🛑 广告隐私
+  behavior: classical
+  format: text
+  file: list/reject.list
+  stage: non_ip
+  split: true
+- id: local_direct
+  group: 🟢 直连
+  behavior: classical
+  format: text
+  file: list/direct.list
+  stage: non_ip
+  split: true
+- id: local_SteamDownload
+  group: 🟢 直连
+  behavior: classical
+  format: text
+  file: list/SteamDownload.list
+  stage: non_ip
+  split: true
+- id: sukka_non_ip_ai
+  group: ✨ 人工智能
+  behavior: classical
+  format: text
+  url: https://ruleset.skk.moe/Clash/non_ip/ai.txt
+  stage: non_ip
+- id: local_ai
+  group: ✨ 人工智能
+  behavior: classical
+  format: text
+  file: list/ai.list
+  stage: non_ip
+  split: true
+- id: local_proxy
+  group: 🚀 节点选择
+  behavior: classical
+  format: text
+  file: list/proxy.list
+  stage: non_ip
+  split: true
+- id: local_bulk
+  group: 📦 大宗流量
+  behavior: classical
+  format: text
+  file: list/bulk.list
+  stage: non_ip
+  split: true
+- id: local_sexy
+  group: 🥵 不可以涩涩
+  behavior: classical
+  format: text
+  file: list/sexy.list
+  stage: non_ip
+  split: true
+- id: local_final
+  group: 🐟 漏网之鱼
+  behavior: classical
+  format: text
+  file: list/final.list
+  stage: non_ip
+  split: true
+- id: sukka_non_ip_stream_biliintl
+  group: 🅱️ 哔哩哔哩
+  behavior: classical
+  format: text
+  url: https://ruleset.skk.moe/Clash/non_ip/stream_biliintl.txt
+  stage: non_ip
+- id: sukka_non_ip_lan
+  group: 🟢 直连
+  behavior: classical
+  format: text
+  url: https://ruleset.skk.moe/Clash/non_ip/lan.txt
+  stage: non_ip
+- id: sukka_non_ip_domestic
+  group: 🟢 直连
+  behavior: classical
+  format: text
+  url: https://ruleset.skk.moe/Clash/non_ip/domestic.txt
+  stage: non_ip
+- id: sukka_non_ip_direct
+  group: 🟢 直连
+  behavior: classical
+  format: text
+  url: https://ruleset.skk.moe/Clash/non_ip/direct.txt
+  stage: non_ip
+- id: external_Global_Services_YouTube
+  group: 📺 YouTube
+  behavior: classical
+  format: text
+  url: https://raw.githubusercontent.com/LM-Firefly/Rules/master/Global-Services/YouTube.list
+  stage: non_ip
+  split: true
+- id: sukka_non_ip_stream
+  group: 🚀 节点选择
+  behavior: classical
+  format: text
+  url: https://ruleset.skk.moe/Clash/non_ip/stream.txt
+  stage: non_ip
+- id: sukka_ip_stream
+  group: 🚀 节点选择
+  behavior: classical
+  format: text
+  url: https://ruleset.skk.moe/Clash/ip/stream.txt
+  stage: ip
+- id: external_Ruleset_GoogleFCM
+  group: 🟢 直连
+  behavior: classical
+  format: text
+  url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/GoogleFCM.list
+  stage: non_ip
+  split: true
+- id: sukka_domainset_apple_cdn
+  group: 🟢 直连
+  behavior: domain
+  format: text
+  url: https://ruleset.skk.moe/Clash/domainset/apple_cdn.txt
+  stage: non_ip
+- id: sukka_non_ip_apple_cn
+  group: 🟢 直连
+  behavior: classical
+  format: text
+  url: https://ruleset.skk.moe/Clash/non_ip/apple_cn.txt
+  stage: non_ip
+- id: sukka_non_ip_apple_services
+  group: 🟢 直连
+  behavior: classical
+  format: text
+  url: https://ruleset.skk.moe/Clash/non_ip/apple_services.txt
+  stage: non_ip
+- id: sukka_non_ip_microsoft
+  group: 🟢 直连
+  behavior: classical
+  format: text
+  url: https://ruleset.skk.moe/Clash/non_ip/microsoft.txt
+  stage: non_ip
+- id: sukka_non_ip_microsoft_cdn
+  group: 🟢 直连
+  behavior: classical
+  format: text
+  url: https://ruleset.skk.moe/Clash/non_ip/microsoft_cdn.txt
+  stage: non_ip
+- id: sukka_non_ip_telegram
+  group: 💬 Telegram
+  behavior: classical
+  format: text
+  url: https://ruleset.skk.moe/Clash/non_ip/telegram.txt
+  stage: non_ip
+- id: sukka_ip_telegram
+  group: 💬 Telegram
+  behavior: classical
+  format: text
+  url: https://ruleset.skk.moe/Clash/ip/telegram.txt
+  stage: ip
+- id: sukka_ip_telegram_asn
+  group: 💬 Telegram
+  behavior: classical
+  format: text
+  url: https://ruleset.skk.moe/Clash/ip/telegram_asn.txt
+  stage: ip
+- id: external_Clash_GamePlatform
+  group: 🎮 游戏平台
+  behavior: classical
+  format: text
+  url: https://raw.githubusercontent.com/LoveMyself666/ACL4SSR/master/Clash/GamePlatform.list
+  stage: non_ip
+  split: true
+- id: sukka_non_ip_global
+  group: 🚀 节点选择
+  behavior: classical
+  format: text
+  url: https://ruleset.skk.moe/Clash/non_ip/global.txt
+  stage: non_ip
+- id: sukka_ip_china_ip
+  group: 🟢 直连
+  behavior: ipcidr
+  format: text
+  url: https://ruleset.skk.moe/Clash/ip/china_ip.txt
+  stage: ip
+- id: sukka_ip_china_ip_ipv6
+  group: 🟢 直连
+  behavior: ipcidr
+  format: text
+  url: https://ruleset.skk.moe/Clash/ip/china_ip_ipv6.txt
+  stage: ip
+- id: sukka_ip_lan
+  group: 🟢 直连
+  behavior: classical
+  format: text
+  url: https://ruleset.skk.moe/Clash/ip/lan.txt
+  stage: ip
+proxy_groups:
+- name: 🐟 漏网之鱼
+  type: select
+  proxies:
+  - DIRECT
+  - 🚀 节点选择
+  - 🏷️ 低倍率
+  - 📌 指定节点
+  - 1️⃣ 港台新
+  - 2️⃣ 日韩
+  - 🇭🇰 香港
+  - 🇨🇳 台湾
+  - 🇸🇬 新加坡
+  - 🇯🇵 日本
+  - 🇰🇷 韩国
+  - 🇺🇲 美国
+- name: 🚀 节点选择
+  type: select
+  proxies:
+  - 1️⃣ 港台新
+  - 2️⃣ 日韩
+  - 🇭🇰 香港
+  - 🇨🇳 台湾
+  - 🇸🇬 新加坡
+  - 🇯🇵 日本
+  - 🇰🇷 韩国
+  - 🇺🇲 美国
+  - ♻️ 自动选择
+  - 📌 指定节点
+- name: ✨ 人工智能
+  type: select
+  proxies:
+  - 🇸🇬 新加坡
+  - 🇨🇳 台湾
+  - 🇯🇵 日本
+  - 🇺🇲 美国
+  - 🇭🇰 香港
+  - 🇰🇷 韩国
+  - 🚀 节点选择
+  - 📌 指定节点
+- name: 🥵 不可以涩涩
+  type: select
+  proxies:
+  - 🏷️ 低倍率
+  - 🚀 节点选择
+  - 🇸🇬 新加坡
+  - 🇨🇳 台湾
+  - 🇭🇰 香港
+  - 🇯🇵 日本
+  - 🇰🇷 韩国
+  - 🇺🇲 美国
+  - 📌 指定节点
+  - DIRECT
+- name: 💬 Telegram
+  type: select
+  proxies:
+  - 🏷️ 低倍率
+  - 🚀 节点选择
+  - ♻️ 自动选择
+  - 📌 指定节点
+  - 🇭🇰 香港
+  - 🇨🇳 台湾
+  - 🇸🇬 新加坡
+  - 🇯🇵 日本
+  - 🇰🇷 韩国
+  - 🇺🇲 美国
+- name: 📺 YouTube
+  type: select
+  proxies:
+  - 🏷️ 低倍率
+  - 🚀 节点选择
+  - 🇭🇰 香港
+  - 🇨🇳 台湾
+  - 🇸🇬 新加坡
+  - 🇯🇵 日本
+  - 🇰🇷 韩国
+  - 🇺🇲 美国
+- name: 📦 大宗流量
+  type: select
+  proxies:
+  - 🏷️ 低倍率
+  - 🚀 节点选择
+  - 📌 指定节点
+- name: 🎮 游戏平台
+  type: select
+  proxies:
+  - 🇭🇰 香港
+  - 🇨🇳 台湾
+  - 🇸🇬 新加坡
+  - 🇯🇵 日本
+  - 🇰🇷 韩国
+  - 🇺🇲 美国
+  - 🚀 节点选择
+  - 📌 指定节点
+  - DIRECT
+- name: 🅱️ 哔哩哔哩
+  type: select
+  proxies:
+  - DIRECT
+  - 🏷️ 低倍率
+  - 🇭🇰 香港
+  - 🇨🇳 台湾
+  - 📌 指定节点
+- name: 📌 指定节点
+  type: select
+  filter: (?i)(?=.*(香港|台湾|新加坡|美国|日本|韩国|Hong Kong|Taiwan|Singapore|USA|Japan|Korea))
+  include-all: true
+  proxies:
+  - 🌍 其他地区
+- name: 🌍 其他地区
+  type: select
+  filter: (?i)^(?!(.*(?:香港|台湾|新加坡|美国|日本|韩国|Hong Kong|Taiwan|Singapore|USA|Japan|Korea)))
+  include-all: true
+- name: 🏷️ 低倍率
+  type: fallback
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+  proxies:
+  - 🧪 低倍检测
+  - 🚀 节点选择
+- name: 1️⃣ 港台新
+  type: url-test
+  filter: (?i)(?=.*(香港|台湾|新加坡|Hong Kong|Taiwan|Singapore))^((?!小带宽|倍率|计费|0\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$
+  include-all: true
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+- name: 2️⃣ 日韩
+  type: url-test
+  filter: (?i)(?=.*(日本|韩国|Japan|Korea))^((?!小带宽|倍率|计费|0\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$
+  include-all: true
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+- name: ♻️ 自动选择
+  type: url-test
+  filter: (?i)(?=.*(香港|台湾|新加坡|美国|日本|韩国|Hong Kong|Taiwan|Singapore|USA|Japan|Korea))^((?!小带宽|倍率|计费|0\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$
+  include-all: true
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+- name: 🧪 低倍检测
+  type: url-test
+  filter: (?i)(?=.*(实验)).*$
+  include-all: true
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+- name: 🇭🇰 香港
+  type: url-test
+  filter: (?i)(?=.*(香港|Hong Kong))^((?!小带宽|倍率|计费|0\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$
+  include-all: true
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+- name: 🇨🇳 台湾
+  type: url-test
+  filter: (?i)(?=.*(台湾|Taiwan))^((?!小带宽|倍率|计费|0\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$
+  include-all: true
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+- name: 🇸🇬 新加坡
+  type: url-test
+  filter: (?i)(?=.*(新加坡|Singapore))^((?!小带宽|倍率|计费|0\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$
+  include-all: true
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+- name: 🇯🇵 日本
+  type: url-test
+  filter: (?i)(?=.*(日本|Japan))^((?!小带宽|倍率|计费|0\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$
+  include-all: true
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+- name: 🇰🇷 韩国
+  type: url-test
+  filter: (?i)(?=.*(韩国|Korea))^((?!小带宽|倍率|计费|0\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$
+  include-all: true
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+- name: 🇺🇲 美国
+  type: url-test
+  filter: (?i)(?=.*(美国|USA))^((?!小带宽|倍率|计费|0\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$
+  include-all: true
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+- name: 🟢 直连
+  type: url-test
+  url: http://connect.rom.miui.com/generate_204
+  interval: 300
+  tolerance: 50
+  proxies:
+  - DIRECT
+- name: 🛑 广告隐私
+  type: select
+  proxies:
+  - REJECT
+  - DIRECT
+tail_rules:
+- GEOSITE,cn,🟢 直连
+- GEOIP,CN,🟢 直连,no-resolve
+- MATCH,🐟 漏网之鱼

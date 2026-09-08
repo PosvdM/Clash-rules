@@ -1,0 +1,669 @@
+// Generated from source.yaml; shared by Clash Party and FlClash.
+const policy = {
+  "mode": "rule",
+  "dns": {
+    "enable": true,
+    "ipv6": true,
+    "use-hosts": true,
+    "prefer-h3": true,
+    "listen": "0.0.0.0:53",
+    "enhanced-mode": "fake-ip",
+    "fake-ip-range": "198.18.0.1/16",
+    "fake-ip-filter": [
+      "geosite:private",
+      "geosite:connectivity-check",
+      "time.*.com",
+      "ntp.*.com"
+    ],
+    "default-nameserver": [
+      "https://223.5.5.5/dns-query"
+    ],
+    "nameserver": [
+      "https://dns.alidns.com/dns-query"
+    ],
+    "proxy-server-nameserver": [
+      "https://dns.alidns.com/dns-query"
+    ],
+    "fallback": [
+      "https://dns.cloudflare.com/dns-query"
+    ],
+    "fallback-filter": {
+      "geoip": true,
+      "geoip-code": "CN",
+      "geosite": [
+        "gfw"
+      ],
+      "ipcidr": [
+        "240.0.0.0/4"
+      ]
+    },
+    "nameserver-policy": {
+      "+.spotifycdn.com": "https://dns.alidns.com/dns-query",
+      "+.scdn.co": "https://dns.alidns.com/dns-query",
+      "+.xboxlive.cn": "https://dns.alidns.com/dns-query",
+      "+.xboxlive.com": "https://dns.alidns.com/dns-query",
+      "+.gamepass.com": "https://dns.alidns.com/dns-query",
+      "+.xboxservices.com": "https://dns.alidns.com/dns-query",
+      "+.digicert.com": "https://dns.alidns.com/dns-query",
+      "+.azurefd.net": "https://dns.alidns.com/dns-query",
+      "+.dl.delivery.mp.microsoft.com": "https://dns.alidns.com/dns-query",
+      "+.store-images.s-microsoft.com": "https://dns.alidns.com/dns-query",
+      "+.deepl.com": "https://dns.alidns.com/dns-query",
+      "+.micu.hk": "https://dns.alidns.com/dns-query",
+      "+.cdndrive.uk": "https://dns.alidns.com/dns-query",
+      "+.immersivetranslate.com": "https://dns.alidns.com/dns-query",
+      "time.is": "https://dns.alidns.com/dns-query",
+      "test.steampowered.com": "https://dns.alidns.com/dns-query",
+      "+.steamserver.net": "https://dns.alidns.com/dns-query",
+      "+.cdn.steamstatic.com": "https://dns.alidns.com/dns-query",
+      "dl.steam.clngaa.com": "https://dns.alidns.com/dns-query",
+      "st.dl.eccdnx.com": "https://dns.alidns.com/dns-query",
+      "xz.pphimalayanrt.com": "https://dns.alidns.com/dns-query",
+      "gstore.val.smogfly.com": "https://dns.alidns.com/dns-query",
+      "gstore.val.manlaxy.com": "https://dns.alidns.com/dns-query",
+      "dl.file.cyngaa.com": "https://dns.alidns.com/dns-query",
+      "steamcdn-a.akamaihd.net": "https://dns.alidns.com/dns-query",
+      "+.cm.steampowered.com": "https://dns.alidns.com/dns-query",
+      "geosite:cn,private,apple": "https://dns.alidns.com/dns-query",
+      "geosite:!cn,gfw": "https://posvdm.cloudflare-gateway.com/dns-query"
+    }
+  },
+  "hosts": {
+    "iosapps.itunes.apple.com": "hls.itunes.apple.com.mwcname.com"
+  },
+  "tun": {
+    "enable": true,
+    "stack": "mixed",
+    "auto-route": true,
+    "auto-detect-interface": true,
+    "dns-hijack": [
+      "any:53"
+    ]
+  },
+  "proxy-groups": [
+    {
+      "name": "🐟 漏网之鱼",
+      "type": "select",
+      "proxies": [
+        "DIRECT",
+        "🚀 节点选择",
+        "🏷️ 低倍率",
+        "📌 指定节点",
+        "1️⃣ 港台新",
+        "2️⃣ 日韩",
+        "🇭🇰 香港",
+        "🇨🇳 台湾",
+        "🇸🇬 新加坡",
+        "🇯🇵 日本",
+        "🇰🇷 韩国",
+        "🇺🇲 美国"
+      ]
+    },
+    {
+      "name": "🚀 节点选择",
+      "type": "select",
+      "proxies": [
+        "1️⃣ 港台新",
+        "2️⃣ 日韩",
+        "🇭🇰 香港",
+        "🇨🇳 台湾",
+        "🇸🇬 新加坡",
+        "🇯🇵 日本",
+        "🇰🇷 韩国",
+        "🇺🇲 美国",
+        "♻️ 自动选择",
+        "📌 指定节点"
+      ]
+    },
+    {
+      "name": "✨ 人工智能",
+      "type": "select",
+      "proxies": [
+        "🇸🇬 新加坡",
+        "🇨🇳 台湾",
+        "🇯🇵 日本",
+        "🇺🇲 美国",
+        "🇭🇰 香港",
+        "🇰🇷 韩国",
+        "🚀 节点选择",
+        "📌 指定节点"
+      ]
+    },
+    {
+      "name": "🥵 不可以涩涩",
+      "type": "select",
+      "proxies": [
+        "🏷️ 低倍率",
+        "🚀 节点选择",
+        "🇸🇬 新加坡",
+        "🇨🇳 台湾",
+        "🇭🇰 香港",
+        "🇯🇵 日本",
+        "🇰🇷 韩国",
+        "🇺🇲 美国",
+        "📌 指定节点",
+        "DIRECT"
+      ]
+    },
+    {
+      "name": "💬 Telegram",
+      "type": "select",
+      "proxies": [
+        "🏷️ 低倍率",
+        "🚀 节点选择",
+        "♻️ 自动选择",
+        "📌 指定节点",
+        "🇭🇰 香港",
+        "🇨🇳 台湾",
+        "🇸🇬 新加坡",
+        "🇯🇵 日本",
+        "🇰🇷 韩国",
+        "🇺🇲 美国"
+      ]
+    },
+    {
+      "name": "📺 YouTube",
+      "type": "select",
+      "proxies": [
+        "🏷️ 低倍率",
+        "🚀 节点选择",
+        "🇭🇰 香港",
+        "🇨🇳 台湾",
+        "🇸🇬 新加坡",
+        "🇯🇵 日本",
+        "🇰🇷 韩国",
+        "🇺🇲 美国"
+      ]
+    },
+    {
+      "name": "📦 大宗流量",
+      "type": "select",
+      "proxies": [
+        "🏷️ 低倍率",
+        "🚀 节点选择",
+        "📌 指定节点"
+      ]
+    },
+    {
+      "name": "🎮 游戏平台",
+      "type": "select",
+      "proxies": [
+        "🇭🇰 香港",
+        "🇨🇳 台湾",
+        "🇸🇬 新加坡",
+        "🇯🇵 日本",
+        "🇰🇷 韩国",
+        "🇺🇲 美国",
+        "🚀 节点选择",
+        "📌 指定节点",
+        "DIRECT"
+      ]
+    },
+    {
+      "name": "🅱️ 哔哩哔哩",
+      "type": "select",
+      "proxies": [
+        "DIRECT",
+        "🏷️ 低倍率",
+        "🇭🇰 香港",
+        "🇨🇳 台湾",
+        "📌 指定节点"
+      ]
+    },
+    {
+      "name": "📌 指定节点",
+      "type": "select",
+      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\\s\\S]*(?:(?=.*(香港|台湾|新加坡|美国|日本|韩国|Hong Kong|Taiwan|Singapore|USA|Japan|Korea))))[\\s\\S]*$",
+      "include-all": true,
+      "proxies": [
+        "🌍 其他地区"
+      ]
+    },
+    {
+      "name": "🌍 其他地区",
+      "type": "select",
+      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\\s\\S]*(?:^(?!(.*(?:香港|台湾|新加坡|美国|日本|韩国|Hong Kong|Taiwan|Singapore|USA|Japan|Korea)))))[\\s\\S]*$",
+      "include-all": true
+    },
+    {
+      "name": "🏷️ 低倍率",
+      "type": "fallback",
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": 300,
+      "tolerance": 50,
+      "proxies": [
+        "🧪 低倍检测",
+        "🚀 节点选择"
+      ]
+    },
+    {
+      "name": "1️⃣ 港台新",
+      "type": "url-test",
+      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\\s\\S]*(?:(?=.*(香港|台湾|新加坡|Hong Kong|Taiwan|Singapore))^((?!小带宽|倍率|计费|0\\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\\s\\S]*$",
+      "include-all": true,
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": 300,
+      "tolerance": 50
+    },
+    {
+      "name": "2️⃣ 日韩",
+      "type": "url-test",
+      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\\s\\S]*(?:(?=.*(日本|韩国|Japan|Korea))^((?!小带宽|倍率|计费|0\\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\\s\\S]*$",
+      "include-all": true,
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": 300,
+      "tolerance": 50
+    },
+    {
+      "name": "♻️ 自动选择",
+      "type": "url-test",
+      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\\s\\S]*(?:(?=.*(香港|台湾|新加坡|美国|日本|韩国|Hong Kong|Taiwan|Singapore|USA|Japan|Korea))^((?!小带宽|倍率|计费|0\\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\\s\\S]*$",
+      "include-all": true,
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": 300,
+      "tolerance": 50
+    },
+    {
+      "name": "🧪 低倍检测",
+      "type": "url-test",
+      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\\s\\S]*(?:(?=.*(实验)).*$))[\\s\\S]*$",
+      "include-all": true,
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": 300,
+      "tolerance": 50
+    },
+    {
+      "name": "🇭🇰 香港",
+      "type": "url-test",
+      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\\s\\S]*(?:(?=.*(香港|Hong Kong))^((?!小带宽|倍率|计费|0\\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\\s\\S]*$",
+      "include-all": true,
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": 300,
+      "tolerance": 50
+    },
+    {
+      "name": "🇨🇳 台湾",
+      "type": "url-test",
+      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\\s\\S]*(?:(?=.*(台湾|Taiwan))^((?!小带宽|倍率|计费|0\\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\\s\\S]*$",
+      "include-all": true,
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": 300,
+      "tolerance": 50
+    },
+    {
+      "name": "🇸🇬 新加坡",
+      "type": "url-test",
+      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\\s\\S]*(?:(?=.*(新加坡|Singapore))^((?!小带宽|倍率|计费|0\\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\\s\\S]*$",
+      "include-all": true,
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": 300,
+      "tolerance": 50
+    },
+    {
+      "name": "🇯🇵 日本",
+      "type": "url-test",
+      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\\s\\S]*(?:(?=.*(日本|Japan))^((?!小带宽|倍率|计费|0\\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\\s\\S]*$",
+      "include-all": true,
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": 300,
+      "tolerance": 50
+    },
+    {
+      "name": "🇰🇷 韩国",
+      "type": "url-test",
+      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\\s\\S]*(?:(?=.*(韩国|Korea))^((?!小带宽|倍率|计费|0\\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\\s\\S]*$",
+      "include-all": true,
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": 300,
+      "tolerance": 50
+    },
+    {
+      "name": "🇺🇲 美国",
+      "type": "url-test",
+      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\\s\\S]*(?:(?=.*(美国|USA))^((?!小带宽|倍率|计费|0\\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\\s\\S]*$",
+      "include-all": true,
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": 300,
+      "tolerance": 50
+    },
+    {
+      "name": "🟢 直连",
+      "type": "url-test",
+      "url": "http://connect.rom.miui.com/generate_204",
+      "interval": 300,
+      "tolerance": 50,
+      "proxies": [
+        "DIRECT"
+      ]
+    },
+    {
+      "name": "🛑 广告隐私",
+      "type": "select",
+      "proxies": [
+        "REJECT",
+        "DIRECT"
+      ]
+    }
+  ],
+  "rule-providers": {
+    "external_anti_ad_net_clash": {
+      "type": "http",
+      "behavior": "domain",
+      "format": "yaml",
+      "url": "https://anti-ad.net/clash.yaml",
+      "path": "./ruleset/posvdm/external_anti_ad_net_clash.txt",
+      "interval": 86400
+    },
+    "local_reject_non_ip": {
+      "type": "http",
+      "behavior": "classical",
+      "format": "text",
+      "url": "https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/rules/local_reject_non_ip.txt",
+      "path": "./ruleset/posvdm/local_reject_non_ip.txt",
+      "interval": 86400
+    },
+    "local_direct_non_ip": {
+      "type": "http",
+      "behavior": "classical",
+      "format": "text",
+      "url": "https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/rules/local_direct_non_ip.txt",
+      "path": "./ruleset/posvdm/local_direct_non_ip.txt",
+      "interval": 86400
+    },
+    "local_SteamDownload_non_ip": {
+      "type": "http",
+      "behavior": "classical",
+      "format": "text",
+      "url": "https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/rules/local_SteamDownload_non_ip.txt",
+      "path": "./ruleset/posvdm/local_SteamDownload_non_ip.txt",
+      "interval": 86400
+    },
+    "local_SteamDownload_ip": {
+      "type": "http",
+      "behavior": "classical",
+      "format": "text",
+      "url": "https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/rules/local_SteamDownload_ip.txt",
+      "path": "./ruleset/posvdm/local_SteamDownload_ip.txt",
+      "interval": 86400
+    },
+    "sukka_non_ip_ai": {
+      "type": "http",
+      "behavior": "classical",
+      "format": "text",
+      "url": "https://ruleset.skk.moe/Clash/non_ip/ai.txt",
+      "path": "./ruleset/posvdm/sukka_non_ip_ai.txt",
+      "interval": 86400
+    },
+    "local_ai_non_ip": {
+      "type": "http",
+      "behavior": "classical",
+      "format": "text",
+      "url": "https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/rules/local_ai_non_ip.txt",
+      "path": "./ruleset/posvdm/local_ai_non_ip.txt",
+      "interval": 86400
+    },
+    "local_proxy_non_ip": {
+      "type": "http",
+      "behavior": "classical",
+      "format": "text",
+      "url": "https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/rules/local_proxy_non_ip.txt",
+      "path": "./ruleset/posvdm/local_proxy_non_ip.txt",
+      "interval": 86400
+    },
+    "local_bulk_non_ip": {
+      "type": "http",
+      "behavior": "classical",
+      "format": "text",
+      "url": "https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/rules/local_bulk_non_ip.txt",
+      "path": "./ruleset/posvdm/local_bulk_non_ip.txt",
+      "interval": 86400
+    },
+    "local_sexy_non_ip": {
+      "type": "http",
+      "behavior": "classical",
+      "format": "text",
+      "url": "https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/rules/local_sexy_non_ip.txt",
+      "path": "./ruleset/posvdm/local_sexy_non_ip.txt",
+      "interval": 86400
+    },
+    "local_final_non_ip": {
+      "type": "http",
+      "behavior": "classical",
+      "format": "text",
+      "url": "https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/rules/local_final_non_ip.txt",
+      "path": "./ruleset/posvdm/local_final_non_ip.txt",
+      "interval": 86400
+    },
+    "sukka_non_ip_stream_biliintl": {
+      "type": "http",
+      "behavior": "classical",
+      "format": "text",
+      "url": "https://ruleset.skk.moe/Clash/non_ip/stream_biliintl.txt",
+      "path": "./ruleset/posvdm/sukka_non_ip_stream_biliintl.txt",
+      "interval": 86400
+    },
+    "sukka_non_ip_lan": {
+      "type": "http",
+      "behavior": "classical",
+      "format": "text",
+      "url": "https://ruleset.skk.moe/Clash/non_ip/lan.txt",
+      "path": "./ruleset/posvdm/sukka_non_ip_lan.txt",
+      "interval": 86400
+    },
+    "sukka_non_ip_domestic": {
+      "type": "http",
+      "behavior": "classical",
+      "format": "text",
+      "url": "https://ruleset.skk.moe/Clash/non_ip/domestic.txt",
+      "path": "./ruleset/posvdm/sukka_non_ip_domestic.txt",
+      "interval": 86400
+    },
+    "sukka_non_ip_direct": {
+      "type": "http",
+      "behavior": "classical",
+      "format": "text",
+      "url": "https://ruleset.skk.moe/Clash/non_ip/direct.txt",
+      "path": "./ruleset/posvdm/sukka_non_ip_direct.txt",
+      "interval": 86400
+    },
+    "external_Global_Services_YouTube_non_ip": {
+      "type": "http",
+      "behavior": "classical",
+      "format": "text",
+      "url": "https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/rules/external_Global_Services_YouTube_non_ip.txt",
+      "path": "./ruleset/posvdm/external_Global_Services_YouTube_non_ip.txt",
+      "interval": 86400
+    },
+    "external_Global_Services_YouTube_ip": {
+      "type": "http",
+      "behavior": "classical",
+      "format": "text",
+      "url": "https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/rules/external_Global_Services_YouTube_ip.txt",
+      "path": "./ruleset/posvdm/external_Global_Services_YouTube_ip.txt",
+      "interval": 86400
+    },
+    "sukka_non_ip_stream": {
+      "type": "http",
+      "behavior": "classical",
+      "format": "text",
+      "url": "https://ruleset.skk.moe/Clash/non_ip/stream.txt",
+      "path": "./ruleset/posvdm/sukka_non_ip_stream.txt",
+      "interval": 86400
+    },
+    "sukka_ip_stream": {
+      "type": "http",
+      "behavior": "classical",
+      "format": "text",
+      "url": "https://ruleset.skk.moe/Clash/ip/stream.txt",
+      "path": "./ruleset/posvdm/sukka_ip_stream.txt",
+      "interval": 86400
+    },
+    "external_Ruleset_GoogleFCM_non_ip": {
+      "type": "http",
+      "behavior": "classical",
+      "format": "text",
+      "url": "https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/rules/external_Ruleset_GoogleFCM_non_ip.txt",
+      "path": "./ruleset/posvdm/external_Ruleset_GoogleFCM_non_ip.txt",
+      "interval": 86400
+    },
+    "external_Ruleset_GoogleFCM_ip": {
+      "type": "http",
+      "behavior": "classical",
+      "format": "text",
+      "url": "https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/rules/external_Ruleset_GoogleFCM_ip.txt",
+      "path": "./ruleset/posvdm/external_Ruleset_GoogleFCM_ip.txt",
+      "interval": 86400
+    },
+    "sukka_domainset_apple_cdn": {
+      "type": "http",
+      "behavior": "domain",
+      "format": "text",
+      "url": "https://ruleset.skk.moe/Clash/domainset/apple_cdn.txt",
+      "path": "./ruleset/posvdm/sukka_domainset_apple_cdn.txt",
+      "interval": 86400
+    },
+    "sukka_non_ip_apple_cn": {
+      "type": "http",
+      "behavior": "classical",
+      "format": "text",
+      "url": "https://ruleset.skk.moe/Clash/non_ip/apple_cn.txt",
+      "path": "./ruleset/posvdm/sukka_non_ip_apple_cn.txt",
+      "interval": 86400
+    },
+    "sukka_non_ip_apple_services": {
+      "type": "http",
+      "behavior": "classical",
+      "format": "text",
+      "url": "https://ruleset.skk.moe/Clash/non_ip/apple_services.txt",
+      "path": "./ruleset/posvdm/sukka_non_ip_apple_services.txt",
+      "interval": 86400
+    },
+    "sukka_non_ip_microsoft": {
+      "type": "http",
+      "behavior": "classical",
+      "format": "text",
+      "url": "https://ruleset.skk.moe/Clash/non_ip/microsoft.txt",
+      "path": "./ruleset/posvdm/sukka_non_ip_microsoft.txt",
+      "interval": 86400
+    },
+    "sukka_non_ip_microsoft_cdn": {
+      "type": "http",
+      "behavior": "classical",
+      "format": "text",
+      "url": "https://ruleset.skk.moe/Clash/non_ip/microsoft_cdn.txt",
+      "path": "./ruleset/posvdm/sukka_non_ip_microsoft_cdn.txt",
+      "interval": 86400
+    },
+    "sukka_non_ip_telegram": {
+      "type": "http",
+      "behavior": "classical",
+      "format": "text",
+      "url": "https://ruleset.skk.moe/Clash/non_ip/telegram.txt",
+      "path": "./ruleset/posvdm/sukka_non_ip_telegram.txt",
+      "interval": 86400
+    },
+    "sukka_ip_telegram": {
+      "type": "http",
+      "behavior": "classical",
+      "format": "text",
+      "url": "https://ruleset.skk.moe/Clash/ip/telegram.txt",
+      "path": "./ruleset/posvdm/sukka_ip_telegram.txt",
+      "interval": 86400
+    },
+    "sukka_ip_telegram_asn": {
+      "type": "http",
+      "behavior": "classical",
+      "format": "text",
+      "url": "https://ruleset.skk.moe/Clash/ip/telegram_asn.txt",
+      "path": "./ruleset/posvdm/sukka_ip_telegram_asn.txt",
+      "interval": 86400
+    },
+    "external_Clash_GamePlatform_non_ip": {
+      "type": "http",
+      "behavior": "classical",
+      "format": "text",
+      "url": "https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/rules/external_Clash_GamePlatform_non_ip.txt",
+      "path": "./ruleset/posvdm/external_Clash_GamePlatform_non_ip.txt",
+      "interval": 86400
+    },
+    "sukka_non_ip_global": {
+      "type": "http",
+      "behavior": "classical",
+      "format": "text",
+      "url": "https://ruleset.skk.moe/Clash/non_ip/global.txt",
+      "path": "./ruleset/posvdm/sukka_non_ip_global.txt",
+      "interval": 86400
+    },
+    "sukka_ip_china_ip": {
+      "type": "http",
+      "behavior": "ipcidr",
+      "format": "text",
+      "url": "https://ruleset.skk.moe/Clash/ip/china_ip.txt",
+      "path": "./ruleset/posvdm/sukka_ip_china_ip.txt",
+      "interval": 86400
+    },
+    "sukka_ip_china_ip_ipv6": {
+      "type": "http",
+      "behavior": "ipcidr",
+      "format": "text",
+      "url": "https://ruleset.skk.moe/Clash/ip/china_ip_ipv6.txt",
+      "path": "./ruleset/posvdm/sukka_ip_china_ip_ipv6.txt",
+      "interval": 86400
+    },
+    "sukka_ip_lan": {
+      "type": "http",
+      "behavior": "classical",
+      "format": "text",
+      "url": "https://ruleset.skk.moe/Clash/ip/lan.txt",
+      "path": "./ruleset/posvdm/sukka_ip_lan.txt",
+      "interval": 86400
+    }
+  },
+  "rules": [
+    "RULE-SET,external_anti_ad_net_clash,🛑 广告隐私",
+    "RULE-SET,local_reject_non_ip,🛑 广告隐私",
+    "RULE-SET,local_direct_non_ip,🟢 直连",
+    "RULE-SET,local_SteamDownload_non_ip,🟢 直连",
+    "RULE-SET,sukka_non_ip_ai,✨ 人工智能",
+    "RULE-SET,local_ai_non_ip,✨ 人工智能",
+    "RULE-SET,local_proxy_non_ip,🚀 节点选择",
+    "RULE-SET,local_bulk_non_ip,📦 大宗流量",
+    "RULE-SET,local_sexy_non_ip,🥵 不可以涩涩",
+    "RULE-SET,local_final_non_ip,🐟 漏网之鱼",
+    "RULE-SET,sukka_non_ip_stream_biliintl,🅱️ 哔哩哔哩",
+    "RULE-SET,sukka_non_ip_lan,🟢 直连",
+    "RULE-SET,sukka_non_ip_domestic,🟢 直连",
+    "RULE-SET,sukka_non_ip_direct,🟢 直连",
+    "RULE-SET,external_Global_Services_YouTube_non_ip,📺 YouTube",
+    "RULE-SET,sukka_non_ip_stream,🚀 节点选择",
+    "RULE-SET,external_Ruleset_GoogleFCM_non_ip,🟢 直连",
+    "RULE-SET,sukka_domainset_apple_cdn,🟢 直连",
+    "RULE-SET,sukka_non_ip_apple_cn,🟢 直连",
+    "RULE-SET,sukka_non_ip_apple_services,🟢 直连",
+    "RULE-SET,sukka_non_ip_microsoft,🟢 直连",
+    "RULE-SET,sukka_non_ip_microsoft_cdn,🟢 直连",
+    "RULE-SET,sukka_non_ip_telegram,💬 Telegram",
+    "RULE-SET,external_Clash_GamePlatform_non_ip,🎮 游戏平台",
+    "RULE-SET,sukka_non_ip_global,🚀 节点选择",
+    "GEOSITE,cn,🟢 直连",
+    "RULE-SET,local_SteamDownload_ip,🟢 直连,no-resolve",
+    "RULE-SET,external_Global_Services_YouTube_ip,📺 YouTube,no-resolve",
+    "RULE-SET,sukka_ip_stream,🚀 节点选择,no-resolve",
+    "RULE-SET,external_Ruleset_GoogleFCM_ip,🟢 直连,no-resolve",
+    "RULE-SET,sukka_ip_telegram,💬 Telegram,no-resolve",
+    "RULE-SET,sukka_ip_telegram_asn,💬 Telegram,no-resolve",
+    "RULE-SET,sukka_ip_china_ip,🟢 直连,no-resolve",
+    "RULE-SET,sukka_ip_china_ip_ipv6,🟢 直连,no-resolve",
+    "RULE-SET,sukka_ip_lan,🟢 直连,no-resolve",
+    "GEOIP,CN,🟢 直连,no-resolve",
+    "MATCH,🐟 漏网之鱼"
+  ]
+};
+function main(config) {
+  if (!config || typeof config !== 'object') throw new Error('需要先导入机场订阅');
+  if (!(Array.isArray(config.proxies) && config.proxies.length) &&
+      !Object.keys(config['proxy-providers'] || {}).length) throw new Error('订阅中没有代理节点');
+  // Replace whole sections, preventing the subscription's DNS/rules from being merged back in.
+  for (const key of Object.keys(policy)) config[key] = JSON.parse(JSON.stringify(policy[key]));
+  return config;
+}
