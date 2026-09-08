@@ -1,0 +1,17 @@
+# Generated from source.yaml by scripts/generate.py; do not edit.
+# Source: https://raw.githubusercontent.com/PosvdM/Clash-rules/main/list/SteamDownload.list
+# 解决Steam下载无法使用国内CDN的问题
+# 参考 https://femoon.top/article/f5540f1e-fa0b-4883-9104-21ffee1e2f1b
+# 参考 https://www.dogfight360.com/blog/knowledge-base/fix_steamdl_region/
+# DOMAIN-SUFFIX,steamserver.net
+DOMAIN,test.steampowered.com
+DOMAIN-SUFFIX,steamserver.net
+DOMAIN-SUFFIX,cdn.steamstatic.com
+DOMAIN,dl.steam.clngaa.com
+DOMAIN,st.dl.eccdnx.com
+DOMAIN,xz.pphimalayanrt.com
+DOMAIN,gstore.val.smogfly.com
+DOMAIN,gstore.val.manlaxy.com
+DOMAIN,dl.file.cyngaa.com
+DOMAIN,steamcdn-a.akamaihd.net
+DOMAIN-SUFFIX,cm.steampowered.com
