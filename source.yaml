@@ -261,6 +261,7 @@ proxy_groups:
 - name: ✨ 人工智能
   type: select
   proxies:
+  - 🗄️ Oracle
   - 🇸🇬 新加坡
   - 🇨🇳 台湾
   - 🇯🇵 日本
@@ -269,6 +270,13 @@ proxy_groups:
   - 🇰🇷 韩国
   - 🚀 节点选择
   - 📌 指定节点
+- name: 🗄️ Oracle
+  type: url-test
+  filter: ^🗄️\|🇺🇸 美国 Oracle (?:Vless|Hy2)$
+  include-all: true
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
 - name: 🥵 不可以涩涩
   type: select
   proxies:
