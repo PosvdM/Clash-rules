@@ -13,9 +13,16 @@
 | `output/override.js` | Clash Party、FlClash 共用覆写 |
 | `output/override.stoverride` | Stash 覆写 |
 | `output/rules/` | 需要拆分的规则快照 |
-| `rules/main.ini`、`yml/GeneralClashConfig.yml` | Subconverter 入口及基础模板 |
+| `rules/main.ini`、`yml/GeneralClashConfig.yml` | Subconverter 入口及基础模板，保留现有订阅路径 |
+| `archive/` | 历史配置、测试模板、PAC 和参考文件，不参与构建 |
 
-`output/` 和 Subconverter 入口由程序生成。修改源文件后重新生成，不要手动维护产物。
+日常维护修改 `source.yaml` 和 `list/`；构建逻辑放在 `scripts/`，验证放在 `tests/`，说明放在 `docs/`。
+
+`output/` 和 Subconverter 入口由程序生成。修改源文件后重新生成，不要手动维护产物。`rules/`、`yml/` 各只保留当前生成入口，沿用原路径以兼容现有订阅。
+
+历史文件统一放在 [`archive/`](../archive/README.md)，旧、新路径见归档索引。归档不纳入生成或自动更新；其中的配置可能依赖旧版客户端或已变化的上游。
+
+`list/game.list` 未被当前 `source.yaml` 引用，保留原路径供单独使用；当前游戏平台分流直接使用上游 GamePlatform 规则。
 
 ## 添加规则
 
