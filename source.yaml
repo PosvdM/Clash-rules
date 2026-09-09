@@ -270,13 +270,6 @@ proxy_groups:
   - 🇰🇷 韩国
   - 🚀 节点选择
   - 📌 指定节点
-- name: 🗄️ Oracle
-  type: url-test
-  filter: ^🗄️\|🇺🇸 美国 Oracle (?:Vless|Hy2)$
-  include-all: true
-  url: https://www.gstatic.com/generate_204
-  interval: 300
-  tolerance: 50
 - name: 🥵 不可以涩涩
   type: select
   proxies:
@@ -424,6 +417,13 @@ proxy_groups:
 - name: 🇺🇲 美国
   type: url-test
   filter: (?i)(?=.*(美国|USA))^((?!小带宽|倍率|计费|0\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$
+  include-all: true
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+- name: 🗄️ Oracle
+  type: url-test
+  filter: ^🗄️\|🇺🇸 美国 Oracle (?:Vless|Hy2)$
   include-all: true
   url: https://www.gstatic.com/generate_204
   interval: 300
