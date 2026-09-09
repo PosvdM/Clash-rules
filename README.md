@@ -2,15 +2,11 @@
 
 适用于 Clash Party、FlClash 和 Stash 的自用分流配置，包含广告拦截、AI、流媒体、游戏及 Telegram 分流，提供地区节点选择和低倍率策略组。
 
-各客户端共用一份规则和 DNS 配置，TUN 由客户端管理。本项目不提供代理节点，需要搭配自己的订阅使用。
-
 ## 使用方法
 
 1. 在客户端导入自己的代理订阅。
 2. 复制下方对应链接，添加覆写并绑定到当前订阅。
 3. 启用覆写，更新规则集，在策略组中选择节点。
-
-每个链接单独放在代码块中，可点击右上角的复制按钮。
 
 ### Clash Party / FlClash 等
 
@@ -20,7 +16,7 @@
 https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/override.js
 ```
 
-此脚本仅保留订阅的节点及节点来源（`proxies`、`proxy-providers`），其余订阅配置全部丢弃，使用本仓库配置。关闭 Clash Party 的 DNS 覆写和嗅探覆写，避免客户端再次覆盖；端口、TUN 等运行参数仍由客户端管理。
+此脚本仅保留订阅的节点及节点来源（`proxies`、`proxy-providers`），其余订阅配置全部丢弃，使用本仓库配置。
 
 ### Stash
 
@@ -43,7 +39,5 @@ https://raw.githubusercontent.com/PosvdM/Clash-rules/main/rules/main.ini
 ```
 
 后端需要保留 `rule-providers`；不支持时，请改用客户端覆写。
-
-同一订阅只启用一份主规则覆写。若客户端额外设置了 DNS 覆盖，需要检查是否与本配置冲突。修改策略或 DNS 后，更新覆写或重新生成订阅。
 
 添加规则、自动构建和本地验证见[维护文档](docs/maintenance.md)。
