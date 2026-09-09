@@ -1,6 +1,5 @@
 // Generated from source.yaml; shared by Clash Party and FlClash.
 const policy = {
-  "mode": "rule",
   "dns": {
     "enable": true,
     "ipv6": true,
@@ -313,12 +312,12 @@ const policy = {
     }
   ],
   "rule-providers": {
-    "external_anti_ad_net_clash": {
+    "anti_ad_net": {
       "type": "http",
       "behavior": "domain",
       "format": "yaml",
       "url": "https://anti-ad.net/clash.yaml",
-      "path": "./ruleset/posvdm/external_anti_ad_net_clash.txt",
+      "path": "./ruleset/posvdm/anti_ad_net.txt",
       "interval": 86400
     },
     "local_reject": {
@@ -603,7 +602,7 @@ const policy = {
     }
   },
   "rules": [
-    "RULE-SET,external_anti_ad_net_clash,🛑 广告隐私",
+    "RULE-SET,anti_ad_net,🛑 广告隐私",
     "RULE-SET,local_reject,🛑 广告隐私",
     "RULE-SET,local_direct,🟢 直连",
     "RULE-SET,local_SteamDownload_non_ip,🟢 直连",
