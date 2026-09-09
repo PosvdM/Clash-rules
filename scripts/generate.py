@@ -60,7 +60,7 @@ def compile_config(src, offline=False):
             g['filter'] = f'(?i)^(?!.*(?:{exclusion}))(?=[\\s\\S]*(?:{original}))[\\s\\S]*$'
 
     providers, non_ip, ip = {}, [], []
-    split_rules = [r for r in src['rulesets'] if r.get('split')]
+    split_rules = [r for r in src['rulesets'] if 'file' in r or r.get('split')]
 
     def get_split(rule):
         if 'file' in rule:
@@ -87,7 +87,7 @@ def compile_config(src, offline=False):
     for rule in src['rulesets']:
         if rule['group'] not in names:
             raise ValueError(f"Unknown policy: {rule['group']}")
-        if rule.get('split'):
+        if 'file' in rule or rule.get('split'):
             text = contents[rule['id']]
             buckets = {'non_ip': [], 'ip': []}
             for item in lines(text):
@@ -96,6 +96,13 @@ def compile_config(src, offline=False):
                     raise ValueError(f"Unsupported rule for safe split: {rule['id']}: {item}")
                 buckets['ip' if kind in IP_TYPES else 'non_ip'].append(item)
             origin = rule.get('url', raw + '/' + rule.get('file', ''))
+            # Local lists only need snapshots when they mix IP and non-IP rules.
+            # Adding/removing IP rules requires no source.yaml changes.
+            if 'file' in rule and not all(buckets.values()):
+                stage = 'ip' if buckets['ip'] else 'non_ip'
+                if any(buckets.values()):
+                    add(rule, rule['id'], origin, stage)
+                continue
             # Keep attribution/comments from the original list, without recursively duplicating generated headers.
             comments = '\n'.join(x for x in text.splitlines() if x.startswith('#') and not x.startswith(('# Generated', '# Source:')))
             comments = '\n'.join(dict.fromkeys(comments.splitlines()))

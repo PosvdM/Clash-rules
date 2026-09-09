@@ -354,20 +354,20 @@ const policy = {
       "path": "./ruleset/posvdm/external_anti_ad_net_clash.txt",
       "interval": 86400
     },
-    "local_reject_non_ip": {
+    "local_reject": {
       "type": "http",
       "behavior": "classical",
       "format": "text",
-      "url": "https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/rules/local_reject_non_ip.txt",
-      "path": "./ruleset/posvdm/local_reject_non_ip.txt",
+      "url": "https://raw.githubusercontent.com/PosvdM/Clash-rules/main/list/reject.list",
+      "path": "./ruleset/posvdm/local_reject.txt",
       "interval": 86400
     },
-    "local_direct_non_ip": {
+    "local_direct": {
       "type": "http",
       "behavior": "classical",
       "format": "text",
-      "url": "https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/rules/local_direct_non_ip.txt",
-      "path": "./ruleset/posvdm/local_direct_non_ip.txt",
+      "url": "https://raw.githubusercontent.com/PosvdM/Clash-rules/main/list/direct.list",
+      "path": "./ruleset/posvdm/local_direct.txt",
       "interval": 86400
     },
     "local_SteamDownload_non_ip": {
@@ -394,44 +394,44 @@ const policy = {
       "path": "./ruleset/posvdm/sukka_non_ip_ai.txt",
       "interval": 86400
     },
-    "local_ai_non_ip": {
+    "local_ai": {
       "type": "http",
       "behavior": "classical",
       "format": "text",
-      "url": "https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/rules/local_ai_non_ip.txt",
-      "path": "./ruleset/posvdm/local_ai_non_ip.txt",
+      "url": "https://raw.githubusercontent.com/PosvdM/Clash-rules/main/list/ai.list",
+      "path": "./ruleset/posvdm/local_ai.txt",
       "interval": 86400
     },
-    "local_proxy_non_ip": {
+    "local_proxy": {
       "type": "http",
       "behavior": "classical",
       "format": "text",
-      "url": "https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/rules/local_proxy_non_ip.txt",
-      "path": "./ruleset/posvdm/local_proxy_non_ip.txt",
+      "url": "https://raw.githubusercontent.com/PosvdM/Clash-rules/main/list/proxy.list",
+      "path": "./ruleset/posvdm/local_proxy.txt",
       "interval": 86400
     },
-    "local_bulk_non_ip": {
+    "local_bulk": {
       "type": "http",
       "behavior": "classical",
       "format": "text",
-      "url": "https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/rules/local_bulk_non_ip.txt",
-      "path": "./ruleset/posvdm/local_bulk_non_ip.txt",
+      "url": "https://raw.githubusercontent.com/PosvdM/Clash-rules/main/list/bulk.list",
+      "path": "./ruleset/posvdm/local_bulk.txt",
       "interval": 86400
     },
-    "local_sexy_non_ip": {
+    "local_sexy": {
       "type": "http",
       "behavior": "classical",
       "format": "text",
-      "url": "https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/rules/local_sexy_non_ip.txt",
-      "path": "./ruleset/posvdm/local_sexy_non_ip.txt",
+      "url": "https://raw.githubusercontent.com/PosvdM/Clash-rules/main/list/sexy.list",
+      "path": "./ruleset/posvdm/local_sexy.txt",
       "interval": 86400
     },
-    "local_final_non_ip": {
+    "local_final": {
       "type": "http",
       "behavior": "classical",
       "format": "text",
-      "url": "https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/rules/local_final_non_ip.txt",
-      "path": "./ruleset/posvdm/local_final_non_ip.txt",
+      "url": "https://raw.githubusercontent.com/PosvdM/Clash-rules/main/list/final.list",
+      "path": "./ruleset/posvdm/local_final.txt",
       "interval": 86400
     },
     "sukka_non_ip_stream_biliintl": {
@@ -578,12 +578,12 @@ const policy = {
       "path": "./ruleset/posvdm/sukka_ip_telegram_asn.txt",
       "interval": 86400
     },
-    "external_Clash_GamePlatform_non_ip": {
+    "external_Clash_GamePlatform": {
       "type": "http",
       "behavior": "classical",
       "format": "text",
-      "url": "https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/rules/external_Clash_GamePlatform_non_ip.txt",
-      "path": "./ruleset/posvdm/external_Clash_GamePlatform_non_ip.txt",
+      "url": "https://raw.githubusercontent.com/LoveMyself666/ACL4SSR/master/Clash/GamePlatform.list",
+      "path": "./ruleset/posvdm/external_Clash_GamePlatform.txt",
       "interval": 86400
     },
     "sukka_non_ip_global": {
@@ -621,15 +621,15 @@ const policy = {
   },
   "rules": [
     "RULE-SET,external_anti_ad_net_clash,🛑 广告隐私",
-    "RULE-SET,local_reject_non_ip,🛑 广告隐私",
-    "RULE-SET,local_direct_non_ip,🟢 直连",
+    "RULE-SET,local_reject,🛑 广告隐私",
+    "RULE-SET,local_direct,🟢 直连",
     "RULE-SET,local_SteamDownload_non_ip,🟢 直连",
     "RULE-SET,sukka_non_ip_ai,✨ 人工智能",
-    "RULE-SET,local_ai_non_ip,✨ 人工智能",
-    "RULE-SET,local_proxy_non_ip,🚀 节点选择",
-    "RULE-SET,local_bulk_non_ip,📦 大宗流量",
-    "RULE-SET,local_sexy_non_ip,🥵 不可以涩涩",
-    "RULE-SET,local_final_non_ip,🐟 漏网之鱼",
+    "RULE-SET,local_ai,✨ 人工智能",
+    "RULE-SET,local_proxy,🚀 节点选择",
+    "RULE-SET,local_bulk,📦 大宗流量",
+    "RULE-SET,local_sexy,🥵 不可以涩涩",
+    "RULE-SET,local_final,🐟 漏网之鱼",
     "RULE-SET,sukka_non_ip_stream_biliintl,🅱️ 哔哩哔哩",
     "RULE-SET,sukka_non_ip_lan,🟢 直连",
     "RULE-SET,sukka_non_ip_domestic,🟢 直连",
@@ -643,7 +643,7 @@ const policy = {
     "RULE-SET,sukka_non_ip_microsoft,🟢 直连",
     "RULE-SET,sukka_non_ip_microsoft_cdn,🟢 直连",
     "RULE-SET,sukka_non_ip_telegram,💬 Telegram",
-    "RULE-SET,external_Clash_GamePlatform_non_ip,🎮 游戏平台",
+    "RULE-SET,external_Clash_GamePlatform,🎮 游戏平台",
     "RULE-SET,sukka_non_ip_global,🚀 节点选择",
     "GEOSITE,cn,🟢 直连",
     "RULE-SET,local_SteamDownload_ip,🟢 直连,no-resolve",
