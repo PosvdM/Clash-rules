@@ -71,15 +71,6 @@ const policy = {
   "hosts": {
     "iosapps.itunes.apple.com": "hls.itunes.apple.com.mwcname.com"
   },
-  "tun": {
-    "enable": true,
-    "stack": "mixed",
-    "auto-route": true,
-    "auto-detect-interface": true,
-    "dns-hijack": [
-      "any:53"
-    ]
-  },
   "proxy-groups": [
     {
       "name": "🐟 漏网之鱼",

@@ -1,6 +1,6 @@
 # Generated from source.yaml by scripts/generate.py; do not edit.
 name: PosvdM 全平台统一配置
-desc: 由 source.yaml 生成；规则、DNS、TUN 与桌面及 Android 同源。
+desc: 由 source.yaml 生成；规则、DNS 与桌面及 Android 同源；TUN 由客户端管理。
 mode: rule
 dns: #!replace
   enable: true
@@ -61,13 +61,6 @@ dns: #!replace
     geosite:!cn,gfw: https://posvdm.cloudflare-gateway.com/dns-query
 hosts: #!replace
   iosapps.itunes.apple.com: hls.itunes.apple.com.mwcname.com
-tun: #!replace
-  enable: true
-  stack: mixed
-  auto-route: true
-  auto-detect-interface: true
-  dns-hijack:
-  - any:53
 proxy-groups: #!replace
 - name: 🐟 漏网之鱼
   type: select

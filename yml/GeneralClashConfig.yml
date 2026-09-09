@@ -59,13 +59,6 @@ dns:
     geosite:!cn,gfw: https://posvdm.cloudflare-gateway.com/dns-query
 hosts:
   iosapps.itunes.apple.com: hls.itunes.apple.com.mwcname.com
-tun:
-  enable: true
-  stack: mixed
-  auto-route: true
-  auto-detect-interface: true
-  dns-hijack:
-  - any:53
 rule-providers:
   external_anti_ad_net_clash:
     type: http
