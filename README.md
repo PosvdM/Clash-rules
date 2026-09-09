@@ -54,11 +54,11 @@ DOMAIN,api.example.net
 
 客户端直接更新 Sukka、anti-AD 等上游规则和单一类型的本地列表。SteamDownload 等本地混合列表，以及 YouTube、GoogleFCM 的拆分快照，由 Actions 生成。
 
-普通规则内容更新后，在客户端刷新规则集即可。如果列表因添加或移除 IP 改变了拆分方式，或修改了策略组、DNS，还需要更新覆写或重新生成订阅。直连和 Steam 列表中的域名也用于生成 DNS 策略，修改后应一并更新覆写或订阅。
+普通规则内容更新后，在客户端刷新规则集即可。如果列表因添加或移除 IP 改变了拆分方式，或修改了策略组、DNS，还需要更新覆写或重新生成订阅。DNS 策略通过 `rule-set:direct (Domain)` 和 `rule-set:SteamDownload (Domain)` 引用原列表，不展开域名，规则内容随规则集更新。
 
 ## 客户端兼容
 
-各入口由同一份配置生成，但字段是否生效取决于客户端内核。Stash 的 VPN 由系统接管，部分 Mihomo DNS/fake-ip/fallback 设置不一定适用。手机需要授予 VPN 权限，桌面 TUN 需要客户端服务权限。
+各入口由同一份配置生成，但字段是否生效取决于客户端内核。DNS 的 `rule-set:` 写法适用于 Mihomo；Stash 文档未明确说明支持该写法，需在客户端确认。Stash 的 VPN 由系统接管，部分 Mihomo DNS/fake-ip/fallback 设置不一定适用。手机需要授予 VPN 权限，桌面 TUN 需要客户端服务权限。
 
 [common.yaml](output/common.yaml) 是不含代理节点的公共配置，供查看或合并使用，不能作为独立订阅连接。
 
