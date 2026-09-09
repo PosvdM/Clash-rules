@@ -1,5 +1,4 @@
 # Generated from source.yaml by scripts/generate.py; do not edit.
-mode: rule
 dns:
   enable: true
   ipv6: true
@@ -36,12 +35,12 @@ dns:
 hosts:
   iosapps.itunes.apple.com: hls.itunes.apple.com.mwcname.com
 rule-providers:
-  external_anti_ad_net_clash:
+  anti_ad_net:
     type: http
     behavior: domain
     format: yaml
     url: https://anti-ad.net/clash.yaml
-    path: ./ruleset/posvdm/external_anti_ad_net_clash.txt
+    path: ./ruleset/posvdm/anti_ad_net.txt
     interval: 86400
   local_reject:
     type: http
