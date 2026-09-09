@@ -179,7 +179,7 @@ const policy = {
     {
       "name": "📌 指定节点",
       "type": "select",
-      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\\s\\S]*(?:(?=.*(香港|台湾|新加坡|美国|日本|韩国|Hong Kong|Taiwan|Singapore|USA|Japan|Korea))))[\\s\\S]*$",
+      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用|建议)))(?=[\\s\\S]*(?:(?=.*(香港|台湾|新加坡|美国|日本|韩国|Hong Kong|Taiwan|Singapore|USA|Japan|Korea))))[\\s\\S]*$",
       "include-all": true,
       "proxies": [
         "🌍 其他地区"
@@ -188,7 +188,7 @@ const policy = {
     {
       "name": "🌍 其他地区",
       "type": "select",
-      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\\s\\S]*(?:^(?!(.*(?:香港|台湾|新加坡|美国|日本|韩国|Hong Kong|Taiwan|Singapore|USA|Japan|Korea)))))[\\s\\S]*$",
+      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用|建议)))(?=[\\s\\S]*(?:^(?!(.*(?:香港|台湾|新加坡|美国|日本|韩国|Hong Kong|Taiwan|Singapore|USA|Japan|Korea)))))[\\s\\S]*$",
       "include-all": true
     },
     {
@@ -205,7 +205,7 @@ const policy = {
     {
       "name": "1️⃣ 港台新",
       "type": "url-test",
-      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\\s\\S]*(?:(?=.*(香港|台湾|新加坡|Hong Kong|Taiwan|Singapore))^((?!小带宽|倍率|计费|0\\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\\s\\S]*$",
+      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用|建议)))(?=[\\s\\S]*(?:(?=.*(香港|台湾|新加坡|Hong Kong|Taiwan|Singapore))^((?!小带宽|倍率|计费|0\\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\\s\\S]*$",
       "include-all": true,
       "url": "https://www.gstatic.com/generate_204",
       "interval": 300,
@@ -214,7 +214,7 @@ const policy = {
     {
       "name": "2️⃣ 日韩",
       "type": "url-test",
-      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\\s\\S]*(?:(?=.*(日本|韩国|Japan|Korea))^((?!小带宽|倍率|计费|0\\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\\s\\S]*$",
+      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用|建议)))(?=[\\s\\S]*(?:(?=.*(日本|韩国|Japan|Korea))^((?!小带宽|倍率|计费|0\\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\\s\\S]*$",
       "include-all": true,
       "url": "https://www.gstatic.com/generate_204",
       "interval": 300,
@@ -223,7 +223,7 @@ const policy = {
     {
       "name": "♻️ 自动选择",
       "type": "url-test",
-      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\\s\\S]*(?:(?=.*(香港|台湾|新加坡|美国|日本|韩国|Hong Kong|Taiwan|Singapore|USA|Japan|Korea))^((?!小带宽|倍率|计费|0\\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\\s\\S]*$",
+      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用|建议)))(?=[\\s\\S]*(?:(?=.*(香港|台湾|新加坡|美国|日本|韩国|Hong Kong|Taiwan|Singapore|USA|Japan|Korea))^((?!小带宽|倍率|计费|0\\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\\s\\S]*$",
       "include-all": true,
       "url": "https://www.gstatic.com/generate_204",
       "interval": 300,
@@ -232,7 +232,7 @@ const policy = {
     {
       "name": "🧪 低倍检测",
       "type": "url-test",
-      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\\s\\S]*(?:(?=.*(实验)).*$))[\\s\\S]*$",
+      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用|建议)))(?=[\\s\\S]*(?:(?=.*(实验)).*$))[\\s\\S]*$",
       "include-all": true,
       "url": "https://www.gstatic.com/generate_204",
       "interval": 300,
@@ -241,7 +241,7 @@ const policy = {
     {
       "name": "🇭🇰 香港",
       "type": "url-test",
-      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\\s\\S]*(?:(?=.*(香港|Hong Kong))^((?!小带宽|倍率|计费|0\\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\\s\\S]*$",
+      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用|建议)))(?=[\\s\\S]*(?:(?=.*(香港|Hong Kong))^((?!小带宽|倍率|计费|0\\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\\s\\S]*$",
       "include-all": true,
       "url": "https://www.gstatic.com/generate_204",
       "interval": 300,
@@ -250,7 +250,7 @@ const policy = {
     {
       "name": "🇨🇳 台湾",
       "type": "url-test",
-      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\\s\\S]*(?:(?=.*(台湾|Taiwan))^((?!小带宽|倍率|计费|0\\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\\s\\S]*$",
+      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用|建议)))(?=[\\s\\S]*(?:(?=.*(台湾|Taiwan))^((?!小带宽|倍率|计费|0\\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\\s\\S]*$",
       "include-all": true,
       "url": "https://www.gstatic.com/generate_204",
       "interval": 300,
@@ -259,7 +259,7 @@ const policy = {
     {
       "name": "🇸🇬 新加坡",
       "type": "url-test",
-      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\\s\\S]*(?:(?=.*(新加坡|Singapore))^((?!小带宽|倍率|计费|0\\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\\s\\S]*$",
+      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用|建议)))(?=[\\s\\S]*(?:(?=.*(新加坡|Singapore))^((?!小带宽|倍率|计费|0\\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\\s\\S]*$",
       "include-all": true,
       "url": "https://www.gstatic.com/generate_204",
       "interval": 300,
@@ -268,7 +268,7 @@ const policy = {
     {
       "name": "🇯🇵 日本",
       "type": "url-test",
-      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\\s\\S]*(?:(?=.*(日本|Japan))^((?!小带宽|倍率|计费|0\\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\\s\\S]*$",
+      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用|建议)))(?=[\\s\\S]*(?:(?=.*(日本|Japan))^((?!小带宽|倍率|计费|0\\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\\s\\S]*$",
       "include-all": true,
       "url": "https://www.gstatic.com/generate_204",
       "interval": 300,
@@ -277,7 +277,7 @@ const policy = {
     {
       "name": "🇰🇷 韩国",
       "type": "url-test",
-      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\\s\\S]*(?:(?=.*(韩国|Korea))^((?!小带宽|倍率|计费|0\\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\\s\\S]*$",
+      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用|建议)))(?=[\\s\\S]*(?:(?=.*(韩国|Korea))^((?!小带宽|倍率|计费|0\\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\\s\\S]*$",
       "include-all": true,
       "url": "https://www.gstatic.com/generate_204",
       "interval": 300,
@@ -286,7 +286,7 @@ const policy = {
     {
       "name": "🇺🇲 美国",
       "type": "url-test",
-      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\\s\\S]*(?:(?=.*(美国|USA))^((?!小带宽|倍率|计费|0\\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\\s\\S]*$",
+      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用|建议)))(?=[\\s\\S]*(?:(?=.*(美国|USA))^((?!小带宽|倍率|计费|0\\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\\s\\S]*$",
       "include-all": true,
       "url": "https://www.gstatic.com/generate_204",
       "interval": 300,
@@ -641,7 +641,7 @@ const policy = {
     "MATCH,🐟 漏网之鱼"
   ]
 };
-const excludedNodePattern = "(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)";
+const excludedNodePattern = "(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用|建议)";
 function main(config) {
   if (!config || typeof config !== 'object' || Array.isArray(config)) throw new Error('需要先导入机场订阅');
   if (!(Array.isArray(config.proxies) && config.proxies.length) &&
