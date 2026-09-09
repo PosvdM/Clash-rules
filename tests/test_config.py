@@ -28,7 +28,9 @@ class ConfigTest(unittest.TestCase):
             if isinstance(value, (list, dict)):
                 self.assertIn(key + ': #!replace', self.files['output/override.stoverride'])
         base = yaml.safe_load(self.files['yml/GeneralClashConfig.yml'])
-        for key in ('dns', 'tun', 'hosts', 'rule-providers'):
+        for config in (self.common, stash, base):
+            self.assertNotIn('tun', config)
+        for key in ('dns', 'hosts', 'rule-providers'):
             self.assertEqual(self.common[key], base[key])
 
     def test_js_retains_nodes_and_replaces_old_settings(self):
@@ -36,13 +38,14 @@ class ConfigTest(unittest.TestCase):
 const fs=require('fs'),vm=require('vm');
 const ctx={};vm.createContext(ctx);vm.runInContext(fs.readFileSync('output/override.js','utf8'),ctx);
 const original={proxies:[{name:'香港 01',type:'ss',server:'example.org',password:'test-only'}],
- 'proxy-providers':{airport:{type:'http',url:'https://example.org/sub'}},dns:{nameserver:['bad']},rules:['MATCH,REJECT']};
+ 'proxy-providers':{airport:{type:'http',url:'https://example.org/sub'}},dns:{nameserver:['bad']},rules:['MATCH,REJECT'],tun:{enable:false,stack:'system'}};
 const result=ctx.main(original);
 process.stdout.write(JSON.stringify(result));
 """
         result = json.loads(subprocess.check_output(['node','-e',program],cwd=ROOT))
         self.assertEqual(result.pop('proxies')[0]['password'], 'test-only')
         self.assertIn('airport', result.pop('proxy-providers'))
+        self.assertEqual(result.pop('tun'), {'enable': False, 'stack': 'system'})
         self.assertEqual(result, self.common)
 
     def test_order_and_native_formats(self):
