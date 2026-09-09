@@ -2,9 +2,9 @@
 function addNodeFlags(config) {
   const flagPresent = /[\u{1F1E6}-\u{1F1FF}]{2}/u;
   const leadingFlag = /^(?<flag>[\u{1F1E6}-\u{1F1FF}]{2})\s*/u;
-  const airportPrefix = /^[^\p{L}\p{N}]*[|｜]\s*/u;
+  const separatorPrefix = /^[^|｜]*[|｜]\s*/u;
   const placeFlag = (name, flag) => {
-    const prefix = name.match(airportPrefix)?.[0] || '';
+    const prefix = name.match(separatorPrefix)?.[0] || '';
     return prefix + flag + ' ' + name.slice(prefix.length);
   };
   const matchers = Object.entries(nodeFlagAliases).map(([code, aliases]) => ({
@@ -34,10 +34,10 @@ function addNodeFlags(config) {
     const name = node.name;
     if (!eligible.has(node) || typeof name !== 'string' || reserved.has(name)) continue;
     if (flagPresent.test(name)) {
-      // Repair the previous version's flag-before-airport-prefix layout only.
+      // Move a leading flag behind the first separator when present.
       const leading = name.match(leadingFlag);
       const rest = leading ? name.slice(leading[0].length) : '';
-      if (leading && airportPrefix.test(rest) && !flagPresent.test(rest)) {
+      if (leading && separatorPrefix.test(rest) && !flagPresent.test(rest)) {
         const target = placeFlag(rest, leading.groups.flag);
         if (!occupied.has(target)) proposals.set(name, target);
       }

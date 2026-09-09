@@ -16,7 +16,7 @@
 https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/override.js
 ```
 
-此脚本仅保留订阅的节点及节点来源（`proxies`、`proxy-providers`），其余订阅配置全部丢弃，使用本仓库配置。已展开的节点会按名称补上缺失的国旗，国旗放在机场图标和分隔符之后；适用范围见[节点名称说明](docs/maintenance.md#节点名称与国旗)。
+此脚本仅保留订阅的节点及节点来源（`proxies`、`proxy-providers`），其余订阅配置全部丢弃，使用本仓库配置。已展开的节点会按名称补上缺失的国旗，有 `|` / `｜` 时国旗放在第一个分隔符后，没有时放在名称开头；适用范围见[节点名称说明](docs/maintenance.md#节点名称与国旗)。
 
 ### Stash
 
