@@ -348,6 +348,7 @@ proxy_groups:
   interval: 300
   tolerance: 50
   proxies:
+  - 🗄️ Oracle
   - 🧪 低倍检测
   - 🚀 节点选择
 - name: 1️⃣ 港台新
