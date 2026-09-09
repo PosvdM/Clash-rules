@@ -19,6 +19,7 @@ class ConfigTest(unittest.TestCase):
         cls.src = yaml.safe_load((ROOT/'source.yaml').read_text())
         cls.files = gen.compile_config(cls.src, offline=True)
         cls.common = yaml.safe_load(cls.files['output/common.yaml'])
+        cls.provider_exclusion = '(?i:' + cls.src['exclude_remarks'].removeprefix('(?i)') + ')'
 
     def test_all_wrappers_share_entire_policy(self):
         stash = yaml.safe_load(self.files['output/override.stoverride'])
@@ -53,6 +54,7 @@ process.stdout.write(JSON.stringify(result));
         self.assertEqual(result.pop('proxies')[0]['password'], 'test-only')
         self.assertEqual(result.pop('proxy-providers')['airport'], {
             'type': 'http', 'url': 'https://example.org/sub',
+            'exclude-filter': self.provider_exclusion,
             'header': {'Authorization': ['test-only']}})
         self.assertEqual(result, self.common)
 
@@ -72,9 +74,44 @@ process.stdout.write(JSON.stringify([ctx.main(nodes),ctx.main(providers)]));
         nodes, providers = json.loads(subprocess.check_output(['node', '-e', program], cwd=ROOT))
         self.assertEqual(nodes.pop('proxies')[0]['password'], 'test-only')
         self.assertEqual(providers.pop('proxy-providers'), {
-            'airport': {'type': 'http', 'url': 'https://example.org/sub'}})
+            'airport': {'type': 'http', 'url': 'https://example.org/sub',
+                        'exclude-filter': self.provider_exclusion}})
         self.assertEqual(nodes, self.common)
         self.assertEqual(providers, self.common)
+
+    def test_js_removes_notice_nodes_and_filters_provider_sources(self):
+        program = """
+const fs=require('fs'),vm=require('vm'),assert=require('assert');
+const ctx={};vm.createContext(ctx);vm.runInContext(fs.readFileSync('output/override.js','utf8'),ctx);
+const notices=['Traffic: 41.44 GB | 150 GB','Expire: 2026-12-31','TRAFFIC: 1 GB', '剩余流量：10 GB','到期时间：2026-12-31'];
+const valid=['香港 01','日本 实验 0.1x','美国 2x'];
+const makeNode=name=>({name,type:'trojan',server:'example.org',port:443,password:'test-only'});
+const nodes=[...notices,...valid].map(makeNode);
+const input={proxies:nodes,'proxy-providers':{
+ http:{type:'http',url:'https://example.org/sub','exclude-filter':'^Blocked'},
+ file:{type:'file',path:'./nodes.yaml','exclude-filter':'(?i)custom'},
+ inline:{type:'inline',payload:nodes}}};
+const before=JSON.stringify(input);
+const result=ctx.main(input);
+assert.strictEqual(JSON.stringify(input),before);
+assert.strictEqual(JSON.stringify(ctx.main(result)),JSON.stringify(result));
+assert.deepStrictEqual(Array.from(result.proxies,n=>n.name),valid);
+assert.deepStrictEqual(Array.from(result['proxy-providers'].inline.payload,n=>n.name),valid);
+assert.strictEqual(ctx.main({proxies:notices.map(makeNode)}).proxies.length,0);
+process.stdout.write(JSON.stringify(result));
+"""
+        result = json.loads(subprocess.check_output(['node', '-e', program], cwd=ROOT))
+        self.assertTrue(all(n['password'] == 'test-only' for n in result['proxies']))
+        providers = result['proxy-providers']
+        self.assertEqual(providers['http']['exclude-filter'], '(?:^Blocked)|' + self.provider_exclusion)
+        self.assertEqual(providers['file']['exclude-filter'], '(?:(?i)custom)|' + self.provider_exclusion)
+        for provider in (providers['http'], providers['inline']):
+            pattern = re.compile(provider['exclude-filter'])
+            for name in ['Traffic: 41.44 GB | 150 GB', 'Expire: 2026-12-31', '剩余流量']:
+                self.assertIsNotNone(pattern.search(name))
+            self.assertIsNone(pattern.search('香港 01'))
+        self.assertIsNotNone(re.search(providers['http']['exclude-filter'], 'Blocked'))
+        self.assertIsNone(re.search(providers['http']['exclude-filter'], 'blocked'))
 
     def test_order_and_native_formats(self):
         providers = self.common['rule-providers']

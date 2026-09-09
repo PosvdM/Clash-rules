@@ -95,6 +95,8 @@ python scripts/generate.py --offline --check
 
 JS 覆写从公共配置创建新对象，只复制订阅的 `proxies` 和 `proxy-providers`。未在 `source.yaml` 中定义的订阅顶层字段全部丢弃，包括 `sniffer`、`geox-url`、`tun`、端口、认证、监听器和未知字段。节点字段及 provider 的 URL、凭据和连接选项原样保留；provider 属于节点来源，不在脚本中下载或展开。
 
+`source.yaml` 的 `exclude_remarks` 同时用于 JS 节点清理、策略组筛选和 Subconverter。JS 从 `proxies` 和 provider 的内联 `payload` 中删除匹配名称的节点（如 Traffic、Expire、流量和到期提示），为 provider 补入 `exclude-filter`，让内核加载远程或本地节点文件时执行过滤；已有排除条件以“或”合并，保留其大小写语义。正常节点的连接字段不变，不按服务器地址删除节点。若全部节点都被过滤，返回空列表，不恢复提示节点；需补充有效订阅。参见 [Mihomo 代理集合配置](https://wiki.metacubex.one/config/proxy-providers/#exclude-filter)。
+
 Clash Party 在执行覆写后还会合并客户端配置。关闭客户端的 DNS 覆写和嗅探覆写，才能避免它们再次覆盖脚本结果；端口、TUN、控制接口、Geo 数据地址等客户端管理项仍可能出现在运行时配置中，不能仅凭这些字段判断订阅配置残留。需要自定义的公共设置写入 `source.yaml` 的 `settings`，客户端管理项则在客户端中调整。不要叠加其他会改写配置的覆写。参见 [Clash Party 运行配置生成逻辑](https://github.com/mihomo-party-org/clash-party/blob/smart_core/src/main/core/factory.ts)。
 
 Stash 覆写以 `#!replace` 替换列出的映射和数组，不会清空未列出的订阅字段，因此不具备 JS 的完整清除语义。

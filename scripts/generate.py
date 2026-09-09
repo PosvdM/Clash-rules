@@ -127,6 +127,7 @@ def compile_config(src, offline=False):
     # Both JS consumers execute precisely the same policy, without changing subscription credentials.
     js = '// Generated from source.yaml; shared by Clash Party and FlClash.\n'
     js += 'const policy = ' + json.dumps(common, ensure_ascii=False, indent=2) + ';\n'
+    js += 'const excludedNodePattern = ' + json.dumps(exclusion, ensure_ascii=False) + ';\n'
     js += '''function main(config) {
   if (!config || typeof config !== 'object' || Array.isArray(config)) throw new Error('需要先导入机场订阅');
   if (!(Array.isArray(config.proxies) && config.proxies.length) &&
@@ -138,6 +139,19 @@ def compile_config(src, offline=False):
     if (Object.prototype.hasOwnProperty.call(config, key)) {
       result[key] = JSON.parse(JSON.stringify(config[key]));
     }
+  }
+  const excludedNode = new RegExp(excludedNodePattern, 'i');
+  const keepNode = (node) => !excludedNode.test(node.name || '');
+  if (Array.isArray(result.proxies)) result.proxies = result.proxies.filter(keepNode);
+  // Remote/file providers load later in Mihomo; filter them at the source too.
+  const providerExclusion = '(?i:' + excludedNodePattern + ')';
+  for (const provider of Object.values(result['proxy-providers'] || {})) {
+    const previous = provider['exclude-filter'];
+    if (!previous) provider['exclude-filter'] = providerExclusion;
+    else if (previous !== providerExclusion && !previous.endsWith('|' + providerExclusion)) {
+      provider['exclude-filter'] = '(?:' + previous + ')|' + providerExclusion;
+    }
+    if (Array.isArray(provider.payload)) provider.payload = provider.payload.filter(keepNode);
   }
   return result;
 }
