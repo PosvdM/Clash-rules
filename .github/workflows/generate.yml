@@ -2,22 +2,7 @@ name: Generate unified configuration
 on:
   push:
     branches: [main]
-    paths:
-      - source.yaml
-      - 'list/**'
-      - 'scripts/**'
-      - 'tests/**'
-      - .github/workflows/generate.yml
   pull_request:
-    paths:
-      - source.yaml
-      - 'list/**'
-      - 'scripts/**'
-      - 'tests/**'
-      - 'output/**'
-      - 'rules/main.ini'
-      - 'yml/GeneralClashConfig.yml'
-      - .github/workflows/generate.yml
   schedule:
     - cron: '19 2 * * *'
   workflow_dispatch:

@@ -50,7 +50,7 @@ DOMAIN,api.example.net
 
 ## 自动更新
 
-[GitHub Actions](https://github.com/PosvdM/Clash-rules/actions/workflows/generate.yml) 在相关源文件推送到 `main` 后运行，生成配置、执行测试，并提交有变化的产物。工作流每天北京时间 10:19 同步需要拆分的远程列表；GitHub 调度可能延迟。也可以在工作流页面通过 **Run workflow** 手动运行。
+[GitHub Actions](https://github.com/PosvdM/Clash-rules/actions/workflows/generate.yml) 在每次提交推送到 `main` 后自动运行（包括网页编辑提交），生成配置、执行测试，并提交有变化的产物。工作流每天北京时间 10:19 同步需要拆分的远程列表；GitHub 调度可能延迟。也可以在工作流页面通过 **Run workflow** 手动运行。
 
 客户端直接更新 Sukka、anti-AD 等上游规则和单一类型的本地列表。SteamDownload 等本地混合列表，以及 YouTube、GoogleFCM 的拆分快照，由 Actions 生成。
 
