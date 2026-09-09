@@ -642,10 +642,16 @@ const policy = {
   ]
 };
 function main(config) {
-  if (!config || typeof config !== 'object') throw new Error('需要先导入机场订阅');
+  if (!config || typeof config !== 'object' || Array.isArray(config)) throw new Error('需要先导入机场订阅');
   if (!(Array.isArray(config.proxies) && config.proxies.length) &&
       !Object.keys(config['proxy-providers'] || {}).length) throw new Error('订阅中没有代理节点');
-  // Replace whole sections, preventing the subscription's DNS/rules from being merged back in.
-  for (const key of Object.keys(policy)) config[key] = JSON.parse(JSON.stringify(policy[key]));
-  return config;
+  // Build from our policy; never inherit unknown subscription settings (including tun).
+  // Providers are node sources. Keep their credentials and transport options intact.
+  const result = JSON.parse(JSON.stringify(policy));
+  for (const key of ['proxies', 'proxy-providers']) {
+    if (Object.prototype.hasOwnProperty.call(config, key)) {
+      result[key] = JSON.parse(JSON.stringify(config[key]));
+    }
+  }
+  return result;
 }

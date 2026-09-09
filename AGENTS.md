@@ -14,10 +14,10 @@
 - 以 `source.yaml` 和 `list/*.list` 为维护入口。现有列表加规则应只需修改原列表，不要求用户同步编辑生成文件。
 - 单一类型的本地列表直接引用原文件，只有混合 IP/非 IP 时自动拆分。不要为纯域名列表创建多余副本。
 - 保留规则内容、策略组名称、默认选项、筛选正则和低倍率 fallback，除非任务明确要求调整。
-- TUN 由客户端管理，不向公共配置或覆写加入 `tun`。JS 应保留传入配置中的 TUN 设置。
+- TUN 由客户端管理，不向公共配置或覆写加入 `tun`。JS 不保留订阅传入的 TUN 设置，由客户端在覆写后补入。
 - DNS 保留 `rule-set:direct (Domain)` 和 `rule-set:SteamDownload (Domain)` 引用，不展开为逐域名策略。通过 `dns_name` 保证对应 provider 存在，直接引用原列表。
 - 各客户端共用规则和 DNS 配置。不要擅自引入平台策略分支，也不要把相同配置数据说成相同运行效果。
-- JS 保留节点、凭据和 `proxy-providers`；Stash 映射和数组使用 `#!replace`。
+- JS 仅保留节点、凭据和 `proxy-providers`，从公共配置重新构建对象，丢弃订阅其他所有顶层字段；Stash 映射和数组使用 `#!replace`，不承诺清除未列出的字段。
 - Sukka 使用原生 provider 格式；保留 Telegram ASN，避免恢复废弃的 `Clash/non_ip/apple_cdn.txt`。
 - 规则顺序为非 IP → GEOSITE CN → IP → GEOIP CN → MATCH。IP 引用使用 `no-resolve`，只保留一个末尾 MATCH。
 
@@ -35,7 +35,7 @@ python -m unittest discover -s tests -v
 git diff --check
 ```
 
-修改远程拆分源后，运行不带 `--offline` 的在线生成，检查快照及来源注释。测试应验证实际行为，例如添加或移除 IP 后的拆分转换、DNS 引用存在、节点和客户端 TUN 保留。
+修改远程拆分源后，运行不带 `--offline` 的在线生成，检查快照及来源注释。测试应验证实际行为，例如添加或移除 IP 后的拆分转换、DNS 引用存在、节点保留和订阅额外配置清除。
 
 仅修改文档时检查内容、相对链接和 Markdown 格式即可，不必为文档新增测试。不得把 Python/Node 测试通过描述成 Stash、FlClash 或 Clash Party 实机验证通过。
 

@@ -87,12 +87,16 @@ python scripts/generate.py --offline
 python scripts/generate.py --offline --check
 ```
 
-`--check` 不写入文件，发现生成内容不一致或存在过期快照时失败。测试覆盖跨入口一致性、JS 保留节点及 TUN、规则保全与拆分、筛选、DNS 引用和可重复生成。
+`--check` 不写入文件，发现生成内容不一致或存在过期快照时失败。测试覆盖跨入口一致性、JS 保留节点及凭据、清除订阅额外字段（含 TUN）、输入不变及重复执行隔离、规则保全与拆分、筛选、DNS 引用和可重复生成。
 
 ## 客户端兼容
 
 各入口共享配置数据，字段是否生效取决于内核。Mihomo 支持 DNS 的 `rule-set:` 写法；Stash 文档未明确说明支持，需在设备上确认。Stash 对部分 Mihomo DNS/fake-ip/fallback 字段的支持也不能假定相同。
 
-Stash 覆写以 `#!replace` 替换映射和数组；JS 覆写替换公共配置字段，保留订阅节点、`proxy-providers` 及客户端传入的 TUN 设置。
+JS 覆写从公共配置创建新对象，只复制订阅的 `proxies` 和 `proxy-providers`。未在 `source.yaml` 中定义的订阅顶层字段全部丢弃，包括 `sniffer`、`geox-url`、`tun`、端口、认证、监听器和未知字段。节点字段及 provider 的 URL、凭据和连接选项原样保留；provider 属于节点来源，不在脚本中下载或展开。
+
+Clash Party 在执行覆写后还会合并客户端配置。关闭客户端的 DNS 覆写和嗅探覆写，才能避免它们再次覆盖脚本结果；端口、TUN、控制接口、Geo 数据地址等客户端管理项仍可能出现在运行时配置中，不能仅凭这些字段判断订阅配置残留。需要自定义的公共设置写入 `source.yaml` 的 `settings`，客户端管理项则在客户端中调整。不要叠加其他会改写配置的覆写。参见 [Clash Party 运行配置生成逻辑](https://github.com/mihomo-party-org/clash-party/blob/smart_core/src/main/core/factory.ts)。
+
+Stash 覆写以 `#!replace` 替换列出的映射和数组，不会清空未列出的订阅字段，因此不具备 JS 的完整清除语义。
 
 Subconverter 使用字面 `RULE-SET` 引用，后端必须保留基础模板中的 `rule-providers`。公共配置不含代理节点，不能作为独立订阅连接。自动测试不能替代客户端的 VPN、DNS 和联网验证。

@@ -38,15 +38,43 @@ class ConfigTest(unittest.TestCase):
 const fs=require('fs'),vm=require('vm');
 const ctx={};vm.createContext(ctx);vm.runInContext(fs.readFileSync('output/override.js','utf8'),ctx);
 const original={proxies:[{name:'香港 01',type:'ss',server:'example.org',password:'test-only'}],
- 'proxy-providers':{airport:{type:'http',url:'https://example.org/sub'}},dns:{nameserver:['bad']},rules:['MATCH,REJECT'],tun:{enable:false,stack:'system'}};
+ 'proxy-providers':{airport:{type:'http',url:'https://example.org/sub',header:{Authorization:['test-only']}}},
+ dns:{nameserver:['bad']},rules:['MATCH,REJECT'],tun:{enable:true,stack:'system'},
+ sniffer:{enable:true},'geox-url':{geosite:'https://example.org/geosite.dat'},
+ 'mixed-port':12345,authentication:['old:password'],listeners:[{name:'old'}],
+ 'sub-rules':{old:['MATCH,REJECT']},'unknown-subscription-setting':{enabled:true}};
+const before=JSON.stringify(original);
 const result=ctx.main(original);
+if(JSON.stringify(original)!==before) throw new Error('Input mutated');
+if(result.proxies===original.proxies || result['proxy-providers']===original['proxy-providers']) throw new Error('Shared node objects');
 process.stdout.write(JSON.stringify(result));
 """
         result = json.loads(subprocess.check_output(['node','-e',program],cwd=ROOT))
         self.assertEqual(result.pop('proxies')[0]['password'], 'test-only')
-        self.assertIn('airport', result.pop('proxy-providers'))
-        self.assertEqual(result.pop('tun'), {'enable': False, 'stack': 'system'})
+        self.assertEqual(result.pop('proxy-providers')['airport'], {
+            'type': 'http', 'url': 'https://example.org/sub',
+            'header': {'Authorization': ['test-only']}})
         self.assertEqual(result, self.common)
+
+    def test_js_node_sources_errors_and_repeat_calls(self):
+        program = """
+const fs=require('fs'),vm=require('vm'),assert=require('assert');
+const ctx={};vm.createContext(ctx);vm.runInContext(fs.readFileSync('output/override.js','utf8'),ctx);
+for(const input of [null,undefined,[],42,'bad']) assert.throws(()=>ctx.main(input),/需要先导入机场订阅/);
+for(const input of [{},{proxies:[]},{'proxy-providers':{}}]) assert.throws(()=>ctx.main(input),/订阅中没有代理节点/);
+const nodes={proxies:[{name:'test',type:'ss',server:'example.org',password:'test-only'}]};
+const providers={'proxy-providers':{airport:{type:'http',url:'https://example.org/sub'}}};
+const first=ctx.main(nodes);
+first.dns.nameserver.push('https://example.org/unwanted');
+first.proxies[0].password='changed';
+process.stdout.write(JSON.stringify([ctx.main(nodes),ctx.main(providers)]));
+"""
+        nodes, providers = json.loads(subprocess.check_output(['node', '-e', program], cwd=ROOT))
+        self.assertEqual(nodes.pop('proxies')[0]['password'], 'test-only')
+        self.assertEqual(providers.pop('proxy-providers'), {
+            'airport': {'type': 'http', 'url': 'https://example.org/sub'}})
+        self.assertEqual(nodes, self.common)
+        self.assertEqual(providers, self.common)
 
     def test_order_and_native_formats(self):
         providers = self.common['rule-providers']
