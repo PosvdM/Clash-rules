@@ -42,8 +42,18 @@
 - 生成失败时不写输出；构建监听 source、list、scripts、tests，并每天同步需拆分的远程列表。
 
 规则顺序：原顺序的非 IP 规则 → GEOSITE CN → 原顺序的 IP 规则 → GEOIP CN → MATCH。
-Sukka 原生规则和 anti-AD 仍由客户端直接更新。自己的列表及需要拆分的第三方 classical 列表生成到 `output/rules/`；每天北京时间 10:19 尝试更新，GitHub 调度可能延迟。
+Sukka 原生规则和 anti-AD 仍由客户端直接更新。自己的单一类型列表和 GamePlatform 直接引用原文件；只有混合域名/进程与 IP 的本地列表，以及 YouTube、GoogleFCM 这两份远程混合列表生成到 `output/rules/`；每天北京时间 10:19 尝试更新，GitHub 调度可能延迟。
 每个规则快照保留上游来源及注释，规则内容遵循各上游原有许可证，不在此重新授权。
+
+## 日常加规则
+
+仍然编辑原来的 `list/*.list`，例如 AI 域名加到 `list/ai.list`，代理域名加到 `list/proxy.list`，直连规则加到 `list/direct.list`。注释和写法照旧，不用编辑生成文件。
+
+本地列表只有域名/进程或只有 IP 时，直接引用原文件；混合两类时，生成器自动拆分。以后向现有列表加入 IP 或删除最后一条 IP，也不需要修改 `source.yaml`。空列表会暂时跳过。
+
+提交到 main 后 Actions 自动处理；普通规则内容由客户端更新规则集取得。如果增加 IP 导致列表拆分方式变化，或修改了直连/Steam 的 DNS 域名，还需要更新一次客户端覆写/订阅，让生成的配置生效。
+
+只有新增一个列表、调整列表对应的策略组、规则顺序或 DNS/TUN 时，才需要修改 `source.yaml`。
 
 ## 维护与验证
 

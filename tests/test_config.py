@@ -4,6 +4,7 @@ import json
 import re
 import subprocess
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 import yaml
 
@@ -63,6 +64,13 @@ process.stdout.write(JSON.stringify(result));
     def test_local_rules_not_lost_and_correctly_split(self):
         for entry in self.src['rulesets']:
             if 'file' not in entry: continue
+            original = gen.lines((ROOT/entry['file']).read_text())
+            if entry['id'] in self.common['rule-providers']:
+                provider = self.common['rule-providers'][entry['id']]
+                self.assertEqual(provider['url'], f"https://raw.githubusercontent.com/{self.src['repository']}/{self.src['branch']}/{entry['file']}")
+                self.assertFalse(any(name.startswith(f"output/rules/{entry['id']}_") for name in self.files))
+                self.assertEqual(len({r.split(',')[0] in gen.IP_TYPES for r in original}), 1)
+                continue
             actual=[]
             for stage in ('non_ip','ip'):
                 text=self.files.get(f"output/rules/{entry['id']}_{stage}.txt",'')
@@ -70,6 +78,42 @@ process.stdout.write(JSON.stringify(result));
                 for r in items:
                     self.assertEqual(r.split(',')[0] in gen.IP_TYPES,stage=='ip')
             self.assertCountEqual(gen.lines((ROOT/entry['file']).read_text()),actual)
+
+    def test_local_list_automatically_switches_between_direct_and_split(self):
+        entry = next(r for r in self.src['rulesets'] if r['id'] == 'local_ai')
+        original_read = Path.read_text
+        cases = [
+            ('DOMAIN,example.test\nIP-CIDR,192.0.2.0/24,no-resolve\n', True, 'ip'),
+            ('DOMAIN,example.test\n', False, 'non_ip'),
+            ('IP-CIDR,192.0.2.0/24,no-resolve\n', False, 'ip'),
+            ('# temporarily empty\n', False, None),
+        ]
+        for content, mixed, stage in cases:
+            with self.subTest(content=content):
+                def read(path, *args, **kwargs):
+                    return content if path == ROOT / entry['file'] else original_read(path, *args, **kwargs)
+                with patch.object(Path, 'read_text', read):
+                    files = gen.compile_config(self.src, offline=True)
+                common = yaml.safe_load(files['output/common.yaml'])
+                providers = common['rule-providers']
+                if mixed:
+                    self.assertNotIn('local_ai', providers)
+                    for part in ('non_ip', 'ip'):
+                        self.assertIn(f'local_ai_{part}', providers)
+                        self.assertIn(f'output/rules/local_ai_{part}.txt', files)
+                else:
+                    self.assertFalse(any(k.startswith('output/rules/local_ai_') for k in files))
+                    self.assertEqual('local_ai' in providers, stage is not None)
+                if stage is not None:
+                    key = 'local_ai_ip' if mixed else 'local_ai'
+                    expected = f"RULE-SET,{key},{entry['group']}" + (',no-resolve' if stage == 'ip' else '')
+                    self.assertIn(expected, common['rules'])
+
+    def test_game_platform_uses_upstream_directly(self):
+        key = 'external_Clash_GamePlatform'
+        entry = next(r for r in self.src['rulesets'] if r['id'] == key)
+        self.assertEqual(self.common['rule-providers'][key]['url'], entry['url'])
+        self.assertFalse(any(name.startswith(f'output/rules/{key}_') for name in self.files))
 
     def test_preserved_filters_and_fallback(self):
         groups={g['name']:g for g in self.common['proxy-groups']}

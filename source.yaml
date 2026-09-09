@@ -60,21 +60,18 @@ rulesets:
   format: text
   file: list/reject.list
   stage: non_ip
-  split: true
 - id: local_direct
   group: 🟢 直连
   behavior: classical
   format: text
   file: list/direct.list
   stage: non_ip
-  split: true
 - id: local_SteamDownload
   group: 🟢 直连
   behavior: classical
   format: text
   file: list/SteamDownload.list
   stage: non_ip
-  split: true
 - id: sukka_non_ip_ai
   group: ✨ 人工智能
   behavior: classical
@@ -87,35 +84,30 @@ rulesets:
   format: text
   file: list/ai.list
   stage: non_ip
-  split: true
 - id: local_proxy
   group: 🚀 节点选择
   behavior: classical
   format: text
   file: list/proxy.list
   stage: non_ip
-  split: true
 - id: local_bulk
   group: 📦 大宗流量
   behavior: classical
   format: text
   file: list/bulk.list
   stage: non_ip
-  split: true
 - id: local_sexy
   group: 🥵 不可以涩涩
   behavior: classical
   format: text
   file: list/sexy.list
   stage: non_ip
-  split: true
 - id: local_final
   group: 🐟 漏网之鱼
   behavior: classical
   format: text
   file: list/final.list
   stage: non_ip
-  split: true
 - id: sukka_non_ip_stream_biliintl
   group: 🅱️ 哔哩哔哩
   behavior: classical
@@ -220,7 +212,6 @@ rulesets:
   format: text
   url: https://raw.githubusercontent.com/LoveMyself666/ACL4SSR/master/Clash/GamePlatform.list
   stage: non_ip
-  split: true
 - id: sukka_non_ip_global
   group: 🚀 节点选择
   behavior: classical
