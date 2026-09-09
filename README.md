@@ -1,61 +1,70 @@
-# PosvdM 全平台分流配置
+# PosvdM 分流配置
 
-只维护 `source.yaml`（规则引用、策略组、DNS、TUN）和 `list/*.list`（自己的规则内容）。
-借鉴 [sounfury-Clash_rules](https://github.com/sounfury/sounfury-Clash_rules) 的单源生成架构，生成器独立实现。
-所有产物的规则、DNS、TUN 内容一致，不维护客户端专用策略。
+供 Clash Party、FlClash 和 Stash 使用的分流配置。通过一份 `source.yaml` 管理规则引用、策略组、DNS 和 TUN，自定义规则存放在 `list/`。
 
-## 使用
+包含广告拦截、AI、流媒体、游戏平台、Telegram 等分流策略，以及地区节点选择和低倍率 fallback 策略组。配置不提供代理节点，需要搭配自己的订阅使用。
 
-先导入自己的机场订阅，再启用以下覆写。覆写只替换规则、策略组和公共设置，保留原订阅的节点和 proxy-providers。
+## 导入使用
 
-| 客户端 | 入口 |
+先导入代理订阅，再添加对应的覆写并绑定到当前配置。覆写保留订阅中的节点和 `proxy-providers`，替换规则、策略组及公共设置。
+
+| 客户端 | 配置入口 |
 | --- | --- |
-| Win / Mac：Clash Party | 导入 JS 覆写 `https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/override.js` |
-| Android：FlClash | 导入同一个 JS 覆写，绑定当前配置；需要支持覆写脚本的版本 |
-| iPhone / iPad：Stash | 导入 `https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/override.stoverride` |
-| 继续使用 Subconverter | 保留原远程配置 `https://raw.githubusercontent.com/PosvdM/Clash-rules/main/rules/main.ini` |
+| Windows / macOS：Clash Party | [JS 覆写](https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/override.js) |
+| Android：FlClash | [JS 覆写](https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/override.js)，需要支持覆写脚本的版本 |
+| iOS / iPadOS：Stash | [Stash 覆写](https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/override.stoverride) |
+| Subconverter | [远程配置 main.ini](https://raw.githubusercontent.com/PosvdM/Clash-rules/main/rules/main.ini) |
 
-`output/common.yaml` 是不包含机场节点的公共配置，供审阅或合并，不是独立可连接的订阅。
-不要同时叠加多份主规则覆写。客户端若设置了额外 DNS / TUN 覆盖，需关闭冲突的覆盖，才能采用本仓库的设置。
+复制链接时，请复制表格中的链接地址。启用后更新规则集，并在策略组中选择节点。
 
-旧 INI 将 `RULE-SET` 原样写入最终规则，原生 providers 来自 `yml/GeneralClashConfig.yml`。
-无需再依赖旧转换器展开 domain text、ipcidr text 或 IP-ASN。此路径要求后端保留基础模板的 rule-providers；
-若后端会清理这些字段，请使用客户端原生覆写。客户端启动后自行下载规则，所有产物合入 main 后链接才生效。
+同一订阅只启用一份主规则覆写；客户端额外设置的 DNS 或 TUN 覆盖若与本配置冲突，需要关闭。
 
-## 一份配置的边界
+Subconverter 后端需要保留基础模板中的 `rule-providers`，最终规则通过 `RULE-SET` 引用规则集。若后端不支持，请使用客户端覆写。
 
-所有产物共享完全相同的 DNS/TUN 数据；生成器没有平台 DNS/TUN 分支。
-原 DNS 上游、fake-ip 设置、hosts 均保留。旧 `rule-set:direct (Domain)` 等生成名称被替换为从自己的直连/Steam 列表生成的显式域名 policy，避免跨客户端悬空引用。
-旧基础模板没有 TUN 段，因此统一增加启用 TUN、mixed 栈、自动路由和 DNS 劫持的设置。
+## 添加规则
 
-同一配置不等于不同内核实现完全一致：iOS Stash 的隧道由 Network Extension/VPN 接管，不能用 Mihomo 的 `tun.stack`、`auto-route` 等字段替换其内部实现。Stash 对 Mihomo 独有的 DNS/fake-ip/fallback 字段支持也不可假定相同。
-保留这些字段用于统一维护；不宣称未知字段已在 Stash 生效。Stash 的 default-nameserver/proxy-server-nameserver 需支持这些字段的新版本（文档标注 iOS 3.6+）。
-手机需在系统中允许 VPN，桌面 TUN 需要客户端服务权限。这些是安装设置，无需另写规则。
+直接编辑对应的 `.list` 文件，每行一条规则，以 `#` 开头的行是注释。
 
-## 已修复
+| 文件 | 用途 |
+| --- | --- |
+| [ai.list](list/ai.list) | AI 服务 |
+| [proxy.list](list/proxy.list) | 代理访问 |
+| [direct.list](list/direct.list) | 直连 |
+| [SteamDownload.list](list/SteamDownload.list) | Steam 下载直连 |
+| [bulk.list](list/bulk.list) | 大宗流量 |
+| [reject.list](list/reject.list) | 拦截 |
+| [sexy.list](list/sexy.list) | 成人内容分组 |
+| [final.list](list/final.list) | 使用“漏网之鱼”策略组的指定站点 |
 
-- 删除废弃的 `Clash/non_ip/apple_cdn.txt`，保留 domainset Apple CDN，以 `domain + text` 读取。
-- China IPv4/IPv6 使用 `ipcidr + text`；Telegram ASN 直接用原生 classical provider，绕过旧转换器。
-- 保留原策略组名称、默认选项、节点过滤正则与低倍率 fallback。
-- 保留全部自己的规则。混合 classical 列表按域名/进程与目标 IP 拆分，统一将目标 IP 类规则置后，并使用 no-resolve。
-- 所有 DNS、hosts、TUN 及策略内容从同一 source 生成；Stash 对整个映射/数组使用 `#!replace`，不混入机场的旧 DNS 或规则。
-- 生成失败时不写输出；构建监听 source、list、scripts、tests，并每天同步需拆分的远程列表。
+例如，在 `list/proxy.list` 中添加：
 
-规则顺序：原顺序的非 IP 规则 → GEOSITE CN → 原顺序的 IP 规则 → GEOIP CN → MATCH。
-Sukka 原生规则和 anti-AD 仍由客户端直接更新。自己的单一类型列表和 GamePlatform 直接引用原文件；只有混合域名/进程与 IP 的本地列表，以及 YouTube、GoogleFCM 这两份远程混合列表生成到 `output/rules/`；每天北京时间 10:19 尝试更新，GitHub 调度可能延迟。
-每个规则快照保留上游来源及注释，规则内容遵循各上游原有许可证，不在此重新授权。
+```text
+# 示例站点
+DOMAIN-SUFFIX,example.com
+DOMAIN,api.example.net
+```
 
-## 日常加规则
+向现有列表添加域名或 IP 时，无需修改 `source.yaml`。生成器会判断列表内容：单一类型直接引用原文件，混合域名/进程与目标 IP 时自动拆分，空列表暂时跳过。生成的 IP 规则集引用放在非 IP 规则之后，并使用 `no-resolve`。
 
-仍然编辑原来的 `list/*.list`，例如 AI 域名加到 `list/ai.list`，代理域名加到 `list/proxy.list`，直连规则加到 `list/direct.list`。注释和写法照旧，不用编辑生成文件。
+新增列表、调整规则引用顺序或策略组、修改 DNS/TUN 时，编辑 [source.yaml](source.yaml)。`output/`、`rules/main.ini` 和 `yml/GeneralClashConfig.yml` 由程序生成，无需手动维护。
 
-本地列表只有域名/进程或只有 IP 时，直接引用原文件；混合两类时，生成器自动拆分。以后向现有列表加入 IP 或删除最后一条 IP，也不需要修改 `source.yaml`。空列表会暂时跳过。
+## 自动更新
 
-提交到 main 后 Actions 自动处理；普通规则内容由客户端更新规则集取得。如果增加 IP 导致列表拆分方式变化，或修改了直连/Steam 的 DNS 域名，还需要更新一次客户端覆写/订阅，让生成的配置生效。
+[GitHub Actions](https://github.com/PosvdM/Clash-rules/actions/workflows/generate.yml) 在相关源文件推送到 `main` 后运行，生成配置、执行测试，并提交有变化的产物。工作流每天北京时间 10:19 同步需要拆分的远程列表；GitHub 调度可能延迟。也可以在工作流页面通过 **Run workflow** 手动运行。
 
-只有新增一个列表、调整列表对应的策略组、规则顺序或 DNS/TUN 时，才需要修改 `source.yaml`。
+客户端直接更新 Sukka、anti-AD 等上游规则和单一类型的本地列表。SteamDownload 等本地混合列表，以及 YouTube、GoogleFCM 的拆分快照，由 Actions 生成。
 
-## 维护与验证
+普通规则内容更新后，在客户端刷新规则集即可。如果列表因添加或移除 IP 改变了拆分方式，或修改了策略组、DNS/TUN，还需要更新覆写或重新生成订阅。直连和 Steam 列表中的域名也用于生成 DNS 策略，修改后应一并更新覆写或订阅。
+
+## 客户端兼容
+
+各入口由同一份配置生成，但字段是否生效取决于客户端内核。Stash 的 VPN 由系统接管，Mihomo 的 TUN 栈和部分 DNS/fake-ip/fallback 设置不一定适用。手机需要授予 VPN 权限，桌面 TUN 需要客户端服务权限。
+
+[common.yaml](output/common.yaml) 是不含代理节点的公共配置，供查看或合并使用，不能作为独立订阅连接。
+
+## 本地生成
+
+需要 Python 3.12 和 Node.js 22。
 
 ```sh
 python -m pip install -r scripts/requirements.txt
@@ -63,11 +72,15 @@ python scripts/generate.py
 python -m unittest discover -s tests -v
 ```
 
-修改 source 或自己的 list 后推送，Actions 自动生成并提交产物。
-离线重建可使用 `python scripts/generate.py --offline`；它读取已提交的远程拆分快照，自己的列表仍实时读取。
-用 `--offline --check` 检查生成物是否一致。不要手改 output、rules/main.ini、yml/GeneralClashConfig.yml。
+离线生成使用已提交的远程快照，自定义列表仍从本地读取：
 
-自动检查覆盖全平台内容一致、JS 保留节点、域名/IP 顺序、规则保全、筛选与 fallback、原生格式、DNS 引用、生成可重复性。
-尚需在实际设备确认 VPN、DNS、节点列表及联网；Python/JS 检查不能替代 Stash 或 FlClash 的运行测试。
+```sh
+python scripts/generate.py --offline
+python scripts/generate.py --offline --check
+```
 
-参考：[Mihomo rule-providers](https://wiki.metacubex.one/config/rule-providers/)、[Stash 规则集合](https://stash.wiki/rules/rule-set)、[Stash 覆写](https://stash.wiki/configuration/override)、[Stash DNS](https://stash.wiki/features/dns-server)。
+`--check` 检查生成文件是否与源配置一致，不写入文件。测试覆盖配置一致性、节点保留、规则拆分与顺序、节点筛选和 DNS 引用；实际联网效果需在客户端确认。
+
+## 规则来源
+
+规则引用见 [source.yaml](source.yaml)，生成快照中的 `Source` 注释记录上游地址。第三方规则遵循各自的许可证。
