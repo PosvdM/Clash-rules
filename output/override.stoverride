@@ -1,6 +1,8 @@
 # Generated from source.yaml by scripts/generate.py; do not edit.
+name: PosvdM 全平台统一配置
+desc: 由 source.yaml 生成；规则、DNS、TUN 与桌面及 Android 同源。
 mode: rule
-dns:
+dns: #!replace
   enable: true
   ipv6: true
   use-hosts: true
@@ -57,16 +59,219 @@ dns:
     +.cm.steampowered.com: https://dns.alidns.com/dns-query
     geosite:cn,private,apple: https://dns.alidns.com/dns-query
     geosite:!cn,gfw: https://posvdm.cloudflare-gateway.com/dns-query
-hosts:
+hosts: #!replace
   iosapps.itunes.apple.com: hls.itunes.apple.com.mwcname.com
-tun:
+tun: #!replace
   enable: true
   stack: mixed
   auto-route: true
   auto-detect-interface: true
   dns-hijack:
   - any:53
-rule-providers:
+proxy-groups: #!replace
+- name: 🐟 漏网之鱼
+  type: select
+  proxies:
+  - DIRECT
+  - 🚀 节点选择
+  - 🏷️ 低倍率
+  - 📌 指定节点
+  - 1️⃣ 港台新
+  - 2️⃣ 日韩
+  - 🇭🇰 香港
+  - 🇨🇳 台湾
+  - 🇸🇬 新加坡
+  - 🇯🇵 日本
+  - 🇰🇷 韩国
+  - 🇺🇲 美国
+- name: 🚀 节点选择
+  type: select
+  proxies:
+  - 1️⃣ 港台新
+  - 2️⃣ 日韩
+  - 🇭🇰 香港
+  - 🇨🇳 台湾
+  - 🇸🇬 新加坡
+  - 🇯🇵 日本
+  - 🇰🇷 韩国
+  - 🇺🇲 美国
+  - ♻️ 自动选择
+  - 📌 指定节点
+- name: ✨ 人工智能
+  type: select
+  proxies:
+  - 🇸🇬 新加坡
+  - 🇨🇳 台湾
+  - 🇯🇵 日本
+  - 🇺🇲 美国
+  - 🇭🇰 香港
+  - 🇰🇷 韩国
+  - 🚀 节点选择
+  - 📌 指定节点
+- name: 🥵 不可以涩涩
+  type: select
+  proxies:
+  - 🏷️ 低倍率
+  - 🚀 节点选择
+  - 🇸🇬 新加坡
+  - 🇨🇳 台湾
+  - 🇭🇰 香港
+  - 🇯🇵 日本
+  - 🇰🇷 韩国
+  - 🇺🇲 美国
+  - 📌 指定节点
+  - DIRECT
+- name: 💬 Telegram
+  type: select
+  proxies:
+  - 🏷️ 低倍率
+  - 🚀 节点选择
+  - ♻️ 自动选择
+  - 📌 指定节点
+  - 🇭🇰 香港
+  - 🇨🇳 台湾
+  - 🇸🇬 新加坡
+  - 🇯🇵 日本
+  - 🇰🇷 韩国
+  - 🇺🇲 美国
+- name: 📺 YouTube
+  type: select
+  proxies:
+  - 🏷️ 低倍率
+  - 🚀 节点选择
+  - 🇭🇰 香港
+  - 🇨🇳 台湾
+  - 🇸🇬 新加坡
+  - 🇯🇵 日本
+  - 🇰🇷 韩国
+  - 🇺🇲 美国
+- name: 📦 大宗流量
+  type: select
+  proxies:
+  - 🏷️ 低倍率
+  - 🚀 节点选择
+  - 📌 指定节点
+- name: 🎮 游戏平台
+  type: select
+  proxies:
+  - 🇭🇰 香港
+  - 🇨🇳 台湾
+  - 🇸🇬 新加坡
+  - 🇯🇵 日本
+  - 🇰🇷 韩国
+  - 🇺🇲 美国
+  - 🚀 节点选择
+  - 📌 指定节点
+  - DIRECT
+- name: 🅱️ 哔哩哔哩
+  type: select
+  proxies:
+  - DIRECT
+  - 🏷️ 低倍率
+  - 🇭🇰 香港
+  - 🇨🇳 台湾
+  - 📌 指定节点
+- name: 📌 指定节点
+  type: select
+  filter: (?i)^(?!.*(?:(?:\d+(\.\d*)?\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\s\S]*(?:(?=.*(香港|台湾|新加坡|美国|日本|韩国|Hong Kong|Taiwan|Singapore|USA|Japan|Korea))))[\s\S]*$
+  include-all: true
+  proxies:
+  - 🌍 其他地区
+- name: 🌍 其他地区
+  type: select
+  filter: (?i)^(?!.*(?:(?:\d+(\.\d*)?\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\s\S]*(?:^(?!(.*(?:香港|台湾|新加坡|美国|日本|韩国|Hong Kong|Taiwan|Singapore|USA|Japan|Korea)))))[\s\S]*$
+  include-all: true
+- name: 🏷️ 低倍率
+  type: fallback
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+  proxies:
+  - 🧪 低倍检测
+  - 🚀 节点选择
+- name: 1️⃣ 港台新
+  type: url-test
+  filter: (?i)^(?!.*(?:(?:\d+(\.\d*)?\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\s\S]*(?:(?=.*(香港|台湾|新加坡|Hong Kong|Taiwan|Singapore))^((?!小带宽|倍率|计费|0\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\s\S]*$
+  include-all: true
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+- name: 2️⃣ 日韩
+  type: url-test
+  filter: (?i)^(?!.*(?:(?:\d+(\.\d*)?\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\s\S]*(?:(?=.*(日本|韩国|Japan|Korea))^((?!小带宽|倍率|计费|0\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\s\S]*$
+  include-all: true
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+- name: ♻️ 自动选择
+  type: url-test
+  filter: (?i)^(?!.*(?:(?:\d+(\.\d*)?\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\s\S]*(?:(?=.*(香港|台湾|新加坡|美国|日本|韩国|Hong Kong|Taiwan|Singapore|USA|Japan|Korea))^((?!小带宽|倍率|计费|0\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\s\S]*$
+  include-all: true
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+- name: 🧪 低倍检测
+  type: url-test
+  filter: (?i)^(?!.*(?:(?:\d+(\.\d*)?\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\s\S]*(?:(?=.*(实验)).*$))[\s\S]*$
+  include-all: true
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+- name: 🇭🇰 香港
+  type: url-test
+  filter: (?i)^(?!.*(?:(?:\d+(\.\d*)?\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\s\S]*(?:(?=.*(香港|Hong Kong))^((?!小带宽|倍率|计费|0\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\s\S]*$
+  include-all: true
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+- name: 🇨🇳 台湾
+  type: url-test
+  filter: (?i)^(?!.*(?:(?:\d+(\.\d*)?\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\s\S]*(?:(?=.*(台湾|Taiwan))^((?!小带宽|倍率|计费|0\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\s\S]*$
+  include-all: true
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+- name: 🇸🇬 新加坡
+  type: url-test
+  filter: (?i)^(?!.*(?:(?:\d+(\.\d*)?\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\s\S]*(?:(?=.*(新加坡|Singapore))^((?!小带宽|倍率|计费|0\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\s\S]*$
+  include-all: true
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+- name: 🇯🇵 日本
+  type: url-test
+  filter: (?i)^(?!.*(?:(?:\d+(\.\d*)?\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\s\S]*(?:(?=.*(日本|Japan))^((?!小带宽|倍率|计费|0\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\s\S]*$
+  include-all: true
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+- name: 🇰🇷 韩国
+  type: url-test
+  filter: (?i)^(?!.*(?:(?:\d+(\.\d*)?\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\s\S]*(?:(?=.*(韩国|Korea))^((?!小带宽|倍率|计费|0\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\s\S]*$
+  include-all: true
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+- name: 🇺🇲 美国
+  type: url-test
+  filter: (?i)^(?!.*(?:(?:\d+(\.\d*)?\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)))(?=[\s\S]*(?:(?=.*(美国|USA))^((?!小带宽|倍率|计费|0\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\s\S]*$
+  include-all: true
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+- name: 🟢 直连
+  type: url-test
+  url: http://connect.rom.miui.com/generate_204
+  interval: 300
+  tolerance: 50
+  proxies:
+  - DIRECT
+- name: 🛑 广告隐私
+  type: select
+  proxies:
+  - REJECT
+  - DIRECT
+rule-providers: #!replace
   external_anti_ad_net_clash:
     type: http
     behavior: domain
@@ -305,3 +510,41 @@ rule-providers:
     url: https://ruleset.skk.moe/Clash/ip/lan.txt
     path: ./ruleset/posvdm/sukka_ip_lan.txt
     interval: 86400
+rules: #!replace
+- RULE-SET,external_anti_ad_net_clash,🛑 广告隐私
+- RULE-SET,local_reject,🛑 广告隐私
+- RULE-SET,local_direct,🟢 直连
+- RULE-SET,local_SteamDownload_non_ip,🟢 直连
+- RULE-SET,sukka_non_ip_ai,✨ 人工智能
+- RULE-SET,local_ai,✨ 人工智能
+- RULE-SET,local_proxy,🚀 节点选择
+- RULE-SET,local_bulk,📦 大宗流量
+- RULE-SET,local_sexy,🥵 不可以涩涩
+- RULE-SET,local_final,🐟 漏网之鱼
+- RULE-SET,sukka_non_ip_stream_biliintl,🅱️ 哔哩哔哩
+- RULE-SET,sukka_non_ip_lan,🟢 直连
+- RULE-SET,sukka_non_ip_domestic,🟢 直连
+- RULE-SET,sukka_non_ip_direct,🟢 直连
+- RULE-SET,external_Global_Services_YouTube_non_ip,📺 YouTube
+- RULE-SET,sukka_non_ip_stream,🚀 节点选择
+- RULE-SET,external_Ruleset_GoogleFCM_non_ip,🟢 直连
+- RULE-SET,sukka_domainset_apple_cdn,🟢 直连
+- RULE-SET,sukka_non_ip_apple_cn,🟢 直连
+- RULE-SET,sukka_non_ip_apple_services,🟢 直连
+- RULE-SET,sukka_non_ip_microsoft,🟢 直连
+- RULE-SET,sukka_non_ip_microsoft_cdn,🟢 直连
+- RULE-SET,sukka_non_ip_telegram,💬 Telegram
+- RULE-SET,external_Clash_GamePlatform,🎮 游戏平台
+- RULE-SET,sukka_non_ip_global,🚀 节点选择
+- GEOSITE,cn,🟢 直连
+- RULE-SET,local_SteamDownload_ip,🟢 直连,no-resolve
+- RULE-SET,external_Global_Services_YouTube_ip,📺 YouTube,no-resolve
+- RULE-SET,sukka_ip_stream,🚀 节点选择,no-resolve
+- RULE-SET,external_Ruleset_GoogleFCM_ip,🟢 直连,no-resolve
+- RULE-SET,sukka_ip_telegram,💬 Telegram,no-resolve
+- RULE-SET,sukka_ip_telegram_asn,💬 Telegram,no-resolve
+- RULE-SET,sukka_ip_china_ip,🟢 直连,no-resolve
+- RULE-SET,sukka_ip_china_ip_ipv6,🟢 直连,no-resolve
+- RULE-SET,sukka_ip_lan,🟢 直连,no-resolve
+- GEOIP,CN,🟢 直连,no-resolve
+- MATCH,🐟 漏网之鱼

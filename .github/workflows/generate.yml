@@ -1,0 +1,69 @@
+name: Generate unified configuration
+on:
+  push:
+    branches: [main]
+    paths:
+      - source.yaml
+      - 'list/**'
+      - 'scripts/**'
+      - 'tests/**'
+      - .github/workflows/generate.yml
+  pull_request:
+    paths:
+      - source.yaml
+      - 'list/**'
+      - 'scripts/**'
+      - 'tests/**'
+      - 'output/**'
+      - 'rules/main.ini'
+      - 'yml/GeneralClashConfig.yml'
+      - .github/workflows/generate.yml
+  schedule:
+    - cron: '19 2 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: unified-config-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: pip install -r scripts/requirements.txt
+      - run: python scripts/generate.py --offline
+      - run: python scripts/generate.py --offline --check
+      - run: python -m unittest discover -s tests -v
+  update:
+    if: github.event_name != 'pull_request'
+    needs: validate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: pip install -r scripts/requirements.txt
+      - run: python scripts/generate.py
+      - run: python -m unittest discover -s tests -v
+      - name: Commit generated outputs
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add output/ rules/main.ini yml/GeneralClashConfig.yml
+          if ! git diff --cached --quiet; then
+            git commit -m 'chore: regenerate unified config and split rule lists'
+            git push
+          fi
