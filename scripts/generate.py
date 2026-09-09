@@ -182,9 +182,9 @@ def compile_config(src, offline=False):
             parts += [g['url'], f"{g.get('interval',300)},,{g.get('tolerance',50)}"]
         ini.append('custom_proxy_group=' + '`'.join(parts))
     ini += ['enable_rule_generator=true', 'overwrite_original_rules=true',
-            f'clash_rule_base={raw}/yml/GeneralClashConfig.yml', '']
-    files['rules/main.ini'] = '\n'.join(ini)
-    files['yml/GeneralClashConfig.yml'] = HEADER + dump({**settings, 'rule-providers': providers})
+            f'clash_rule_base={raw}/output/GeneralClashConfig.yml', '']
+    files['output/main.ini'] = '\n'.join(ini)
+    files['output/GeneralClashConfig.yml'] = HEADER + dump({**settings, 'rule-providers': providers})
     return files
 
 

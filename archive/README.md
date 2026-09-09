@@ -27,6 +27,6 @@
 | `others-yml/GeneralClashConfig.yml` | [references/clash/GeneralClashConfig.yml](references/clash/GeneralClashConfig.yml) |
 | `others-yml/yml.txt` | [references/clash/sources.txt](references/clash/sources.txt) |
 
-`subconverter/test.ini` 已改为引用 `archive/clash/GCCtest.yml`。`subconverter/Backup0.ini` 继续引用现用的 `yml/GeneralClashConfig.yml`。其余归档文件内容保持不变。
+`subconverter/test.ini` 已改为引用 `archive/clash/GCCtest.yml`。`subconverter/Backup0.ini` 已同步改为引用现用的 `output/GeneralClashConfig.yml`。其余归档文件内容保持不变。
 
 归档文件仅供查阅或自行调整，不保证兼容当前客户端；其中的上游地址与分流策略不会由 Actions 更新。
