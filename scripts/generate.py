@@ -128,6 +128,8 @@ def compile_config(src, offline=False):
     js = '// Generated from source.yaml; shared by Clash Party and FlClash.\n'
     js += 'const policy = ' + json.dumps(common, ensure_ascii=False, indent=2) + ';\n'
     js += 'const excludedNodePattern = ' + json.dumps(exclusion, ensure_ascii=False) + ';\n'
+    js += 'const nodeFlagAliases = ' + json.dumps(src.get('node_flags', {}), ensure_ascii=False) + ';\n'
+    js += (ROOT / 'scripts/node-flags.js').read_text() + '\n'
     js += '''function main(config) {
   if (!config || typeof config !== 'object' || Array.isArray(config)) throw new Error('需要先导入机场订阅');
   if (!(Array.isArray(config.proxies) && config.proxies.length) &&
@@ -144,6 +146,10 @@ def compile_config(src, offline=False):
   const keepNode = (node) => !excludedNode.test(node.name || '');
   if (Array.isArray(result.proxies)) result.proxies = result.proxies.filter(keepNode);
   // Remote/file providers load later in Mihomo; filter them at the source too.
+  for (const provider of Object.values(result['proxy-providers'] || {})) {
+    if (Array.isArray(provider.payload)) provider.payload = provider.payload.filter(keepNode);
+  }
+  addNodeFlags(result);
   const providerExclusion = '(?i:' + excludedNodePattern + ')';
   for (const provider of Object.values(result['proxy-providers'] || {})) {
     const previous = provider['exclude-filter'];
@@ -151,7 +157,6 @@ def compile_config(src, offline=False):
     else if (previous !== providerExclusion && !previous.endsWith('|' + providerExclusion)) {
       provider['exclude-filter'] = '(?:' + previous + ')|' + providerExclusion;
     }
-    if (Array.isArray(provider.payload)) provider.payload = provider.payload.filter(keepNode);
   }
   return result;
 }

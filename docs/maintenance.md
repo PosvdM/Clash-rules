@@ -7,6 +7,7 @@
 | `source.yaml` | 规则引用、策略组、节点筛选和 DNS 设置 |
 | `list/*.list` | 自定义规则内容 |
 | `scripts/generate.py` | 配置生成器 |
+| `scripts/node-flags.js` | JS 覆写的节点国旗补全逻辑 |
 | `tests/test_config.py` | 配置与生成行为测试 |
 | `.github/workflows/generate.yml` | 自动校验、生成和提交 |
 | `output/common.yaml` | 不含节点的公共配置，供查看或合并 |
@@ -70,6 +71,16 @@ nameserver-policy:
 ```
 
 `dns_name` 为直连和 Steam 列表生成同名 classical provider，直接引用原始列表。修改列表内容后刷新规则集即可；修改 DNS 设置后更新覆写或订阅。TUN 开关、协议栈和路由由客户端管理。
+
+## 节点名称与国旗
+
+JS 覆写使用 `source.yaml` 的 `node_flags` 别名表，为已展开的节点补上国旗，例如 `🌸|印度标准 IEPL 专线 1` → `🇮🇳 🌸|印度标准 IEPL 专线 1`。支持中文、英文名称和大写地区缩写（如 `HK01`）；不查询服务器 IP，也不据此判断真实出口位置。
+
+已有国旗的名称原样保留。无法识别、同时命中多个地区、会与已有名称冲突时不改名；较长的完整名称优先，避免将“印度尼西亚”误认成“印度”。原来的图标、编号和线路说明不删除。节点连接参数和凭据保持不变，并同步更新已加载节点的 `dialer-proxy`、provider 的 `proxy` 及 `override.dialer-proxy` 引用。
+
+处理范围为订阅的 `proxies`，以及没有自定义筛选或名称覆写的 inline provider。设置了 `filter`、`exclude-filter` 或名称覆写的 inline provider 保留输入名称，避免影响内核后续处理。远程和文件 provider 在内核加载时才获得节点，这份 JS 不下载或改写其名称；其原有配置保持不变。有关内核处理见 [Mihomo 代理集合文档](https://wiki.metacubex.one/config/proxy-providers/)。
+
+此功能只改变 JS 入口的节点显示名称，不改变分流策略。Stash 的静态 YAML 覆写及 Subconverter 入口不提供这项自动补全。更新 JS 覆写并重新应用到订阅后生效；改名的节点可能需要重新选择一次。
 
 ## 自动构建
 

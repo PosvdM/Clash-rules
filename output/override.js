@@ -642,6 +642,65 @@ const policy = {
   ]
 };
 const excludedNodePattern = "(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用|建议)";
+const nodeFlagAliases = {"HK": ["香港", "Hong Kong", "HongKong", "HK"], "TW": ["台湾", "台灣", "Taiwan", "TW"], "SG": ["新加坡", "狮城", "獅城", "Singapore", "SG"], "JP": ["日本", "东京", "東京", "大阪", "Japan", "Tokyo", "Osaka", "JP"], "KR": ["韩国", "韓國", "南韩", "首尔", "首爾", "South Korea", "Korea", "Seoul", "KR"], "US": ["美国", "美國", "洛杉矶", "洛杉磯", "西雅图", "西雅圖", "United States", "USA", "Los Angeles", "Seattle", "US"], "GB": ["英国", "英國", "伦敦", "倫敦", "United Kingdom", "Britain", "London", "UK", "GB"], "DE": ["德国", "德國", "法兰克福", "法蘭克福", "Germany", "Frankfurt", "DE"], "FR": ["法国", "法國", "巴黎", "France", "Paris", "FR"], "CA": ["加拿大", "Canada", "CA"], "AU": ["澳大利亚", "澳大利亞", "澳洲", "悉尼", "Australia", "Sydney", "AU"], "MO": ["澳门", "澳門", "Macau", "Macao", "MO"], "CN": ["中国", "中國", "大陆", "大陸", "China", "CN"], "IN": ["印度", "India", "IN"], "ID": ["印度尼西亚", "印度尼西亞", "印尼", "Indonesia", "ID"], "PK": ["巴基斯坦", "Pakistan", "PK"], "IL": ["以色列", "Israel", "IL"], "AE": ["阿联酋", "阿聯酋", "迪拜", "杜拜", "United Arab Emirates", "Dubai", "UAE", "AE"], "PH": ["菲律宾", "菲律賓", "Philippines", "PH"], "MY": ["马来西亚", "馬來西亞", "Malaysia", "MY"], "EG": ["埃及", "Egypt", "EG"], "NG": ["尼日利亚", "尼日利亞", "Nigeria", "NG"], "TH": ["泰国", "泰國", "Thailand", "TH"], "VN": ["越南", "Vietnam", "VN"], "NL": ["荷兰", "荷蘭", "Netherlands", "NL"], "RU": ["俄罗斯", "俄羅斯", "Russia", "RU"], "TR": ["土耳其", "Turkey", "Türkiye", "TR"], "BR": ["巴西", "Brazil", "BR"], "AR": ["阿根廷", "Argentina", "AR"], "MX": ["墨西哥", "Mexico", "MX"], "ZA": ["南非", "South Africa", "ZA"], "NZ": ["新西兰", "新西蘭", "纽西兰", "紐西蘭", "New Zealand", "NZ"], "CH": ["瑞士", "Switzerland", "CH"], "SE": ["瑞典", "Sweden", "SE"], "NO": ["挪威", "Norway", "NO"], "FI": ["芬兰", "芬蘭", "Finland", "FI"], "DK": ["丹麦", "丹麥", "Denmark", "DK"], "IT": ["意大利", "義大利", "Italy", "IT"], "ES": ["西班牙", "Spain", "ES"], "PT": ["葡萄牙", "Portugal", "PT"], "IE": ["爱尔兰", "愛爾蘭", "Ireland", "IE"], "PL": ["波兰", "波蘭", "Poland", "PL"], "UA": ["乌克兰", "烏克蘭", "Ukraine", "UA"], "IS": ["冰岛", "冰島", "Iceland", "IS"], "BE": ["比利时", "比利時", "Belgium", "BE"], "AT": ["奥地利", "奧地利", "Austria", "AT"], "CZ": ["捷克", "Czechia", "Czech Republic", "CZ"], "HU": ["匈牙利", "Hungary", "HU"], "RO": ["罗马尼亚", "羅馬尼亞", "Romania", "RO"], "SA": ["沙特", "Saudi Arabia", "SA"], "CL": ["智利", "Chile", "CL"], "CO": ["哥伦比亚", "哥倫比亞", "Colombia", "CO"], "PE": ["秘鲁", "秘魯", "Peru", "PE"], "BD": ["孟加拉", "Bangladesh", "BD"], "NP": ["尼泊尔", "尼泊爾", "Nepal", "NP"], "KH": ["柬埔寨", "Cambodia", "KH"], "KZ": ["哈萨克斯坦", "哈薩克斯坦", "Kazakhstan", "KZ"]};
+// Cosmetic changes only: never infer location from the server address.
+function addNodeFlags(config) {
+  const flagPresent = /[\u{1F1E6}-\u{1F1FF}]{2}/u;
+  const matchers = Object.entries(nodeFlagAliases).map(([code, aliases]) => ({
+    flag: Array.from(code, c => String.fromCodePoint(0x1F1E6 + c.charCodeAt(0) - 65)).join(''),
+    // Bound Latin aliases so IN/US do not match words such as BUSINESS.
+    patterns: aliases.map(alias => {
+      const escaped = alias.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      return new RegExp(/[A-Za-z]/.test(alias) ? '(^|[^A-Za-z])(?<region>' + escaped + ')(?![A-Za-z])' : '(?<region>' + escaped + ')', /^[A-Z]{2,3}$/.test(alias) ? 'g' : 'gi');
+    })
+  }));
+  const providers = Object.values(config['proxy-providers'] || {});
+  const allNodes = [...(config.proxies || []), ...providers.flatMap(p => p.payload || [])];
+  // Provider filters/name overrides run later in the core. Do not rename their input.
+  const eligible = new Set(config.proxies || []);
+  for (const p of providers) {
+    const o = p.override || {};
+    if (p.type === 'inline' && !p.filter && !p['exclude-filter'] &&
+        !o['proxy-name'] && !o['additional-prefix'] && !o['additional-suffix'] && !o['override-expr']) {
+      for (const node of p.payload || []) eligible.add(node);
+    }
+  }
+  const reserved = new Set(['DIRECT', 'REJECT', ...config['proxy-groups'].map(g => g.name),
+    ...Object.keys(config['proxy-providers'] || {})]);
+  const occupied = new Set([...reserved, ...allNodes.map(n => n.name)]);
+  const proposals = new Map();
+  for (const node of allNodes) {
+    const name = node.name;
+    if (!eligible.has(node) || typeof name !== 'string' || reserved.has(name) || flagPresent.test(name)) continue;
+    const hits = matchers.flatMap(m => m.patterns.flatMap(pattern => {
+      return Array.from(name.matchAll(pattern), match => {
+        const end = match.index + match[0].length;
+        return {flag: m.flag, start: end - match.groups.region.length, end};
+      });
+    }));
+    // 印度尼西亚 contains 印度: prefer the full region name at the same position.
+    const matches = new Set(hits.filter(h => !hits.some(other =>
+      other.start <= h.start && other.end >= h.end &&
+      other.end - other.start > h.end - h.start)).map(h => h.flag));
+    if (matches.size !== 1) continue;
+    const target = [...matches][0] + ' ' + name;
+    if (!occupied.has(target)) proposals.set(name, target);
+  }
+  // A name shared by a node we cannot safely rename must stay unchanged everywhere.
+  for (const node of allNodes) if (!eligible.has(node)) proposals.delete(node.name);
+  const rename = name => proposals.get(name) || name;
+  for (const node of allNodes) {
+    node.name = rename(node.name);
+    if (typeof node['dialer-proxy'] === 'string') node['dialer-proxy'] = rename(node['dialer-proxy']);
+  }
+  for (const p of providers) {
+    if (typeof p.proxy === 'string') p.proxy = rename(p.proxy);
+    if (typeof p.override?.['dialer-proxy'] === 'string') {
+      p.override['dialer-proxy'] = rename(p.override['dialer-proxy']);
+    }
+  }
+}
+
 function main(config) {
   if (!config || typeof config !== 'object' || Array.isArray(config)) throw new Error('需要先导入机场订阅');
   if (!(Array.isArray(config.proxies) && config.proxies.length) &&
@@ -658,6 +717,10 @@ function main(config) {
   const keepNode = (node) => !excludedNode.test(node.name || '');
   if (Array.isArray(result.proxies)) result.proxies = result.proxies.filter(keepNode);
   // Remote/file providers load later in Mihomo; filter them at the source too.
+  for (const provider of Object.values(result['proxy-providers'] || {})) {
+    if (Array.isArray(provider.payload)) provider.payload = provider.payload.filter(keepNode);
+  }
+  addNodeFlags(result);
   const providerExclusion = '(?i:' + excludedNodePattern + ')';
   for (const provider of Object.values(result['proxy-providers'] || {})) {
     const previous = provider['exclude-filter'];
@@ -665,7 +728,6 @@ function main(config) {
     else if (previous !== providerExclusion && !previous.endsWith('|' + providerExclusion)) {
       provider['exclude-filter'] = '(?:' + previous + ')|' + providerExclusion;
     }
-    if (Array.isArray(provider.payload)) provider.payload = provider.payload.filter(keepNode);
   }
   return result;
 }
