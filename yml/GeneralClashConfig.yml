@@ -1,3 +1,5 @@
+# Generated from source.yaml by scripts/generate.py; do not edit.
+mode: rule
 dns:
   enable: true
   ipv6: true
@@ -7,34 +9,299 @@ dns:
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
   fake-ip-filter:
-    - "geosite:private"
-    - "geosite:connectivity-check"
-    - time.*.com
-    - ntp.*.com
+  - geosite:private
+  - geosite:connectivity-check
+  - time.*.com
+  - ntp.*.com
   default-nameserver:
-    - https://223.5.5.5/dns-query
+  - https://223.5.5.5/dns-query
   nameserver:
-    - https://dns.alidns.com/dns-query
+  - https://dns.alidns.com/dns-query
   proxy-server-nameserver:
-    - https://dns.alidns.com/dns-query
+  - https://dns.alidns.com/dns-query
   fallback:
-    - https://dns.cloudflare.com/dns-query
+  - https://dns.cloudflare.com/dns-query
   fallback-filter:
     geoip: true
     geoip-code: CN
     geosite:
-      - gfw
-    ipcidr: # 在这个网段内的 IP 地址会被考虑为被污染的 IP
-      - 240.0.0.0/4
+    - gfw
+    ipcidr:
+    - 240.0.0.0/4
   nameserver-policy:
-  
-    rule-set:direct (Domain): https://dns.alidns.com/dns-query
-    rule-set:SteamDownload (Domain): https://dns.alidns.com/dns-query
-
+    +.spotifycdn.com: https://dns.alidns.com/dns-query
+    +.scdn.co: https://dns.alidns.com/dns-query
+    +.xboxlive.cn: https://dns.alidns.com/dns-query
+    +.xboxlive.com: https://dns.alidns.com/dns-query
+    +.gamepass.com: https://dns.alidns.com/dns-query
+    +.xboxservices.com: https://dns.alidns.com/dns-query
+    +.digicert.com: https://dns.alidns.com/dns-query
+    +.azurefd.net: https://dns.alidns.com/dns-query
+    +.dl.delivery.mp.microsoft.com: https://dns.alidns.com/dns-query
+    +.store-images.s-microsoft.com: https://dns.alidns.com/dns-query
+    +.deepl.com: https://dns.alidns.com/dns-query
+    +.micu.hk: https://dns.alidns.com/dns-query
+    +.cdndrive.uk: https://dns.alidns.com/dns-query
+    +.immersivetranslate.com: https://dns.alidns.com/dns-query
+    time.is: https://dns.alidns.com/dns-query
+    test.steampowered.com: https://dns.alidns.com/dns-query
+    +.steamserver.net: https://dns.alidns.com/dns-query
+    +.cdn.steamstatic.com: https://dns.alidns.com/dns-query
+    dl.steam.clngaa.com: https://dns.alidns.com/dns-query
+    st.dl.eccdnx.com: https://dns.alidns.com/dns-query
+    xz.pphimalayanrt.com: https://dns.alidns.com/dns-query
+    gstore.val.smogfly.com: https://dns.alidns.com/dns-query
+    gstore.val.manlaxy.com: https://dns.alidns.com/dns-query
+    dl.file.cyngaa.com: https://dns.alidns.com/dns-query
+    steamcdn-a.akamaihd.net: https://dns.alidns.com/dns-query
+    +.cm.steampowered.com: https://dns.alidns.com/dns-query
     geosite:cn,private,apple: https://dns.alidns.com/dns-query
     geosite:!cn,gfw: https://posvdm.cloudflare-gateway.com/dns-query
-
-
-
 hosts:
-  'iosapps.itunes.apple.com': hls.itunes.apple.com.mwcname.com
+  iosapps.itunes.apple.com: hls.itunes.apple.com.mwcname.com
+tun:
+  enable: true
+  stack: mixed
+  auto-route: true
+  auto-detect-interface: true
+  dns-hijack:
+  - any:53
+rule-providers:
+  external_anti_ad_net_clash:
+    type: http
+    behavior: domain
+    format: yaml
+    url: https://anti-ad.net/clash.yaml
+    path: ./ruleset/posvdm/external_anti_ad_net_clash.txt
+    interval: 86400
+  local_reject:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/PosvdM/Clash-rules/main/list/reject.list
+    path: ./ruleset/posvdm/local_reject.txt
+    interval: 86400
+  local_direct:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/PosvdM/Clash-rules/main/list/direct.list
+    path: ./ruleset/posvdm/local_direct.txt
+    interval: 86400
+  local_SteamDownload_non_ip:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/rules/local_SteamDownload_non_ip.txt
+    path: ./ruleset/posvdm/local_SteamDownload_non_ip.txt
+    interval: 86400
+  local_SteamDownload_ip:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/rules/local_SteamDownload_ip.txt
+    path: ./ruleset/posvdm/local_SteamDownload_ip.txt
+    interval: 86400
+  sukka_non_ip_ai:
+    type: http
+    behavior: classical
+    format: text
+    url: https://ruleset.skk.moe/Clash/non_ip/ai.txt
+    path: ./ruleset/posvdm/sukka_non_ip_ai.txt
+    interval: 86400
+  local_ai:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/PosvdM/Clash-rules/main/list/ai.list
+    path: ./ruleset/posvdm/local_ai.txt
+    interval: 86400
+  local_proxy:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/PosvdM/Clash-rules/main/list/proxy.list
+    path: ./ruleset/posvdm/local_proxy.txt
+    interval: 86400
+  local_bulk:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/PosvdM/Clash-rules/main/list/bulk.list
+    path: ./ruleset/posvdm/local_bulk.txt
+    interval: 86400
+  local_sexy:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/PosvdM/Clash-rules/main/list/sexy.list
+    path: ./ruleset/posvdm/local_sexy.txt
+    interval: 86400
+  local_final:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/PosvdM/Clash-rules/main/list/final.list
+    path: ./ruleset/posvdm/local_final.txt
+    interval: 86400
+  sukka_non_ip_stream_biliintl:
+    type: http
+    behavior: classical
+    format: text
+    url: https://ruleset.skk.moe/Clash/non_ip/stream_biliintl.txt
+    path: ./ruleset/posvdm/sukka_non_ip_stream_biliintl.txt
+    interval: 86400
+  sukka_non_ip_lan:
+    type: http
+    behavior: classical
+    format: text
+    url: https://ruleset.skk.moe/Clash/non_ip/lan.txt
+    path: ./ruleset/posvdm/sukka_non_ip_lan.txt
+    interval: 86400
+  sukka_non_ip_domestic:
+    type: http
+    behavior: classical
+    format: text
+    url: https://ruleset.skk.moe/Clash/non_ip/domestic.txt
+    path: ./ruleset/posvdm/sukka_non_ip_domestic.txt
+    interval: 86400
+  sukka_non_ip_direct:
+    type: http
+    behavior: classical
+    format: text
+    url: https://ruleset.skk.moe/Clash/non_ip/direct.txt
+    path: ./ruleset/posvdm/sukka_non_ip_direct.txt
+    interval: 86400
+  external_Global_Services_YouTube_non_ip:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/rules/external_Global_Services_YouTube_non_ip.txt
+    path: ./ruleset/posvdm/external_Global_Services_YouTube_non_ip.txt
+    interval: 86400
+  external_Global_Services_YouTube_ip:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/rules/external_Global_Services_YouTube_ip.txt
+    path: ./ruleset/posvdm/external_Global_Services_YouTube_ip.txt
+    interval: 86400
+  sukka_non_ip_stream:
+    type: http
+    behavior: classical
+    format: text
+    url: https://ruleset.skk.moe/Clash/non_ip/stream.txt
+    path: ./ruleset/posvdm/sukka_non_ip_stream.txt
+    interval: 86400
+  sukka_ip_stream:
+    type: http
+    behavior: classical
+    format: text
+    url: https://ruleset.skk.moe/Clash/ip/stream.txt
+    path: ./ruleset/posvdm/sukka_ip_stream.txt
+    interval: 86400
+  external_Ruleset_GoogleFCM_non_ip:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/rules/external_Ruleset_GoogleFCM_non_ip.txt
+    path: ./ruleset/posvdm/external_Ruleset_GoogleFCM_non_ip.txt
+    interval: 86400
+  external_Ruleset_GoogleFCM_ip:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/rules/external_Ruleset_GoogleFCM_ip.txt
+    path: ./ruleset/posvdm/external_Ruleset_GoogleFCM_ip.txt
+    interval: 86400
+  sukka_domainset_apple_cdn:
+    type: http
+    behavior: domain
+    format: text
+    url: https://ruleset.skk.moe/Clash/domainset/apple_cdn.txt
+    path: ./ruleset/posvdm/sukka_domainset_apple_cdn.txt
+    interval: 86400
+  sukka_non_ip_apple_cn:
+    type: http
+    behavior: classical
+    format: text
+    url: https://ruleset.skk.moe/Clash/non_ip/apple_cn.txt
+    path: ./ruleset/posvdm/sukka_non_ip_apple_cn.txt
+    interval: 86400
+  sukka_non_ip_apple_services:
+    type: http
+    behavior: classical
+    format: text
+    url: https://ruleset.skk.moe/Clash/non_ip/apple_services.txt
+    path: ./ruleset/posvdm/sukka_non_ip_apple_services.txt
+    interval: 86400
+  sukka_non_ip_microsoft:
+    type: http
+    behavior: classical
+    format: text
+    url: https://ruleset.skk.moe/Clash/non_ip/microsoft.txt
+    path: ./ruleset/posvdm/sukka_non_ip_microsoft.txt
+    interval: 86400
+  sukka_non_ip_microsoft_cdn:
+    type: http
+    behavior: classical
+    format: text
+    url: https://ruleset.skk.moe/Clash/non_ip/microsoft_cdn.txt
+    path: ./ruleset/posvdm/sukka_non_ip_microsoft_cdn.txt
+    interval: 86400
+  sukka_non_ip_telegram:
+    type: http
+    behavior: classical
+    format: text
+    url: https://ruleset.skk.moe/Clash/non_ip/telegram.txt
+    path: ./ruleset/posvdm/sukka_non_ip_telegram.txt
+    interval: 86400
+  sukka_ip_telegram:
+    type: http
+    behavior: classical
+    format: text
+    url: https://ruleset.skk.moe/Clash/ip/telegram.txt
+    path: ./ruleset/posvdm/sukka_ip_telegram.txt
+    interval: 86400
+  sukka_ip_telegram_asn:
+    type: http
+    behavior: classical
+    format: text
+    url: https://ruleset.skk.moe/Clash/ip/telegram_asn.txt
+    path: ./ruleset/posvdm/sukka_ip_telegram_asn.txt
+    interval: 86400
+  external_Clash_GamePlatform:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/LoveMyself666/ACL4SSR/master/Clash/GamePlatform.list
+    path: ./ruleset/posvdm/external_Clash_GamePlatform.txt
+    interval: 86400
+  sukka_non_ip_global:
+    type: http
+    behavior: classical
+    format: text
+    url: https://ruleset.skk.moe/Clash/non_ip/global.txt
+    path: ./ruleset/posvdm/sukka_non_ip_global.txt
+    interval: 86400
+  sukka_ip_china_ip:
+    type: http
+    behavior: ipcidr
+    format: text
+    url: https://ruleset.skk.moe/Clash/ip/china_ip.txt
+    path: ./ruleset/posvdm/sukka_ip_china_ip.txt
+    interval: 86400
+  sukka_ip_china_ip_ipv6:
+    type: http
+    behavior: ipcidr
+    format: text
+    url: https://ruleset.skk.moe/Clash/ip/china_ip_ipv6.txt
+    path: ./ruleset/posvdm/sukka_ip_china_ip_ipv6.txt
+    interval: 86400
+  sukka_ip_lan:
+    type: http
+    behavior: classical
+    format: text
+    url: https://ruleset.skk.moe/Clash/ip/lan.txt
+    path: ./ruleset/posvdm/sukka_ip_lan.txt
+    interval: 86400
