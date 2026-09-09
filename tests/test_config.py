@@ -95,8 +95,8 @@ const before=JSON.stringify(input);
 const result=ctx.main(input);
 assert.strictEqual(JSON.stringify(input),before);
 assert.strictEqual(JSON.stringify(ctx.main(result)),JSON.stringify(result));
-assert.deepStrictEqual(Array.from(result.proxies,n=>n.name),valid);
-assert.deepStrictEqual(Array.from(result['proxy-providers'].inline.payload,n=>n.name),valid);
+assert.deepStrictEqual(Array.from(result.proxies,n=>n.name),['🇭🇰 香港 01','🇯🇵 日本 实验 0.1x','🇺🇸 美国 2x']);
+assert.deepStrictEqual(Array.from(result['proxy-providers'].inline.payload,n=>n.name),['🇭🇰 香港 01','🇯🇵 日本 实验 0.1x','🇺🇸 美国 2x']);
 assert.strictEqual(ctx.main({proxies:notices.map(makeNode)}).proxies.length,0);
 process.stdout.write(JSON.stringify(result));
 """
@@ -112,6 +112,61 @@ process.stdout.write(JSON.stringify(result));
             self.assertIsNone(pattern.search('香港 01'))
         self.assertIsNotNone(re.search(providers['http']['exclude-filter'], 'Blocked'))
         self.assertIsNone(re.search(providers['http']['exclude-filter'], 'blocked'))
+
+    def test_js_flags_preserve_names_credentials_and_references(self):
+        program = """
+const fs=require('fs'),vm=require('vm'),assert=require('assert');
+const ctx={};vm.createContext(ctx);vm.runInContext(fs.readFileSync('output/override.js','utf8'),ctx);
+const examples=[
+ ['🌸|印度标准 IEPL 专线 1','🇮🇳 🌸|印度标准 IEPL 专线 1'],
+ ['🌸|巴基斯坦标准 IEPL 专线 1','🇵🇰 🌸|巴基斯坦标准 IEPL 专线 1'],
+ ['以色列 1','🇮🇱 以色列 1'],['阿联酋 1','🇦🇪 阿联酋 1'],
+ ['菲律宾 1','🇵🇭 菲律宾 1'],['马来西亚 1','🇲🇾 马来西亚 1'],
+ ['埃及 1','🇪🇬 埃及 1'],['尼日利亚 1','🇳🇬 尼日利亚 1'],
+ ['印度尼西亚 1','🇮🇩 印度尼西亚 1'],['印度尼西亞 2','🇮🇩 印度尼西亞 2'],
+ ['JP01','🇯🇵 JP01'],['singapore 2','🇸🇬 singapore 2'],['🇭🇰 香港01','🇭🇰 香港01'],
+ ['👾|🇸🇬【亚洲】新加坡01','👾|🇸🇬【亚洲】新加坡01'],
+ ['英国 IEPL 1','🇬🇧 英国 IEPL 1'],['BUSINESS LINE','BUSINESS LINE'],
+ ['test in progress','test in progress'],['香港→日本','香港→日本'],
+ ['印度尼西亚→印度','印度尼西亚→印度'],['自动 01','自动 01']];
+const makeNode=name=>({name,type:'ss',server:'unchanged.example',port:443,password:'keep-me'});
+const input={proxies:examples.map(([name])=>makeNode(name))};
+input.proxies[1]['dialer-proxy']=examples[0][0];
+input['proxy-providers']={remote:{type:'http',url:'https://example.org/sub',
+ proxy:examples[0][0],override:{'dialer-proxy':examples[0][0],'additional-prefix':'Airport '}}};
+const before=JSON.stringify(input),result=ctx.main(input);
+assert.strictEqual(JSON.stringify(input),before);
+assert.deepStrictEqual(Array.from(result.proxies,n=>n.name),examples.map(e=>e[1]));
+for(let i=0;i<input.proxies.length;i++) {
+ const expected=JSON.parse(JSON.stringify(input.proxies[i]));expected.name=examples[i][1];
+ if(expected['dialer-proxy']) expected['dialer-proxy']=examples[0][1];
+ assert.strictEqual(JSON.stringify(result.proxies[i]),JSON.stringify(expected));
+}
+assert.strictEqual(result['proxy-providers'].remote.proxy,examples[0][1]);
+assert.strictEqual(result['proxy-providers'].remote.override['dialer-proxy'],examples[0][1]);
+assert.strictEqual(result['proxy-providers'].remote.override['additional-prefix'],'Airport ');
+assert.strictEqual(JSON.stringify(ctx.main(result)),JSON.stringify(result));
+"""
+        subprocess.check_call(['node', '-e', program], cwd=ROOT)
+
+    def test_js_flags_avoid_collisions_and_respect_provider_name_processing(self):
+        program = """
+const fs=require('fs'),vm=require('vm'),assert=require('assert');
+const ctx={};vm.createContext(ctx);vm.runInContext(fs.readFileSync('output/override.js','utf8'),ctx);
+const node=name=>({name,type:'ss',server:'example.org',password:'test'});
+const input={proxies:['香港 1','🇭🇰 香港 1','日本 1'].map(node),'proxy-providers':{
+ inline:{type:'inline',payload:[node('新加坡 1')]},
+ filtered:{type:'inline',filter:'^日本',payload:[node('日本 1')]},
+ renamed:{type:'inline',override:{'additional-prefix':'🇺🇸 '},payload:[node('美国 1')]},
+ remote:{type:'http',url:'https://example.org/sub',override:{'proxy-name':[{pattern:'^JP',target:'Japan'}]}}}};
+const result=ctx.main(input);
+assert.deepStrictEqual(Array.from(result.proxies,n=>n.name),['香港 1','🇭🇰 香港 1','日本 1']);
+assert.strictEqual(result['proxy-providers'].inline.payload[0].name,'🇸🇬 新加坡 1');
+assert.strictEqual(result['proxy-providers'].filtered.payload[0].name,'日本 1');
+assert.strictEqual(result['proxy-providers'].renamed.payload[0].name,'美国 1');
+assert.strictEqual(JSON.stringify(ctx.main(result)),JSON.stringify(result));
+"""
+        subprocess.check_call(['node', '-e', program], cwd=ROOT)
 
     def test_order_and_native_formats(self):
         providers = self.common['rule-providers']
