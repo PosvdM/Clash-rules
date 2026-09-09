@@ -118,12 +118,15 @@ process.stdout.write(JSON.stringify(result));
 const fs=require('fs'),vm=require('vm'),assert=require('assert');
 const ctx={};vm.createContext(ctx);vm.runInContext(fs.readFileSync('output/override.js','utf8'),ctx);
 const examples=[
- ['🌸|印度标准 IEPL 专线 1','🇮🇳 🌸|印度标准 IEPL 专线 1'],
- ['🌸|巴基斯坦标准 IEPL 专线 1','🇵🇰 🌸|巴基斯坦标准 IEPL 专线 1'],
+ ['🌸|印度标准 IEPL 专线 1','🌸|🇮🇳 印度标准 IEPL 专线 1'],
+ ['🌸|巴基斯坦标准 IEPL 专线 1','🌸|🇵🇰 巴基斯坦标准 IEPL 专线 1'],
  ['以色列 1','🇮🇱 以色列 1'],['阿联酋 1','🇦🇪 阿联酋 1'],
  ['菲律宾 1','🇵🇭 菲律宾 1'],['马来西亚 1','🇲🇾 马来西亚 1'],
  ['埃及 1','🇪🇬 埃及 1'],['尼日利亚 1','🇳🇬 尼日利亚 1'],
  ['印度尼西亚 1','🇮🇩 印度尼西亚 1'],['印度尼西亞 2','🇮🇩 印度尼西亞 2'],
+ ['🇮🇳 🌸|印度标准 IEPL 专线 2','🌸|🇮🇳 印度标准 IEPL 专线 2'],
+ ['🌸｜ 马来西亚 2','🌸｜ 🇲🇾 马来西亚 2'],
+ ['🌸|🇮🇳 印度 3','🌸|🇮🇳 印度 3'],
  ['JP01','🇯🇵 JP01'],['singapore 2','🇸🇬 singapore 2'],['🇭🇰 香港01','🇭🇰 香港01'],
  ['👾|🇸🇬【亚洲】新加坡01','👾|🇸🇬【亚洲】新加坡01'],
  ['英国 IEPL 1','🇬🇧 英国 IEPL 1'],['BUSINESS LINE','BUSINESS LINE'],
@@ -154,13 +157,13 @@ assert.strictEqual(JSON.stringify(ctx.main(result)),JSON.stringify(result));
 const fs=require('fs'),vm=require('vm'),assert=require('assert');
 const ctx={};vm.createContext(ctx);vm.runInContext(fs.readFileSync('output/override.js','utf8'),ctx);
 const node=name=>({name,type:'ss',server:'example.org',password:'test'});
-const input={proxies:['香港 1','🇭🇰 香港 1','日本 1'].map(node),'proxy-providers':{
+const input={proxies:['香港 1','🇭🇰 香港 1','日本 1','🌸|印度 9','🇮🇳 🌸|印度 9'].map(node),'proxy-providers':{
  inline:{type:'inline',payload:[node('新加坡 1')]},
  filtered:{type:'inline',filter:'^日本',payload:[node('日本 1')]},
  renamed:{type:'inline',override:{'additional-prefix':'🇺🇸 '},payload:[node('美国 1')]},
  remote:{type:'http',url:'https://example.org/sub',override:{'proxy-name':[{pattern:'^JP',target:'Japan'}]}}}};
 const result=ctx.main(input);
-assert.deepStrictEqual(Array.from(result.proxies,n=>n.name),['香港 1','🇭🇰 香港 1','日本 1']);
+assert.deepStrictEqual(Array.from(result.proxies,n=>n.name),['香港 1','🇭🇰 香港 1','日本 1','🌸|印度 9','🇮🇳 🌸|印度 9']);
 assert.strictEqual(result['proxy-providers'].inline.payload[0].name,'🇸🇬 新加坡 1');
 assert.strictEqual(result['proxy-providers'].filtered.payload[0].name,'日本 1');
 assert.strictEqual(result['proxy-providers'].renamed.payload[0].name,'美国 1');

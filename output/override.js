@@ -646,6 +646,12 @@ const nodeFlagAliases = {"HK": ["香港", "Hong Kong", "HongKong", "HK"], "TW": 
 // Cosmetic changes only: never infer location from the server address.
 function addNodeFlags(config) {
   const flagPresent = /[\u{1F1E6}-\u{1F1FF}]{2}/u;
+  const leadingFlag = /^(?<flag>[\u{1F1E6}-\u{1F1FF}]{2})\s*/u;
+  const airportPrefix = /^[^\p{L}\p{N}]*[|｜]\s*/u;
+  const placeFlag = (name, flag) => {
+    const prefix = name.match(airportPrefix)?.[0] || '';
+    return prefix + flag + ' ' + name.slice(prefix.length);
+  };
   const matchers = Object.entries(nodeFlagAliases).map(([code, aliases]) => ({
     flag: Array.from(code, c => String.fromCodePoint(0x1F1E6 + c.charCodeAt(0) - 65)).join(''),
     // Bound Latin aliases so IN/US do not match words such as BUSINESS.
@@ -671,7 +677,17 @@ function addNodeFlags(config) {
   const proposals = new Map();
   for (const node of allNodes) {
     const name = node.name;
-    if (!eligible.has(node) || typeof name !== 'string' || reserved.has(name) || flagPresent.test(name)) continue;
+    if (!eligible.has(node) || typeof name !== 'string' || reserved.has(name)) continue;
+    if (flagPresent.test(name)) {
+      // Repair the previous version's flag-before-airport-prefix layout only.
+      const leading = name.match(leadingFlag);
+      const rest = leading ? name.slice(leading[0].length) : '';
+      if (leading && airportPrefix.test(rest) && !flagPresent.test(rest)) {
+        const target = placeFlag(rest, leading.groups.flag);
+        if (!occupied.has(target)) proposals.set(name, target);
+      }
+      continue;
+    }
     const hits = matchers.flatMap(m => m.patterns.flatMap(pattern => {
       return Array.from(name.matchAll(pattern), match => {
         const end = match.index + match[0].length;
@@ -683,11 +699,15 @@ function addNodeFlags(config) {
       other.start <= h.start && other.end >= h.end &&
       other.end - other.start > h.end - h.start)).map(h => h.flag));
     if (matches.size !== 1) continue;
-    const target = [...matches][0] + ' ' + name;
+    const target = placeFlag(name, [...matches][0]);
     if (!occupied.has(target)) proposals.set(name, target);
   }
   // A name shared by a node we cannot safely rename must stay unchanged everywhere.
   for (const node of allNodes) if (!eligible.has(node)) proposals.delete(node.name);
+  // Raw and previously decorated versions may converge on the same new name.
+  const targetCounts = new Map();
+  for (const target of proposals.values()) targetCounts.set(target, (targetCounts.get(target) || 0) + 1);
+  for (const [name, target] of proposals) if (targetCounts.get(target) > 1) proposals.delete(name);
   const rename = name => proposals.get(name) || name;
   for (const node of allNodes) {
     node.name = rename(node.name);
