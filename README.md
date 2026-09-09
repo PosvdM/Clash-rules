@@ -35,7 +35,7 @@ Stash 的 YAML 覆写只替换列出的字段，不保证清除订阅中其他�
 在订阅转换工具中填写远程配置地址：
 
 ```text
-https://raw.githubusercontent.com/PosvdM/Clash-rules/main/rules/main.ini
+https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/main.ini
 ```
 
 后端需要保留 `rule-providers`；不支持时，请改用客户端覆写。

@@ -28,7 +28,7 @@ class ConfigTest(unittest.TestCase):
         for key, value in self.common.items():
             if isinstance(value, (list, dict)):
                 self.assertIn(key + ': #!replace', self.files['output/override.stoverride'])
-        base = yaml.safe_load(self.files['yml/GeneralClashConfig.yml'])
+        base = yaml.safe_load(self.files['output/GeneralClashConfig.yml'])
         for config in (self.common, stash, base):
             self.assertNotIn('tun', config)
         for key in ('dns', 'hosts', 'rule-providers'):
@@ -207,7 +207,11 @@ process.stdout.write(JSON.stringify(result));
         self.assertEqual(len(policy), 4)
 
     def test_legacy_entry_uses_native_provider_references(self):
-        ini=self.files['rules/main.ini']
+        ini=self.files['output/main.ini']
+        base_url = next(line.split('=', 1)[1] for line in ini.splitlines() if line.startswith('clash_rule_base='))
+        raw = f"https://raw.githubusercontent.com/{self.src['repository']}/{self.src['branch']}/"
+        self.assertTrue(base_url.startswith(raw))
+        self.assertIn(base_url.removeprefix(raw), self.files)
         self.assertNotIn('ruleset=🟢 直连,https://',ini)
         self.assertIn('[]RULE-SET,sukka_ip_telegram_asn,no-resolve',ini)
         self.assertIn('custom_proxy_group=🏷️ 低倍率`fallback`',ini)
