@@ -641,6 +641,7 @@ const policy = {
     "MATCH,🐟 漏网之鱼"
   ]
 };
+const excludedNodePattern = "(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用)";
 function main(config) {
   if (!config || typeof config !== 'object' || Array.isArray(config)) throw new Error('需要先导入机场订阅');
   if (!(Array.isArray(config.proxies) && config.proxies.length) &&
@@ -652,6 +653,19 @@ function main(config) {
     if (Object.prototype.hasOwnProperty.call(config, key)) {
       result[key] = JSON.parse(JSON.stringify(config[key]));
     }
+  }
+  const excludedNode = new RegExp(excludedNodePattern, 'i');
+  const keepNode = (node) => !excludedNode.test(node.name || '');
+  if (Array.isArray(result.proxies)) result.proxies = result.proxies.filter(keepNode);
+  // Remote/file providers load later in Mihomo; filter them at the source too.
+  const providerExclusion = '(?i:' + excludedNodePattern + ')';
+  for (const provider of Object.values(result['proxy-providers'] || {})) {
+    const previous = provider['exclude-filter'];
+    if (!previous) provider['exclude-filter'] = providerExclusion;
+    else if (previous !== providerExclusion && !previous.endsWith('|' + providerExclusion)) {
+      provider['exclude-filter'] = '(?:' + previous + ')|' + providerExclusion;
+    }
+    if (Array.isArray(provider.payload)) provider.payload = provider.payload.filter(keepNode);
   }
   return result;
 }
