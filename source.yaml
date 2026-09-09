@@ -33,13 +33,12 @@ settings:
       ipcidr:
       - 240.0.0.0/4
     nameserver-policy:
+      rule-set:direct (Domain): https://dns.alidns.com/dns-query
+      rule-set:SteamDownload (Domain): https://dns.alidns.com/dns-query
       geosite:cn,private,apple: https://dns.alidns.com/dns-query
       geosite:!cn,gfw: https://posvdm.cloudflare-gateway.com/dns-query
   hosts:
     iosapps.itunes.apple.com: hls.itunes.apple.com.mwcname.com
-dns_direct_lists:
-- list/direct.list
-- list/SteamDownload.list
 rulesets:
 - id: external_anti_ad_net_clash
   group: 🛑 广告隐私
@@ -58,12 +57,14 @@ rulesets:
   behavior: classical
   format: text
   file: list/direct.list
+  dns_name: direct (Domain)
   stage: non_ip
 - id: local_SteamDownload
   group: 🟢 直连
   behavior: classical
   format: text
   file: list/SteamDownload.list
+  dns_name: SteamDownload (Domain)
   stage: non_ip
 - id: sukka_non_ip_ai
   group: ✨ 人工智能

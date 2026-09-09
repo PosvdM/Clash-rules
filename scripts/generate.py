@@ -35,16 +35,6 @@ def compile_config(src, offline=False):
     raw = f"https://raw.githubusercontent.com/{src['repository']}/{src['branch']}"
     files = {}
     settings = copy.deepcopy(src['settings'])
-    # Use explicit domain policies on every platform; no subconverter-generated provider names.
-    direct_dns = settings['dns']['nameserver'][0]
-    explicit = {}
-    for filename in src.get('dns_direct_lists', []):
-        for rule in lines((ROOT / filename).read_text()):
-            kind, value, *_ = rule.split(',')
-            if kind in ('DOMAIN', 'DOMAIN-SUFFIX'):
-                explicit[('+' + '.' if kind == 'DOMAIN-SUFFIX' else '') + value] = direct_dns
-    settings['dns']['nameserver-policy'] = {**explicit, **settings['dns'].get('nameserver-policy', {})}
-
     groups = copy.deepcopy(src['proxy_groups'])
     exclusion = src['exclude_remarks'].removeprefix('(?i)')
     names = [g['name'] for g in groups]
@@ -87,6 +77,13 @@ def compile_config(src, offline=False):
     for rule in src['rulesets']:
         if rule['group'] not in names:
             raise ValueError(f"Unknown policy: {rule['group']}")
+        if rule.get('dns_name'):
+            key = rule['dns_name']
+            if key in providers:
+                raise ValueError(f'Duplicate provider: {key}')
+            providers[key] = {'type': 'http', 'behavior': 'classical', 'format': 'text',
+                              'url': raw + '/' + rule['file'],
+                              'path': f"./ruleset/posvdm/{rule['id']}_dns.txt", 'interval': 86400}
         if 'file' in rule or rule.get('split'):
             text = contents[rule['id']]
             buckets = {'non_ip': [], 'ip': []}

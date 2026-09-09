@@ -31,32 +31,8 @@ dns: #!replace
     ipcidr:
     - 240.0.0.0/4
   nameserver-policy:
-    +.spotifycdn.com: https://dns.alidns.com/dns-query
-    +.scdn.co: https://dns.alidns.com/dns-query
-    +.xboxlive.cn: https://dns.alidns.com/dns-query
-    +.xboxlive.com: https://dns.alidns.com/dns-query
-    +.gamepass.com: https://dns.alidns.com/dns-query
-    +.xboxservices.com: https://dns.alidns.com/dns-query
-    +.digicert.com: https://dns.alidns.com/dns-query
-    +.azurefd.net: https://dns.alidns.com/dns-query
-    +.dl.delivery.mp.microsoft.com: https://dns.alidns.com/dns-query
-    +.store-images.s-microsoft.com: https://dns.alidns.com/dns-query
-    +.deepl.com: https://dns.alidns.com/dns-query
-    +.micu.hk: https://dns.alidns.com/dns-query
-    +.cdndrive.uk: https://dns.alidns.com/dns-query
-    +.immersivetranslate.com: https://dns.alidns.com/dns-query
-    time.is: https://dns.alidns.com/dns-query
-    test.steampowered.com: https://dns.alidns.com/dns-query
-    +.steamserver.net: https://dns.alidns.com/dns-query
-    +.cdn.steamstatic.com: https://dns.alidns.com/dns-query
-    dl.steam.clngaa.com: https://dns.alidns.com/dns-query
-    st.dl.eccdnx.com: https://dns.alidns.com/dns-query
-    xz.pphimalayanrt.com: https://dns.alidns.com/dns-query
-    gstore.val.smogfly.com: https://dns.alidns.com/dns-query
-    gstore.val.manlaxy.com: https://dns.alidns.com/dns-query
-    dl.file.cyngaa.com: https://dns.alidns.com/dns-query
-    steamcdn-a.akamaihd.net: https://dns.alidns.com/dns-query
-    +.cm.steampowered.com: https://dns.alidns.com/dns-query
+    rule-set:direct (Domain): https://dns.alidns.com/dns-query
+    rule-set:SteamDownload (Domain): https://dns.alidns.com/dns-query
     geosite:cn,private,apple: https://dns.alidns.com/dns-query
     geosite:!cn,gfw: https://posvdm.cloudflare-gateway.com/dns-query
 hosts: #!replace
@@ -279,12 +255,26 @@ rule-providers: #!replace
     url: https://raw.githubusercontent.com/PosvdM/Clash-rules/main/list/reject.list
     path: ./ruleset/posvdm/local_reject.txt
     interval: 86400
+  direct (Domain):
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/PosvdM/Clash-rules/main/list/direct.list
+    path: ./ruleset/posvdm/local_direct_dns.txt
+    interval: 86400
   local_direct:
     type: http
     behavior: classical
     format: text
     url: https://raw.githubusercontent.com/PosvdM/Clash-rules/main/list/direct.list
     path: ./ruleset/posvdm/local_direct.txt
+    interval: 86400
+  SteamDownload (Domain):
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/PosvdM/Clash-rules/main/list/SteamDownload.list
+    path: ./ruleset/posvdm/local_SteamDownload_dns.txt
     interval: 86400
   local_SteamDownload_non_ip:
     type: http

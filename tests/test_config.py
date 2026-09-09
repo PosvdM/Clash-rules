@@ -133,9 +133,13 @@ process.stdout.write(JSON.stringify(result));
 
     def test_dns_has_no_dangling_provider_references(self):
         policy=self.common['dns']['nameserver-policy']
-        self.assertFalse(any(k.startswith('rule-set:') for k in policy))
-        self.assertEqual(policy['+.steamserver.net'],'https://dns.alidns.com/dns-query')
-        self.assertEqual(policy['+.spotifycdn.com'],'https://dns.alidns.com/dns-query')
+        self.assertEqual(policy, self.src['settings']['dns']['nameserver-policy'])
+        for name, filename in [('direct (Domain)', 'direct'), ('SteamDownload (Domain)', 'SteamDownload')]:
+            self.assertEqual(policy['rule-set:' + name], 'https://dns.alidns.com/dns-query')
+            provider = self.common['rule-providers'][name]
+            self.assertEqual(provider['behavior'], 'classical')
+            self.assertEqual(provider['url'], f'https://raw.githubusercontent.com/PosvdM/Clash-rules/main/list/{filename}.list')
+        self.assertEqual(len(policy), 4)
 
     def test_legacy_entry_uses_native_provider_references(self):
         ini=self.files['rules/main.ini']
