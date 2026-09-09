@@ -97,15 +97,6 @@ const policy = {
       ]
     },
     {
-      "name": "🗄️ Oracle",
-      "type": "url-test",
-      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用|建议)))(?=[\\s\\S]*(?:^🗄️\\|🇺🇸 美国 Oracle (?:Vless|Hy2)$))[\\s\\S]*$",
-      "include-all": true,
-      "url": "https://www.gstatic.com/generate_204",
-      "interval": 300,
-      "tolerance": 50
-    },
-    {
       "name": "🥵 不可以涩涩",
       "type": "select",
       "proxies": [
@@ -297,6 +288,15 @@ const policy = {
       "name": "🇺🇲 美国",
       "type": "url-test",
       "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用|建议)))(?=[\\s\\S]*(?:(?=.*(美国|USA))^((?!小带宽|倍率|计费|0\\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\\s\\S]*$",
+      "include-all": true,
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": 300,
+      "tolerance": 50
+    },
+    {
+      "name": "🗄️ Oracle",
+      "type": "url-test",
+      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用|建议)))(?=[\\s\\S]*(?:^🗄️\\|🇺🇸 美国 Oracle (?:Vless|Hy2)$))[\\s\\S]*$",
       "include-all": true,
       "url": "https://www.gstatic.com/generate_204",
       "interval": 300,
