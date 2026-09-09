@@ -20,6 +20,8 @@
 https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/override.js
 ```
 
+此脚本仅保留订阅的节点及节点来源（`proxies`、`proxy-providers`），其余订阅配置全部丢弃，使用本仓库配置。关闭 Clash Party 的 DNS 覆写和嗅探覆写，避免客户端再次覆盖；端口、TUN 等运行参数仍由客户端管理。
+
 ### FlClash · Android
 
 使用支持覆写脚本的版本，添加 JavaScript 覆写：
@@ -37,6 +39,8 @@ https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/override.stover
 ```
 
 Stash 对部分 DNS 字段的支持与 Mihomo 不同，使用前请查看[兼容说明](docs/maintenance.md#客户端兼容)。
+
+Stash 的 YAML 覆写只替换列出的字段，不保证清除订阅中其他配置。
 
 ### Subconverter
 
