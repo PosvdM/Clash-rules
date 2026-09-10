@@ -47,7 +47,7 @@ proxy-groups: #!replace
   - 1️⃣ 港台新
   - 2️⃣ 日韩
   - 🇭🇰 香港
-  - 🇨🇳 台湾
+  - 🇹🇼 台湾
   - 🇸🇬 新加坡
   - 🇯🇵 日本
   - 🇰🇷 韩国
@@ -58,7 +58,7 @@ proxy-groups: #!replace
   - 1️⃣ 港台新
   - 2️⃣ 日韩
   - 🇭🇰 香港
-  - 🇨🇳 台湾
+  - 🇹🇼 台湾
   - 🇸🇬 新加坡
   - 🇯🇵 日本
   - 🇰🇷 韩国
@@ -70,7 +70,7 @@ proxy-groups: #!replace
   proxies:
   - 🗄️ Oracle
   - 🇸🇬 新加坡
-  - 🇨🇳 台湾
+  - 🇹🇼 台湾
   - 🇯🇵 日本
   - 🇺🇲 美国
   - 🇭🇰 香港
@@ -82,7 +82,7 @@ proxy-groups: #!replace
   - 🏷️ 低倍率
   - 🚀 节点选择
   - 🇸🇬 新加坡
-  - 🇨🇳 台湾
+  - 🇹🇼 台湾
   - 🇭🇰 香港
   - 🇯🇵 日本
   - 🇰🇷 韩国
@@ -97,7 +97,7 @@ proxy-groups: #!replace
   - ♻️ 自动选择
   - 📌 指定节点
   - 🇭🇰 香港
-  - 🇨🇳 台湾
+  - 🇹🇼 台湾
   - 🇸🇬 新加坡
   - 🇯🇵 日本
   - 🇰🇷 韩国
@@ -108,7 +108,7 @@ proxy-groups: #!replace
   - 🏷️ 低倍率
   - 🚀 节点选择
   - 🇭🇰 香港
-  - 🇨🇳 台湾
+  - 🇹🇼 台湾
   - 🇸🇬 新加坡
   - 🇯🇵 日本
   - 🇰🇷 韩国
@@ -123,7 +123,7 @@ proxy-groups: #!replace
   type: select
   proxies:
   - 🇭🇰 香港
-  - 🇨🇳 台湾
+  - 🇹🇼 台湾
   - 🇸🇬 新加坡
   - 🇯🇵 日本
   - 🇰🇷 韩国
@@ -137,7 +137,7 @@ proxy-groups: #!replace
   - DIRECT
   - 🏷️ 低倍率
   - 🇭🇰 香港
-  - 🇨🇳 台湾
+  - 🇹🇼 台湾
   - 📌 指定节点
 - name: 📌 指定节点
   type: select
@@ -155,6 +155,7 @@ proxy-groups: #!replace
   interval: 300
   tolerance: 50
   proxies:
+  - 🗄️ Oracle
   - 🧪 低倍检测
   - 🚀 节点选择
 - name: 1️⃣ 港台新
@@ -192,7 +193,7 @@ proxy-groups: #!replace
   url: https://www.gstatic.com/generate_204
   interval: 300
   tolerance: 50
-- name: 🇨🇳 台湾
+- name: 🇹🇼 台湾
   type: url-test
   filter: (?i)^(?!.*(?:(?:\d+(\.\d*)?\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用|建议)))(?=[\s\S]*(?:(?=.*(台湾|Taiwan))^((?!小带宽|倍率|计费|0\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\s\S]*$
   include-all: true
