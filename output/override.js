@@ -157,16 +157,6 @@ const policy = {
       ]
     },
     {
-      "name": "🅱️ 哔哩哔哩",
-      "type": "select",
-      "proxies": [
-        "DIRECT",
-        "📌 指定节点",
-        "🇭🇰 香港",
-        "🇹🇼 台湾"
-      ]
-    },
-    {
       "name": "📌 指定节点",
       "type": "select",
       "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用|建议)))(?=[\\s\\S]*(?:(?=.*(香港|台湾|新加坡|美国|日本|韩国|Hong Kong|Taiwan|Singapore|USA|Japan|Korea))))[\\s\\S]*$",
@@ -612,7 +602,7 @@ const policy = {
     "RULE-SET,local_bulk,📦 大宗流量",
     "RULE-SET,local_sexy,🥵 不可以涩涩",
     "RULE-SET,local_final,🐟 漏网之鱼",
-    "RULE-SET,sukka_non_ip_stream_biliintl,🅱️ 哔哩哔哩",
+    "RULE-SET,sukka_non_ip_stream_biliintl,DIRECT",
     "RULE-SET,sukka_non_ip_lan,🟢 直连",
     "RULE-SET,sukka_non_ip_domestic,🟢 直连",
     "RULE-SET,sukka_non_ip_direct,🟢 直连",
