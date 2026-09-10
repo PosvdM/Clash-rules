@@ -319,10 +319,9 @@ proxy_groups:
   type: select
   proxies:
   - DIRECT
-  - 🏷️ 低倍率
+  - 📌 指定节点
   - 🇭🇰 香港
   - 🇹🇼 台湾
-  - 📌 指定节点
 - name: 📌 指定节点
   type: select
   filter: (?i)(?=.*(香港|台湾|新加坡|美国|日本|韩国|Hong Kong|Taiwan|Singapore|USA|Japan|Korea))
