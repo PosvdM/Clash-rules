@@ -602,7 +602,7 @@ const policy = {
     "RULE-SET,local_bulk,📦 大宗流量",
     "RULE-SET,local_sexy,🥵 不可以涩涩",
     "RULE-SET,local_final,🐟 漏网之鱼",
-    "RULE-SET,sukka_non_ip_stream_biliintl,DIRECT",
+    "RULE-SET,sukka_non_ip_stream_biliintl,🟢 直连",
     "RULE-SET,sukka_non_ip_lan,🟢 直连",
     "RULE-SET,sukka_non_ip_domestic,🟢 直连",
     "RULE-SET,sukka_non_ip_direct,🟢 直连",

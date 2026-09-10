@@ -88,7 +88,7 @@ def compile_config(src, offline=False):
         target.append(f"RULE-SET,{key},{rule['group']}" + (',no-resolve' if stage == 'ip' else ''))
 
     for rule in src['rulesets']:
-        if rule['group'] not in names + ['DIRECT', 'REJECT']:
+        if rule['group'] not in names:
             raise ValueError(f"Unknown policy: {rule['group']}")
         if rule.get('dns_name'):
             key = rule['dns_name']

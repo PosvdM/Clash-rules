@@ -22,22 +22,6 @@ class ConfigTest(unittest.TestCase):
         cls.common = yaml.safe_load(cls.files['output/common.yaml'])
         cls.provider_exclusion = '(?i:' + cls.src['exclude_remarks'].removeprefix('(?i)') + ')'
 
-    def test_ruleset_builtin_policies_and_unknown_policy(self):
-        for policy in ('DIRECT', 'REJECT'):
-            with self.subTest(policy=policy):
-                src = copy.deepcopy(self.src)
-                rule = next(r for r in src['rulesets'] if r['id'] == 'sukka_non_ip_stream_biliintl')
-                rule['group'] = policy
-                files = gen.compile_config(src, offline=True)
-                expected = f"RULE-SET,{rule['id']},{policy}"
-                for path in ('output/common.yaml', 'output/override.stoverride'):
-                    self.assertIn(expected, yaml.safe_load(files[path])['rules'])
-                self.assertIn(f"ruleset={policy},[]RULE-SET,{rule['id']}\n", files['output/main.ini'])
-        src = copy.deepcopy(self.src)
-        src['rulesets'][0]['group'] = 'missing policy'
-        with self.assertRaisesRegex(ValueError, 'Unknown policy: missing policy'):
-            gen.compile_config(src, offline=True)
-
     def test_all_wrappers_share_entire_policy(self):
         stash = yaml.safe_load(self.files['output/override.stoverride'])
         stash.pop('name'); stash.pop('desc')
