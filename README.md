@@ -1,4 +1,4 @@
-# PosvdM 分流配置
+# PosvdM Clash-rules
 
 适用于 Clash Party、FlClash 和 Stash 的自用分流配置，包含广告拦截、AI、流媒体、游戏及 Telegram 分流，提供地区节点选择和低倍率策略组。
 
