@@ -273,43 +273,34 @@ proxy_groups:
   type: select
   proxies:
   - 🏷️ 低倍率
+  - 🗄️ Oracle
   - 🚀 节点选择
+  - 📌 指定节点
   - 🇸🇬 新加坡
   - 🇹🇼 台湾
   - 🇭🇰 香港
   - 🇯🇵 日本
   - 🇰🇷 韩国
   - 🇺🇲 美国
-  - 📌 指定节点
-  - DIRECT
 - name: 💬 Telegram
   type: select
   proxies:
   - 🏷️ 低倍率
+  - 🗄️ Oracle
   - 🚀 节点选择
-  - ♻️ 自动选择
   - 📌 指定节点
-  - 🇭🇰 香港
-  - 🇹🇼 台湾
-  - 🇸🇬 新加坡
-  - 🇯🇵 日本
-  - 🇰🇷 韩国
-  - 🇺🇲 美国
 - name: 📺 YouTube
   type: select
   proxies:
   - 🏷️ 低倍率
+  - 🗄️ Oracle
   - 🚀 节点选择
-  - 🇭🇰 香港
-  - 🇹🇼 台湾
-  - 🇸🇬 新加坡
-  - 🇯🇵 日本
-  - 🇰🇷 韩国
-  - 🇺🇲 美国
+  - 📌 指定节点
 - name: 📦 大宗流量
   type: select
   proxies:
   - 🏷️ 低倍率
+  - 🗄️ Oracle
   - 🚀 节点选择
   - 📌 指定节点
 - name: 🎮 游戏平台
