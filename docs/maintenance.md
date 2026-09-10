@@ -54,6 +54,20 @@ DOMAIN,api.example.net
 
 新增列表时，在 `source.yaml` 的 `rulesets` 中添加唯一 `id`、已有策略组 `group`、`behavior: classical`、`format: text` 和 `file: list/文件名.list`。本地列表由生成器判断类型。外部规则使用 `url` 和 `stage`；需拆分的远程 classical 列表设置 `split: true`，并在线生成一次快照。
 
+例如，新建 `list/custom.list` 后，在 `rulesets` 的所需优先级位置添加：
+
+```yaml
+- id: local_custom
+  group: 🚀 节点选择
+  behavior: classical
+  format: text
+  file: list/custom.list
+```
+
+只上传 `.list` 不会自动加入分流，必须登记目标策略组。新列表无需预先创建拆分快照，也无需修改测试；纯非 IP、纯 IP、混合和空列表均自动处理。用于拆分的列表不能包含 `MATCH`、`FINAL`、`RULE-SET` 或逻辑组合规则 `AND` / `OR` / `NOT`，这些内容会明确报错。
+
+策略组的类型、选项顺序和其他字段以 `source.yaml` 为准，测试不固定选项名单或 DNS 策略数量。新增 DNS 规则集引用时，对应 provider 必须存在；本地列表可通过 `dns_name` 创建。重复规则集 ID、缺失文件、错误的本地列表格式和不存在的 DNS provider 会使生成失败，并提示具体条目。
+
 ## 规则与 DNS
 
 规则顺序为：非 IP 规则 → GEOSITE CN → IP 规则 → GEOIP CN → MATCH。各阶段保持源配置顺序，IP 规则集引用使用 `no-resolve`。

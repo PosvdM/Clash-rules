@@ -50,6 +50,19 @@ def compile_config(src, offline=False):
             g['filter'] = f'(?i)^(?!.*(?:{exclusion}))(?=[\\s\\S]*(?:{original}))[\\s\\S]*$'
 
     providers, non_ip, ip = {}, [], []
+    rule_ids = set()
+    for rule in src['rulesets']:
+        key = rule['id']
+        if key in rule_ids:
+            raise ValueError(f'Duplicate ruleset id: {key}')
+        rule_ids.add(key)
+        if 'file' in rule:
+            if not (ROOT / rule['file']).is_file():
+                raise ValueError(f"Missing local ruleset: {key}: {rule['file']}")
+            if (rule['behavior'], rule['format']) != ('classical', 'text'):
+                raise ValueError(f'Local ruleset requires classical/text: {key}')
+        if rule.get('dns_name') and 'file' not in rule:
+            raise ValueError(f'dns_name requires a local file: {key}')
     split_rules = [r for r in src['rulesets'] if 'file' in r or r.get('split')]
 
     def get_split(rule):
@@ -114,6 +127,12 @@ def compile_config(src, offline=False):
             if rule['behavior'] == 'domain' and rule['stage'] == 'ip':
                 raise ValueError('Domain rule cannot be in IP stage')
             add(rule, rule['id'], rule['url'], rule['stage'])
+
+    for policy in settings.get('dns', {}).get('nameserver-policy', {}):
+        if policy.startswith('rule-set:'):
+            for key in policy.removeprefix('rule-set:').split(','):
+                if key.strip() not in providers:
+                    raise ValueError(f'Unknown DNS rule provider: {key.strip()}')
 
     tail = src['tail_rules']
     # Country domain fallback remains before every IP rule. IP order is stable.

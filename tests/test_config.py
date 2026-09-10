@@ -3,6 +3,7 @@ import importlib.util
 import json
 import re
 import subprocess
+import tempfile
 import unittest
 from unittest.mock import patch
 from pathlib import Path
@@ -179,7 +180,7 @@ assert.strictEqual(JSON.stringify(ctx.main(result)),JSON.stringify(result));
     def test_order_and_native_formats(self):
         providers = self.common['rule-providers']
         rules = self.common['rules']
-        self.assertEqual(rules[-1], 'MATCH,🐟 漏网之鱼')
+        self.assertEqual(rules[-1], self.src['tail_rules'][-1])
         first_ip = next(i for i,r in enumerate(rules) if r.endswith(',no-resolve'))
         for r in rules[first_ip:-1]:
             self.assertTrue(r.endswith(',no-resolve'),r)
@@ -240,6 +241,72 @@ assert.strictEqual(JSON.stringify(ctx.main(result)),JSON.stringify(result));
                     expected = f"RULE-SET,{key},{entry['group']}" + (',no-resolve' if stage == 'ip' else '')
                     self.assertIn(expected, common['rules'])
 
+    def test_new_local_lists_and_dns_extensions(self):
+        src = copy.deepcopy(self.src)
+        src['rulesets'] = [
+            {'id': 'new_list', 'group': src['proxy_groups'][0]['name'],
+             'behavior': 'classical', 'format': 'text',
+             'file': 'list/new.list', 'dns_name': 'New DNS'},
+        ]
+        src['settings']['dns']['nameserver-policy'] = {
+            'rule-set:New DNS': 'https://example.test/dns-query',
+            'geosite:cn': 'https://example.test/other-dns',
+        }
+        cases = [
+            ('DOMAIN,example.test\n', {'new_list': 'non_ip'}),
+            ('DOMAIN,example.test\nIP-CIDR,192.0.2.0/24,no-resolve\n',
+             {'new_list_non_ip': 'non_ip', 'new_list_ip': 'ip'}),
+            ('IP-CIDR6,2001:db8::/32,no-resolve\n', {'new_list': 'ip'}),
+            ('# empty list\n', {}),
+        ]
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root/'list').mkdir()
+            (root/'scripts').mkdir()
+            (root/'scripts/node-flags.js').write_text((ROOT/'scripts/node-flags.js').read_text())
+            for content, expected in cases:
+                with self.subTest(content=content):
+                    (root/'list/new.list').write_text(content)
+                    with patch.object(gen, 'ROOT', root):
+                        files = gen.compile_config(src, offline=True)
+                    common = yaml.safe_load(files['output/common.yaml'])
+                    self.assertEqual(set(common['rule-providers']), set(expected) | {'New DNS'})
+                    self.assertEqual(common['dns'], src['settings']['dns'])
+                    actual = []
+                    for key, stage in expected.items():
+                        rule = f"RULE-SET,{key},{src['rulesets'][0]['group']}"
+                        if stage == 'ip':
+                            rule += ',no-resolve'
+                        self.assertIn(rule, common['rules'])
+                        provider = common['rule-providers'][key]
+                        if key == 'new_list':
+                            self.assertTrue(provider['url'].endswith('/list/new.list'))
+                            actual += gen.lines(content)
+                        else:
+                            actual += gen.lines(files[f'output/rules/{key}.txt'])
+                    self.assertCountEqual(actual, gen.lines(content))
+                    self.assertEqual(len([p for p in files if p.startswith('output/rules/')]),
+                                     2 if len(expected) == 2 else 0)
+
+    def test_invalid_ruleset_extensions_fail_clearly(self):
+        for case, message in [('duplicate', 'Duplicate ruleset id'),
+                              ('missing', 'Missing local ruleset'),
+                              ('dns', 'Unknown DNS rule provider'),
+                              ('format', 'Local ruleset requires classical/text')]:
+            with self.subTest(case=case):
+                src = copy.deepcopy(self.src)
+                local = next(r for r in src['rulesets'] if 'file' in r)
+                if case == 'duplicate':
+                    src['rulesets'].append(copy.deepcopy(local))
+                elif case == 'missing':
+                    local['file'] = 'list/does-not-exist.list'
+                elif case == 'format':
+                    local['format'] = 'yaml'
+                else:
+                    src['settings']['dns']['nameserver-policy']['rule-set:missing'] = '1.1.1.1'
+                with self.assertRaisesRegex(ValueError, message):
+                    gen.compile_config(src, offline=True)
+
     def test_game_platform_uses_upstream_directly(self):
         key = 'external_Clash_GamePlatform'
         entry = next(r for r in self.src['rulesets'] if r['id'] == key)
@@ -248,26 +315,51 @@ assert.strictEqual(JSON.stringify(ctx.main(result)),JSON.stringify(result));
 
     def test_preserved_filters_and_fallback(self):
         groups={g['name']:g for g in self.common['proxy-groups']}
-        low=groups['🏷️ 低倍率']
-        self.assertEqual(low['type'],'fallback')
-        self.assertEqual(low['proxies'],['🧪 低倍检测','🚀 节点选择'])
-        auto=re.compile(groups['🇭🇰 香港']['filter'])
-        self.assertTrue(auto.search('香港 01'))
-        for name in ['香港 2x','香港 0.1x','香港 小带宽','香港 剩余 100GB','日本 01']:
-            self.assertFalse(auto.search(name),name)
+        self.assertEqual(list(groups), [g['name'] for g in self.src['proxy_groups']])
         for original in self.src['proxy_groups']:
-            self.assertEqual(groups[original['name']]['type'],original['type'])
-            self.assertEqual(groups[original['name']].get('proxies'),original.get('proxies'))
+            actual = dict(groups[original['name']])
+            expected = dict(original)
+            if original.get('include-all'):
+                actual.pop('filter')
+                expected.pop('filter', None)
+            self.assertEqual(actual, expected)
+
+    def test_group_extensions_and_filter_composition(self):
+        src = copy.deepcopy(self.src)
+        src['exclude_remarks'] = '(?i)traffic|剩余'
+        src['proxy_groups'] = [
+            {'name': 'fallback fixture', 'type': 'fallback',
+             'proxies': ['new fixture', 'DIRECT', 'REJECT'],
+             'url': 'https://example.test/check', 'interval': 123},
+            {'name': 'new fixture', 'type': 'url-test', 'include-all': True,
+             'filter': '(?i)香港|Japan', 'url': 'https://example.test/check'},
+        ] + src['proxy_groups']
+        files = gen.compile_config(src, offline=True)
+        groups = yaml.safe_load(files['output/common.yaml'])['proxy-groups']
+        self.assertEqual(groups[0], src['proxy_groups'][0])
+        pattern = re.compile(groups[1]['filter'])
+        for name in ['香港 01', 'JAPAN 02']:
+            self.assertIsNotNone(pattern.search(name))
+        for name in ['香港 TRAFFIC', 'Japan 剩余', '美国 01']:
+            self.assertIsNone(pattern.search(name))
+        self.assertIn('custom_proxy_group=fallback fixture`fallback`[]new fixture`[]DIRECT`[]REJECT`',
+                      files['output/main.ini'])
 
     def test_dns_has_no_dangling_provider_references(self):
         policy=self.common['dns']['nameserver-policy']
         self.assertEqual(policy, self.src['settings']['dns']['nameserver-policy'])
-        for name, filename in [('direct (Domain)', 'direct'), ('SteamDownload (Domain)', 'SteamDownload')]:
-            self.assertEqual(policy['rule-set:' + name], 'https://dns.alidns.com/dns-query')
-            provider = self.common['rule-providers'][name]
+        providers = self.common['rule-providers']
+        for key in policy:
+            if key.startswith('rule-set:'):
+                for name in key.removeprefix('rule-set:').split(','):
+                    self.assertIn(name.strip(), providers)
+        for entry in self.src['rulesets']:
+            if not entry.get('dns_name'):
+                continue
+            provider = providers[entry['dns_name']]
             self.assertEqual(provider['behavior'], 'classical')
-            self.assertEqual(provider['url'], f'https://raw.githubusercontent.com/PosvdM/Clash-rules/main/list/{filename}.list')
-        self.assertEqual(len(policy), 4)
+            self.assertEqual(provider['url'],
+                             f"https://raw.githubusercontent.com/{self.src['repository']}/{self.src['branch']}/{entry['file']}")
 
     def test_legacy_entry_uses_native_provider_references(self):
         ini=self.files['output/main.ini']
@@ -277,7 +369,8 @@ assert.strictEqual(JSON.stringify(ctx.main(result)),JSON.stringify(result));
         self.assertIn(base_url.removeprefix(raw), self.files)
         self.assertNotIn('ruleset=🟢 直连,https://',ini)
         self.assertIn('[]RULE-SET,sukka_ip_telegram_asn,no-resolve',ini)
-        self.assertIn('custom_proxy_group=🏷️ 低倍率`fallback`',ini)
+        for group in self.src['proxy_groups']:
+            self.assertIn('custom_proxy_group=' + group['name'] + '`' + group['type'] + '`', ini)
         for rule in self.common['rules']:
             if rule.startswith('RULE-SET,'):
                 self.assertIn('[]RULE-SET,'+rule.split(',')[1],ini)
