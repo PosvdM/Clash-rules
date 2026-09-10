@@ -102,7 +102,7 @@ rulesets:
   file: list/final.list
   stage: non_ip
 - id: sukka_non_ip_stream_biliintl
-  group: DIRECT
+  group: 🅱️ 哔哩哔哩
   behavior: classical
   format: text
   url: https://ruleset.skk.moe/Clash/non_ip/stream_biliintl.txt
@@ -315,6 +315,13 @@ proxy_groups:
   - 🚀 节点选择
   - 📌 指定节点
   - DIRECT
+- name: 🅱️ 哔哩哔哩
+  type: select
+  proxies:
+  - DIRECT
+  - 📌 指定节点
+  - 🇭🇰 香港
+  - 🇹🇼 台湾
 - name: 📌 指定节点
   type: select
   filter: (?i)(?=.*(香港|台湾|新加坡|美国|日本|韩国|Hong Kong|Taiwan|Singapore|USA|Japan|Korea))

@@ -8,6 +8,7 @@
 | --- | --- |
 | `subconverter/` | 旧 INI 备份及测试配置 |
 | `clash/` | 旧 Clash 测试模板 |
+| `source/` | 配置源历史快照 |
 | `pac/` | PAC 脚本；`%mixed-port%` 需要使用方替换 |
 | `references/subconverter/` | ShellClash 参考配置 |
 | `references/clash/` | Clash 参考模板及来源地址 |
@@ -30,3 +31,7 @@
 `subconverter/test.ini` 已改为引用 `archive/clash/GCCtest.yml`。`subconverter/Backup0.ini` 已同步改为引用现用的 `output/GeneralClashConfig.yml`。其余归档文件内容保持不变。
 
 归档文件仅供查阅或自行调整，不保证兼容当前客户端；其中的上游地址与分流策略不会由 Actions 更新。
+
+## 配置源快照
+
+- [2026-09-10：哔哩哔哩改直连前](source/2026-09-10-before-bilibili-direct.yaml)：保存提交 `5483b65` 的完整 `source.yaml`，包含原哔哩哔哩策略组及规则映射。现用配置删除该组，原规则改为 `DIRECT`。
