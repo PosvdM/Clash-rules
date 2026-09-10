@@ -102,7 +102,7 @@ rulesets:
   file: list/final.list
   stage: non_ip
 - id: sukka_non_ip_stream_biliintl
-  group: DIRECT
+  group: 🟢 直连
   behavior: classical
   format: text
   url: https://ruleset.skk.moe/Clash/non_ip/stream_biliintl.txt
