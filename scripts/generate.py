@@ -181,7 +181,7 @@ def compile_config(src, offline=False):
 }
 '''
     files['output/override.js'] = js
-    stash = 'name: PosvdM 全平台统一配置\ndesc: 由 source.yaml 生成；规则、DNS 与桌面及 Android 同源；TUN 由客户端管理。\n'
+    stash = 'name: PosvdM Clash-rules\ndesc: PosvdM 自用分流配置\n'
     for key, value in common.items():
         section = dump({key: value})
         if isinstance(value, (list, dict)):

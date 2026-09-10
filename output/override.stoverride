@@ -1,6 +1,6 @@
 # Generated from source.yaml by scripts/generate.py; do not edit.
-name: PosvdM 全平台统一配置
-desc: 由 source.yaml 生成；规则、DNS 与桌面及 Android 同源；TUN 由客户端管理。
+name: PosvdM Clash-rules
+desc: PosvdM 自用分流配置
 dns: #!replace
   enable: true
   ipv6: true
