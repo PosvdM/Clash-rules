@@ -180,7 +180,8 @@ def compile_config(src, offline=False):
   return result;
 }
 '''
-    files['output/override.js'] = js
+    files['output/PosvdM_rules.js'] = js
+    files['output/override.js'] = js  # Keep existing remote imports up to date.
     stash = 'name: PosvdM Clash-rules\ndesc: PosvdM 自用分流配置\n'
     for key, value in common.items():
         section = dump({key: value})
@@ -219,7 +220,7 @@ def main():
     args = parser.parse_args()
     src = yaml.safe_load((ROOT / 'source.yaml').read_text())
     files = compile_config(src, args.offline)
-    stale = set(str(p.relative_to(ROOT)) for p in (ROOT / 'output/rules').glob('*.txt')) - files.keys()
+    stale = set(p.relative_to(ROOT).as_posix() for p in (ROOT / 'output/rules').glob('*.txt')) - files.keys()
     if args.check:
         mismatch = [name for name, text in files.items() if not (ROOT/name).exists() or (ROOT/name).read_text() != text]
         if mismatch or stale:
