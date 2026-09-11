@@ -317,7 +317,7 @@ proxy_groups:
   - DIRECT
 - name: 📌 指定节点
   type: select
-  filter: (?i)(?=.*(香港|台湾|新加坡|美国|日本|韩国|Hong Kong|Taiwan|Singapore|USA|Japan|Korea))
+  filter: (?i)(?=.*(Oracle|香港|台湾|新加坡|美国|日本|韩国|Hong Kong|Taiwan|Singapore|USA|Japan|Korea))
   include-all: true
   proxies:
   - 🌍 其他地区
