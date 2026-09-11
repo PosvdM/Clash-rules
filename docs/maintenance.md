@@ -11,7 +11,8 @@
 | `tests/test_config.py` | 配置与生成行为测试 |
 | `.github/workflows/generate.yml` | 自动校验、生成和提交 |
 | `output/common.yaml` | 不含节点的公共配置，供查看或合并 |
-| `output/override.js` | Clash Party、FlClash 共用覆写 |
+| `output/PosvdM_rules.js` | Clash Party、FlClash 共用覆写 |
+| `output/override.js` | JS 覆写的旧链接兼容副本，与新入口同步生成 |
 | `output/override.stoverride` | Stash 覆写 |
 | `output/rules/` | 需要拆分的规则快照 |
 | `output/main.ini`、`output/GeneralClashConfig.yml` | Subconverter 入口及基础模板 |
@@ -20,6 +21,8 @@
 日常维护修改 `source.yaml` 和 `list/`；构建逻辑放在 `scripts/`，验证放在 `tests/`，说明放在 `docs/`。
 
 所有生成产物统一放在 `output/`。修改源文件后重新生成，不要手动维护产物。
+
+Clash Party 通过链接导入覆写时使用 URL 的文件名作为标题。使用 README 中的新链接导入后，标题为 `PosvdM_rules.js`。旧链接仍同步更新脚本内容；已导入条目的标题不会自动改变，可在客户端编辑名称，或使用新链接重新导入。
 
 Subconverter 入口已从 `rules/main.ini` 移至 `output/main.ini`，基础模板从 `yml/GeneralClashConfig.yml` 移至 `output/GeneralClashConfig.yml`。使用旧远程配置地址的订阅需更新为 README 中的新地址；原 `rules/`、`yml/` 目录不再保留。
 

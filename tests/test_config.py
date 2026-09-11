@@ -38,7 +38,7 @@ class ConfigTest(unittest.TestCase):
     def test_js_retains_nodes_and_replaces_old_settings(self):
         program = """
 const fs=require('fs'),vm=require('vm');
-const ctx={};vm.createContext(ctx);vm.runInContext(fs.readFileSync('output/override.js','utf8'),ctx);
+const ctx={};vm.createContext(ctx);vm.runInContext(fs.readFileSync('output/PosvdM_rules.js','utf8'),ctx);
 const original={proxies:[{name:'香港 01',type:'ss',server:'example.org',password:'test-only'}],
  'proxy-providers':{airport:{type:'http',url:'https://example.org/sub',header:{Authorization:['test-only']}}},
  dns:{nameserver:['bad']},rules:['MATCH,REJECT'],tun:{enable:true,stack:'system'},
@@ -62,7 +62,7 @@ process.stdout.write(JSON.stringify(result));
     def test_js_node_sources_errors_and_repeat_calls(self):
         program = """
 const fs=require('fs'),vm=require('vm'),assert=require('assert');
-const ctx={};vm.createContext(ctx);vm.runInContext(fs.readFileSync('output/override.js','utf8'),ctx);
+const ctx={};vm.createContext(ctx);vm.runInContext(fs.readFileSync('output/PosvdM_rules.js','utf8'),ctx);
 for(const input of [null,undefined,[],42,'bad']) assert.throws(()=>ctx.main(input),/需要先导入机场订阅/);
 for(const input of [{},{proxies:[]},{'proxy-providers':{}}]) assert.throws(()=>ctx.main(input),/订阅中没有代理节点/);
 const nodes={proxies:[{name:'test',type:'ss',server:'example.org',password:'test-only'}]};
@@ -83,7 +83,7 @@ process.stdout.write(JSON.stringify([ctx.main(nodes),ctx.main(providers)]));
     def test_js_removes_notice_nodes_and_filters_provider_sources(self):
         program = """
 const fs=require('fs'),vm=require('vm'),assert=require('assert');
-const ctx={};vm.createContext(ctx);vm.runInContext(fs.readFileSync('output/override.js','utf8'),ctx);
+const ctx={};vm.createContext(ctx);vm.runInContext(fs.readFileSync('output/PosvdM_rules.js','utf8'),ctx);
 const notices=['Traffic: 41.44 GB | 150 GB','Expire: 2026-12-31','TRAFFIC: 1 GB', '剩余流量：10 GB','到期时间：2026-12-31'];
 const valid=['香港 01','日本 实验 0.1x','美国 2x'];
 const makeNode=name=>({name,type:'trojan',server:'example.org',port:443,password:'test-only'});
@@ -117,7 +117,7 @@ process.stdout.write(JSON.stringify(result));
     def test_js_flags_preserve_names_credentials_and_references(self):
         program = """
 const fs=require('fs'),vm=require('vm'),assert=require('assert');
-const ctx={};vm.createContext(ctx);vm.runInContext(fs.readFileSync('output/override.js','utf8'),ctx);
+const ctx={};vm.createContext(ctx);vm.runInContext(fs.readFileSync('output/PosvdM_rules.js','utf8'),ctx);
 const examples=[
  ['🌸|印度标准 IEPL 专线 1','🌸|🇮🇳 印度标准 IEPL 专线 1'],
  ['🌸|巴基斯坦标准 IEPL 专线 1','🌸|🇵🇰 巴基斯坦标准 IEPL 专线 1'],
@@ -161,7 +161,7 @@ assert.strictEqual(JSON.stringify(ctx.main(result)),JSON.stringify(result));
     def test_js_flags_avoid_collisions_and_respect_provider_name_processing(self):
         program = """
 const fs=require('fs'),vm=require('vm'),assert=require('assert');
-const ctx={};vm.createContext(ctx);vm.runInContext(fs.readFileSync('output/override.js','utf8'),ctx);
+const ctx={};vm.createContext(ctx);vm.runInContext(fs.readFileSync('output/PosvdM_rules.js','utf8'),ctx);
 const node=name=>({name,type:'ss',server:'example.org',password:'test'});
 const input={proxies:['香港 1','🇭🇰 香港 1','日本 1','🌸|印度 9','🇮🇳 🌸|印度 9'].map(node),'proxy-providers':{
  inline:{type:'inline',payload:[node('新加坡 1')]},

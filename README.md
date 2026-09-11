@@ -13,7 +13,7 @@
 添加 JavaScript 覆写：
 
 ```text
-https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/override.js
+https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/PosvdM_rules.js
 ```
 
 此脚本仅保留订阅的节点及节点来源（`proxies`、`proxy-providers`），其余订阅配置全部丢弃，使用本仓库配置。已展开的节点会按名称补上缺失的国旗，有 `|` / `｜` 时国旗放在第一个分隔符后，没有时放在名称开头；适用范围见[节点名称说明](docs/maintenance.md#节点名称与国旗)。
