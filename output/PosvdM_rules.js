@@ -85,7 +85,7 @@ const policy = {
       "name": "✨ 人工智能",
       "type": "select",
       "proxies": [
-        "🗄️ Oracle",
+        "🗄️ 甲骨文",
         "🇸🇬 新加坡",
         "🇹🇼 台湾",
         "🇯🇵 日本",
@@ -100,7 +100,7 @@ const policy = {
       "type": "select",
       "proxies": [
         "🏷️ 低倍率",
-        "🗄️ Oracle",
+        "🗄️ 甲骨文",
         "🚀 节点选择",
         "📌 指定节点",
         "🇸🇬 新加坡",
@@ -116,7 +116,7 @@ const policy = {
       "type": "select",
       "proxies": [
         "🏷️ 低倍率",
-        "🗄️ Oracle",
+        "🗄️ 甲骨文",
         "🧪 低倍检测",
         "🚀 节点选择",
         "📌 指定节点"
@@ -127,7 +127,7 @@ const policy = {
       "type": "select",
       "proxies": [
         "🏷️ 低倍率",
-        "🗄️ Oracle",
+        "🗄️ 甲骨文",
         "🚀 节点选择",
         "📌 指定节点"
       ]
@@ -137,7 +137,7 @@ const policy = {
       "type": "select",
       "proxies": [
         "🏷️ 低倍率",
-        "🗄️ Oracle",
+        "🗄️ 甲骨文",
         "🚀 节点选择",
         "📌 指定节点"
       ]
@@ -179,7 +179,7 @@ const policy = {
       "interval": 300,
       "tolerance": 50,
       "proxies": [
-        "🗄️ Oracle",
+        "🗄️ 甲骨文",
         "🧪 低倍检测",
         "🚀 节点选择"
       ]
@@ -275,9 +275,9 @@ const policy = {
       "tolerance": 50
     },
     {
-      "name": "🗄️ Oracle",
+      "name": "🗄️ 甲骨文",
       "type": "url-test",
-      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用|建议)))(?=[\\s\\S]*(?:^🗄️\\|🇺🇸 美国 Oracle (?:Vless|Hy2)$))[\\s\\S]*$",
+      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用|建议)))(?=[\\s\\S]*(?:(?=.*(🗄️))))[\\s\\S]*$",
       "include-all": true,
       "url": "https://www.gstatic.com/generate_204",
       "interval": 300,
