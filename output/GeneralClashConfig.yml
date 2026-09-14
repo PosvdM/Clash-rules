@@ -56,13 +56,6 @@ rule-providers:
     url: https://raw.githubusercontent.com/PosvdM/Clash-rules/main/list/direct.list
     path: ./ruleset/posvdm/local_direct_dns.txt
     interval: 86400
-  local_direct:
-    type: http
-    behavior: classical
-    format: text
-    url: https://raw.githubusercontent.com/PosvdM/Clash-rules/main/list/direct.list
-    path: ./ruleset/posvdm/local_direct.txt
-    interval: 86400
   SteamDownload (Domain):
     type: http
     behavior: classical

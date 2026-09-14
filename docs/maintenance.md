@@ -87,7 +87,7 @@ nameserver-policy:
   geosite:!cn,gfw: https://posvdm.cloudflare-gateway.com/dns-query
 ```
 
-`dns_name` 为直连和 Steam 列表生成同名 classical provider，直接引用原始列表。修改列表内容后刷新规则集即可；修改 DNS 设置后更新覆写或订阅。TUN 开关、协议栈和路由由客户端管理。
+`dns_name` 为直连和 Steam 列表指定 classical provider 名称，直接引用原始列表。单一类型列表的 DNS 和分流共用这个 provider，不再额外生成同 URL 的 `local_*` provider；混合 IP/非 IP 时，DNS 仍引用原列表，分流使用拆分后的 provider，以保持规则顺序。修改列表内容后刷新规则集即可；修改 DNS 设置后更新覆写或订阅。TUN 开关、协议栈和路由由客户端管理。
 
 ## 节点名称与国旗
 
