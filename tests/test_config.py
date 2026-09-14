@@ -197,8 +197,10 @@ assert.strictEqual(JSON.stringify(ctx.main(result)),JSON.stringify(result));
         for entry in self.src['rulesets']:
             if 'file' not in entry: continue
             original = gen.lines((ROOT/entry['file']).read_text())
-            if entry['id'] in self.common['rule-providers']:
-                provider = self.common['rule-providers'][entry['id']]
+            key = entry.get('dns_name', entry['id'])
+            if key in self.common['rule-providers'] and not any(
+                    name.startswith(f"output/rules/{entry['id']}_") for name in self.files):
+                provider = self.common['rule-providers'][key]
                 self.assertEqual(provider['url'], f"https://raw.githubusercontent.com/{self.src['repository']}/{self.src['branch']}/{entry['file']}")
                 self.assertFalse(any(name.startswith(f"output/rules/{entry['id']}_") for name in self.files))
                 self.assertEqual(len({r.split(',')[0] in gen.IP_TYPES for r in original}), 1)
@@ -253,10 +255,10 @@ assert.strictEqual(JSON.stringify(ctx.main(result)),JSON.stringify(result));
             'geosite:cn': 'https://example.test/other-dns',
         }
         cases = [
-            ('DOMAIN,example.test\n', {'new_list': 'non_ip'}),
+            ('DOMAIN,example.test\n', {'New DNS': 'non_ip'}),
             ('DOMAIN,example.test\nIP-CIDR,192.0.2.0/24,no-resolve\n',
              {'new_list_non_ip': 'non_ip', 'new_list_ip': 'ip'}),
-            ('IP-CIDR6,2001:db8::/32,no-resolve\n', {'new_list': 'ip'}),
+            ('IP-CIDR6,2001:db8::/32,no-resolve\n', {'New DNS': 'ip'}),
             ('# empty list\n', {}),
         ]
         with tempfile.TemporaryDirectory() as directory:
@@ -279,7 +281,7 @@ assert.strictEqual(JSON.stringify(ctx.main(result)),JSON.stringify(result));
                             rule += ',no-resolve'
                         self.assertIn(rule, common['rules'])
                         provider = common['rule-providers'][key]
-                        if key == 'new_list':
+                        if key == 'New DNS':
                             self.assertTrue(provider['url'].endswith('/list/new.list'))
                             actual += gen.lines(content)
                         else:
