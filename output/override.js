@@ -37,8 +37,8 @@ const policy = {
       ]
     },
     "nameserver-policy": {
-      "rule-set:direct (Domain)": "https://dns.alidns.com/dns-query",
-      "rule-set:SteamDownload (Domain)": "https://dns.alidns.com/dns-query",
+      "rule-set:local_direct": "https://dns.alidns.com/dns-query",
+      "rule-set:local_SteamDownload": "https://dns.alidns.com/dns-query",
       "geosite:cn,private,apple": "https://dns.alidns.com/dns-query",
       "geosite:!cn,gfw": "https://posvdm.cloudflare-gateway.com/dns-query"
     }
@@ -319,20 +319,20 @@ const policy = {
       "path": "./ruleset/posvdm/local_reject.txt",
       "interval": 86400
     },
-    "direct (Domain)": {
+    "local_direct": {
       "type": "http",
       "behavior": "classical",
       "format": "text",
       "url": "https://raw.githubusercontent.com/PosvdM/Clash-rules/main/list/direct.list",
-      "path": "./ruleset/posvdm/local_direct_dns.txt",
+      "path": "./ruleset/posvdm/local_direct.txt",
       "interval": 86400
     },
-    "SteamDownload (Domain)": {
+    "local_SteamDownload": {
       "type": "http",
       "behavior": "classical",
       "format": "text",
       "url": "https://raw.githubusercontent.com/PosvdM/Clash-rules/main/list/SteamDownload.list",
-      "path": "./ruleset/posvdm/local_SteamDownload_dns.txt",
+      "path": "./ruleset/posvdm/local_SteamDownload.txt",
       "interval": 86400
     },
     "local_SteamDownload_non_ip": {
@@ -587,7 +587,7 @@ const policy = {
   "rules": [
     "RULE-SET,anti_ad_net,🛑 广告隐私",
     "RULE-SET,local_reject,🛑 广告隐私",
-    "RULE-SET,direct (Domain),🟢 直连",
+    "RULE-SET,local_direct,🟢 直连",
     "RULE-SET,local_SteamDownload_non_ip,🟢 直连",
     "RULE-SET,sukka_non_ip_ai,✨ 人工智能",
     "RULE-SET,local_ai,✨ 人工智能",

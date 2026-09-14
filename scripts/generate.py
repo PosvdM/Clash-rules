@@ -96,7 +96,7 @@ def compile_config(src, offline=False):
                 raise ValueError(f'Duplicate provider: {key}')
             providers[key] = {'type': 'http', 'behavior': 'classical', 'format': 'text',
                               'url': raw + '/' + rule['file'],
-                              'path': f"./ruleset/posvdm/{rule['id']}_dns.txt", 'interval': 86400}
+                              'path': f"./ruleset/posvdm/{rule['id']}.txt", 'interval': 86400}
         if 'file' in rule or rule.get('split'):
             text = contents[rule['id']]
             buckets = {'non_ip': [], 'ip': []}

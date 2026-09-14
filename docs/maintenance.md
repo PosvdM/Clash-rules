@@ -81,13 +81,13 @@ DNS 保持规则集引用，不展开域名：
 
 ```yaml
 nameserver-policy:
-  rule-set:direct (Domain): https://dns.alidns.com/dns-query
-  rule-set:SteamDownload (Domain): https://dns.alidns.com/dns-query
+  rule-set:local_direct: https://dns.alidns.com/dns-query
+  rule-set:local_SteamDownload: https://dns.alidns.com/dns-query
   geosite:cn,private,apple: https://dns.alidns.com/dns-query
   geosite:!cn,gfw: https://posvdm.cloudflare-gateway.com/dns-query
 ```
 
-`dns_name` 为直连和 Steam 列表指定 classical provider 名称，直接引用原始列表。单一类型列表的 DNS 和分流共用这个 provider，不再额外生成同 URL 的 `local_*` provider；混合 IP/非 IP 时，DNS 仍引用原列表，分流使用拆分后的 provider，以保持规则顺序。修改列表内容后刷新规则集即可；修改 DNS 设置后更新覆写或订阅。TUN 开关、协议栈和路由由客户端管理。
+`dns_name` 为直连和 Steam 列表指定 classical provider 名称，直接引用原始列表。单一类型列表的 DNS 和分流共用这个 provider，统一使用 `local_*` 名称，不再额外生成同 URL 的 provider；混合 IP/非 IP 时，DNS 仍引用原列表，分流使用拆分后的 provider，以保持规则顺序。修改列表内容后刷新规则集即可；修改 DNS 设置后更新覆写或订阅。TUN 开关、协议栈和路由由客户端管理。
 
 ## 节点名称与国旗
 
