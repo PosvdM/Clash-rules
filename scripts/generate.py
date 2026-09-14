@@ -111,7 +111,12 @@ def compile_config(src, offline=False):
             if 'file' in rule and not all(buckets.values()):
                 stage = 'ip' if buckets['ip'] else 'non_ip'
                 if any(buckets.values()):
-                    add(rule, rule['id'], origin, stage)
+                    if rule.get('dns_name'):
+                        target = ip if stage == 'ip' else non_ip
+                        target.append(f"RULE-SET,{rule['dns_name']},{rule['group']}"
+                                      + (',no-resolve' if stage == 'ip' else ''))
+                    else:
+                        add(rule, rule['id'], origin, stage)
                 continue
             # Keep attribution/comments from the original list, without recursively duplicating generated headers.
             comments = '\n'.join(x for x in text.splitlines() if x.startswith('#') and not x.startswith(('# Generated', '# Source:')))

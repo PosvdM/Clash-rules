@@ -327,14 +327,6 @@ const policy = {
       "path": "./ruleset/posvdm/local_direct_dns.txt",
       "interval": 86400
     },
-    "local_direct": {
-      "type": "http",
-      "behavior": "classical",
-      "format": "text",
-      "url": "https://raw.githubusercontent.com/PosvdM/Clash-rules/main/list/direct.list",
-      "path": "./ruleset/posvdm/local_direct.txt",
-      "interval": 86400
-    },
     "SteamDownload (Domain)": {
       "type": "http",
       "behavior": "classical",
@@ -595,7 +587,7 @@ const policy = {
   "rules": [
     "RULE-SET,anti_ad_net,🛑 广告隐私",
     "RULE-SET,local_reject,🛑 广告隐私",
-    "RULE-SET,local_direct,🟢 直连",
+    "RULE-SET,direct (Domain),🟢 直连",
     "RULE-SET,local_SteamDownload_non_ip,🟢 直连",
     "RULE-SET,sukka_non_ip_ai,✨ 人工智能",
     "RULE-SET,local_ai,✨ 人工智能",
