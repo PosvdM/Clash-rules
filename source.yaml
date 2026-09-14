@@ -261,7 +261,7 @@ proxy_groups:
 - name: ✨ 人工智能
   type: select
   proxies:
-  - 🗄️ Oracle
+  - 🗄️ 甲骨文
   - 🇸🇬 新加坡
   - 🇹🇼 台湾
   - 🇯🇵 日本
@@ -273,7 +273,7 @@ proxy_groups:
   type: select
   proxies:
   - 🏷️ 低倍率
-  - 🗄️ Oracle
+  - 🗄️ 甲骨文
   - 🚀 节点选择
   - 📌 指定节点
   - 🇸🇬 新加坡
@@ -286,7 +286,7 @@ proxy_groups:
   type: select
   proxies:
   - 🏷️ 低倍率
-  - 🗄️ Oracle
+  - 🗄️ 甲骨文
   - 🧪 低倍检测
   - 🚀 节点选择
   - 📌 指定节点
@@ -294,14 +294,14 @@ proxy_groups:
   type: select
   proxies:
   - 🏷️ 低倍率
-  - 🗄️ Oracle
+  - 🗄️ 甲骨文
   - 🚀 节点选择
   - 📌 指定节点
 - name: 📦 大宗流量
   type: select
   proxies:
   - 🏷️ 低倍率
-  - 🗄️ Oracle
+  - 🗄️ 甲骨文
   - 🚀 节点选择
   - 📌 指定节点
 - name: 🎮 游戏平台
@@ -332,7 +332,7 @@ proxy_groups:
   interval: 300
   tolerance: 50
   proxies:
-  - 🗄️ Oracle
+  - 🗄️ 甲骨文
   - 🧪 低倍检测
   - 🚀 节点选择
 - name: 1️⃣ 港台新
@@ -405,9 +405,9 @@ proxy_groups:
   url: https://www.gstatic.com/generate_204
   interval: 300
   tolerance: 50
-- name: 🗄️ Oracle
+- name: 🗄️ 甲骨文
   type: url-test
-  filter: ^🗄️\|🇺🇸 美国 Oracle (?:Vless|Hy2)$
+  filter: (?i)(?=.*(🗄️))
   include-all: true
   url: https://www.gstatic.com/generate_204
   interval: 300
