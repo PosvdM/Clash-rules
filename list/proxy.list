@@ -8,6 +8,9 @@ DOMAIN,api-flowercloud.com
 # 家宽
 DOMAIN-SUFFIX,ipweb.cc
 
+# 3xui
+DOMAIN-SUFFIX,sanaei.dev
+
 # IPcheck
 DOMAIN-SUFFIX,ping0.cc
 DOMAIN-SUFFIX,scamalytics.com
