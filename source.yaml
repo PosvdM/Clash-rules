@@ -229,6 +229,12 @@ rulesets:
   format: text
   url: https://ruleset.skk.moe/Clash/ip/lan.txt
   stage: ip
+# 四分类版引用现有组名，名称、emoji 及 icon 字段均沿用下方策略组。
+simple_groups:
+  direct: 🟢 直连
+  proxy: 🚀 节点选择
+  reject: 🛑 广告隐私
+  match: 🐟 漏网之鱼
 proxy_groups:
 - name: 🐟 漏网之鱼
   type: select

@@ -13,6 +13,8 @@
 | `output/common.yaml` | 不含节点的公共配置，供查看或合并 |
 | `output/PosvdM_rules.js` | Clash Party、FlClash 共用覆写 |
 | `output/override.js` | JS 覆写的旧链接兼容副本，与新入口同步生成 |
+| `output/PosvdM_rules_simple.js` | 四分类 JS 覆写，复用完整版的节点处理逻辑 |
+| `output/PosvdM_rules_simple.yaml` | 四分类 YAML 配置，使用时需补入节点或 provider |
 | `output/override.stoverride` | Stash 覆写 |
 | `output/rules/` | 需要拆分的规则快照 |
 | `output/main.ini`、`output/GeneralClashConfig.yml` | Subconverter 入口及基础模板 |
@@ -88,6 +90,16 @@ nameserver-policy:
 ```
 
 `dns_name` 为直连和 Steam 列表指定 classical provider 名称，直接引用原始列表。单一类型列表的 DNS 和分流共用这个 provider，统一使用 `local_*` 名称，不再额外生成同 URL 的 provider；混合 IP/非 IP 时，DNS 仍引用原列表，分流使用拆分后的 provider，以保持规则顺序。修改列表内容后刷新规则集即可；修改 DNS 设置后更新覆写或订阅。TUN 开关、协议栈和路由由客户端管理。
+
+## 四分类精简版
+
+`source.yaml` 的 `simple_groups` 将 `direct`、`proxy`、`reject`、`match` 分别关联到已有策略组。四个引用必须存在且互不重复。名称中的 emoji 和可选 `icon` 字段来自原策略组；更名时同时更新源配置中的引用。
+
+生成器先编译完整规则，再生成精简配置。直连、拒绝和漏网之鱼规则保留原目标，其余业务组统一映射到代理组；末尾 MATCH 使用 `match` 指定的组。规则内容、顺序、`no-resolve`、provider 和 DNS 均保持一致，包括 `local_final` 规则。新增业务规则会自动归入代理，无需增加一份规则清单。
+
+精简代理组为 `select`，使用 `include-all` 纳入节点和 provider，并沿用 `exclude_remarks` 排除提示节点。直连、拒绝和 MATCH 组保留源组类型、图标等字段，选项映射到四类并去重，不引入地区、自动选择或低倍率子组。目前默认分别为 DIRECT、REJECT、DIRECT，代理节点由用户选择。
+
+两份精简产物参与相同的生成、`--check` 和 Actions 更新流程。JS 复用完整版的订阅清理、节点凭据保留及国旗逻辑；YAML 不含节点、不执行 JS，也不是 Stash 的 `#!replace` 覆写。自动测试验证两份精简策略一致、规则保全、图标更新、节点来源保留及配置清理，不代表客户端实机验证。
 
 ## 节点名称与国旗
 

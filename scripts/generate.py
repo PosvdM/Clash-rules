@@ -31,6 +31,96 @@ def fetch(url):
     return content
 
 
+def render_js(policy, src):
+    exclusion = src['exclude_remarks'].removeprefix('(?i)')
+    # Both JS consumers execute precisely the same policy, without changing subscription credentials.
+    js = '// Generated from source.yaml; shared by Clash Party and FlClash.\n'
+    js += 'const policy = ' + json.dumps(policy, ensure_ascii=False, indent=2) + ';\n'
+    js += 'const excludedNodePattern = ' + json.dumps(exclusion, ensure_ascii=False) + ';\n'
+    js += 'const nodeFlagAliases = ' + json.dumps(src.get('node_flags', {}), ensure_ascii=False) + ';\n'
+    js += (ROOT / 'scripts/node-flags.js').read_text() + '\n'
+    js += '''function main(config) {
+  if (!config || typeof config !== 'object' || Array.isArray(config)) throw new Error('需要先导入机场订阅');
+  if (!(Array.isArray(config.proxies) && config.proxies.length) &&
+      !Object.keys(config['proxy-providers'] || {}).length) throw new Error('订阅中没有代理节点');
+  // Build from our policy; never inherit unknown subscription settings (including tun).
+  // Providers are node sources. Keep their credentials and transport options intact.
+  const result = JSON.parse(JSON.stringify(policy));
+  for (const key of ['proxies', 'proxy-providers']) {
+    if (Object.prototype.hasOwnProperty.call(config, key)) {
+      result[key] = JSON.parse(JSON.stringify(config[key]));
+    }
+  }
+  const excludedNode = new RegExp(excludedNodePattern, 'i');
+  const keepNode = (node) => !excludedNode.test(node.name || '');
+  if (Array.isArray(result.proxies)) result.proxies = result.proxies.filter(keepNode);
+  // Remote/file providers load later in Mihomo; filter them at the source too.
+  for (const provider of Object.values(result['proxy-providers'] || {})) {
+    if (Array.isArray(provider.payload)) provider.payload = provider.payload.filter(keepNode);
+  }
+  addNodeFlags(result);
+  const providerExclusion = '(?i:' + excludedNodePattern + ')';
+  for (const provider of Object.values(result['proxy-providers'] || {})) {
+    const previous = provider['exclude-filter'];
+    if (!previous) provider['exclude-filter'] = providerExclusion;
+    else if (previous !== providerExclusion && !previous.endsWith('|' + providerExclusion)) {
+      provider['exclude-filter'] = '(?:' + previous + ')|' + providerExclusion;
+    }
+  }
+  return result;
+}
+'''
+    return js
+
+
+def simplify_config(common, src):
+    """Collapse business policies without changing rule contents or ordering."""
+    roles = src['simple_groups']
+    required = {'direct', 'proxy', 'reject', 'match'}
+    if set(roles) != required or len(set(roles.values())) != 4:
+        raise ValueError('simple_groups requires four distinct direct/proxy/reject/match groups')
+    originals = {g['name']: g for g in common['proxy-groups']}
+    for name in roles.values():
+        if name not in originals:
+            raise ValueError(f'Unknown simple group: {name}')
+
+    def target(name):
+        if name in ('DIRECT', 'REJECT') or name in roles.values():
+            return name
+        if name not in originals:
+            raise ValueError(f'Unknown policy: {name}')
+        return roles['proxy']
+
+    result = copy.deepcopy(common)
+    groups = []
+    for role in ('direct', 'proxy', 'reject', 'match'):
+        group = copy.deepcopy(originals[roles[role]])
+        if role == 'proxy':
+            # No country, automatic-test or business subgroups in this profile.
+            group = {k: group[k] for k in ('name', 'icon') if k in group}
+            exclusion = src['exclude_remarks'].removeprefix('(?i)')
+            group.update({'type': 'select', 'include-all': True,
+                          'filter': f'(?i)^(?!.*(?:{exclusion}))[\\s\\S]*$'})
+        else:
+            for key in ('include-all', 'include-all-proxies', 'include-all-providers',
+                        'use', 'filter', 'exclude-filter', 'exclude-type'):
+                group.pop(key, None)
+            group['proxies'] = list(dict.fromkeys(target(p) for p in group.get('proxies', [])
+                                                  if target(p) != group['name']))
+            if not group['proxies']:
+                raise ValueError(f"Empty simple group: {group['name']}")
+        groups.append(group)
+    result['proxy-groups'] = groups
+    rules = []
+    for rule in common['rules']:
+        fields = rule.split(',')
+        index = 1 if fields[0] == 'MATCH' else 2
+        fields[index] = roles['match'] if fields[0] == 'MATCH' else target(fields[index])
+        rules.append(','.join(fields))
+    result['rules'] = rules
+    return result
+
+
 def compile_config(src, offline=False):
     raw = f"https://raw.githubusercontent.com/{src['repository']}/{src['branch']}"
     files = {}
@@ -148,45 +238,12 @@ def compile_config(src, offline=False):
         raise ValueError('Exactly one final MATCH required')
     common = {**settings, 'proxy-groups': groups, 'rule-providers': providers, 'rules': rules}
     files['output/common.yaml'] = HEADER + dump(common)
-    # Both JS consumers execute precisely the same policy, without changing subscription credentials.
-    js = '// Generated from source.yaml; shared by Clash Party and FlClash.\n'
-    js += 'const policy = ' + json.dumps(common, ensure_ascii=False, indent=2) + ';\n'
-    js += 'const excludedNodePattern = ' + json.dumps(exclusion, ensure_ascii=False) + ';\n'
-    js += 'const nodeFlagAliases = ' + json.dumps(src.get('node_flags', {}), ensure_ascii=False) + ';\n'
-    js += (ROOT / 'scripts/node-flags.js').read_text() + '\n'
-    js += '''function main(config) {
-  if (!config || typeof config !== 'object' || Array.isArray(config)) throw new Error('需要先导入机场订阅');
-  if (!(Array.isArray(config.proxies) && config.proxies.length) &&
-      !Object.keys(config['proxy-providers'] || {}).length) throw new Error('订阅中没有代理节点');
-  // Build from our policy; never inherit unknown subscription settings (including tun).
-  // Providers are node sources. Keep their credentials and transport options intact.
-  const result = JSON.parse(JSON.stringify(policy));
-  for (const key of ['proxies', 'proxy-providers']) {
-    if (Object.prototype.hasOwnProperty.call(config, key)) {
-      result[key] = JSON.parse(JSON.stringify(config[key]));
-    }
-  }
-  const excludedNode = new RegExp(excludedNodePattern, 'i');
-  const keepNode = (node) => !excludedNode.test(node.name || '');
-  if (Array.isArray(result.proxies)) result.proxies = result.proxies.filter(keepNode);
-  // Remote/file providers load later in Mihomo; filter them at the source too.
-  for (const provider of Object.values(result['proxy-providers'] || {})) {
-    if (Array.isArray(provider.payload)) provider.payload = provider.payload.filter(keepNode);
-  }
-  addNodeFlags(result);
-  const providerExclusion = '(?i:' + excludedNodePattern + ')';
-  for (const provider of Object.values(result['proxy-providers'] || {})) {
-    const previous = provider['exclude-filter'];
-    if (!previous) provider['exclude-filter'] = providerExclusion;
-    else if (previous !== providerExclusion && !previous.endsWith('|' + providerExclusion)) {
-      provider['exclude-filter'] = '(?:' + previous + ')|' + providerExclusion;
-    }
-  }
-  return result;
-}
-'''
+    js = render_js(common, src)
     files['output/PosvdM_rules.js'] = js
     files['output/override.js'] = js  # Keep existing remote imports up to date.
+    simple = simplify_config(common, src)
+    files['output/PosvdM_rules_simple.js'] = render_js(simple, src)
+    files['output/PosvdM_rules_simple.yaml'] = HEADER + dump(simple)
     stash = 'name: PosvdM Clash-rules\ndesc: PosvdM 自用分流配置\n'
     for key, value in common.items():
         section = dump({key: value})

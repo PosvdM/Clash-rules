@@ -18,6 +18,24 @@ https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/PosvdM_rules.js
 
 此脚本仅保留订阅的节点及节点来源（`proxies`、`proxy-providers`），其余订阅配置全部丢弃，使用本仓库配置。已展开的节点会按名称补上缺失的国旗，有 `|` / `｜` 时国旗放在第一个分隔符后，没有时放在名称开头；适用范围见[节点名称说明](docs/maintenance.md#节点名称与国旗)。
 
+### 四分类精简版（Mihomo）
+
+只保留直连、代理、拒绝、MATCH 四类，沿用 `source.yaml` 中对应组的名称和图标；全部规则和 DNS 设置同步生成。业务分流统一走代理，漏网之鱼默认直连，可手动切换。
+
+JavaScript 覆写（与上方完整版二选一）：
+
+```text
+https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/PosvdM_rules_simple.js
+```
+
+YAML 配置：
+
+```text
+https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/PosvdM_rules_simple.yaml
+```
+
+YAML 不含订阅节点，使用时需加入自己的 `proxies` 或 `proxy-providers`；通过客户端合并时应替换策略组和规则，避免与原订阅数组叠加。代理组自动纳入节点及 provider。节点国旗补全仅由 JS 覆写执行。
+
 ### Stash
 
 添加 Stash 覆写：
