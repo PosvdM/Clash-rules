@@ -185,6 +185,15 @@ const policy = {
       ]
     },
     {
+      "name": "🗄️ 甲骨文",
+      "type": "url-test",
+      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用|建议)))(?=[\\s\\S]*(?:(?=.*(🗄️))))[\\s\\S]*$",
+      "include-all": true,
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": 300,
+      "tolerance": 50
+    },
+    {
       "name": "1️⃣ 港台新",
       "type": "url-test",
       "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用|建议)))(?=[\\s\\S]*(?:(?=.*(香港|台湾|新加坡|Hong Kong|Taiwan|Singapore))^((?!小带宽|倍率|计费|0\\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\\s\\S]*$",
@@ -260,15 +269,6 @@ const policy = {
       "name": "🇺🇲 美国",
       "type": "url-test",
       "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用|建议)))(?=[\\s\\S]*(?:(?=.*(美国|USA))^((?!小带宽|倍率|计费|0\\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$))[\\s\\S]*$",
-      "include-all": true,
-      "url": "https://www.gstatic.com/generate_204",
-      "interval": 300,
-      "tolerance": 50
-    },
-    {
-      "name": "🗄️ 甲骨文",
-      "type": "url-test",
-      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用|建议)))(?=[\\s\\S]*(?:(?=.*(🗄️))))[\\s\\S]*$",
       "include-all": true,
       "url": "https://www.gstatic.com/generate_204",
       "interval": 300,
