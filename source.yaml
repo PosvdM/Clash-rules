@@ -235,6 +235,10 @@ simple_groups:
   proxy: 🚀 节点选择
   reject: 🛑 广告隐私
   match: 🐟 漏网之鱼
+simple_url_test:
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
 proxy_groups:
 - name: 🐟 漏网之鱼
   type: select

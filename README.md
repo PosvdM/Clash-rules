@@ -20,7 +20,7 @@ https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/PosvdM_rules.js
 
 ### 四分类精简版（Mihomo）
 
-只保留直连、代理、拒绝、MATCH 四类，沿用 `source.yaml` 中对应组的名称和图标；全部规则和 DNS 设置同步生成。业务分流统一走代理，漏网之鱼默认直连，可手动切换。
+只保留直连、代理、拒绝、MATCH 四类，沿用 `source.yaml` 中对应组的名称和图标；全部规则和 DNS 设置同步生成。四组保留源配置中的顺序；节点选择使用 URL-Test 自动测速选择节点。业务分流统一走代理，漏网之鱼默认直连，可手动切换。
 
 JavaScript 覆写（与上方完整版二选一）：
 
