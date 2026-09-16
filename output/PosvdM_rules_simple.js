@@ -48,6 +48,23 @@ const policy = {
   },
   "proxy-groups": [
     {
+      "name": "🐟 漏网之鱼",
+      "type": "select",
+      "proxies": [
+        "DIRECT",
+        "🚀 节点选择"
+      ]
+    },
+    {
+      "name": "🚀 节点选择",
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": 300,
+      "tolerance": 50,
+      "type": "url-test",
+      "include-all": true,
+      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用|建议)))[\\s\\S]*$"
+    },
+    {
       "name": "🟢 直连",
       "type": "url-test",
       "url": "http://connect.rom.miui.com/generate_204",
@@ -58,25 +75,11 @@ const policy = {
       ]
     },
     {
-      "name": "🚀 节点选择",
-      "type": "select",
-      "include-all": true,
-      "filter": "(?i)^(?!.*(?:(?:\\d+(\\.\\d*)?\\s*GB|traffic|expire|premium|github|isp|流量|官网|网址|官址|机场|套餐|应急|时间|重置|剩余|[到过]期|订阅|失联|下载|可用|建议)))[\\s\\S]*$"
-    },
-    {
       "name": "🛑 广告隐私",
       "type": "select",
       "proxies": [
         "REJECT",
         "DIRECT"
-      ]
-    },
-    {
-      "name": "🐟 漏网之鱼",
-      "type": "select",
-      "proxies": [
-        "DIRECT",
-        "🚀 节点选择"
       ]
     }
   ],

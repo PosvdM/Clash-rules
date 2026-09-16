@@ -381,7 +381,11 @@ assert.strictEqual(JSON.stringify(ctx.main(result)),JSON.stringify(result));
         simple = yaml.safe_load(self.files['output/PosvdM_rules_simple.yaml'])
         roles = self.src['simple_groups']
         groups = {g['name']: g for g in simple['proxy-groups']}
-        self.assertEqual(list(groups), [roles[r] for r in ('direct', 'proxy', 'reject', 'match')])
+        self.assertEqual(list(groups), [g['name'] for g in self.src['proxy_groups']
+                                       if g['name'] in roles.values()])
+        self.assertEqual(groups[roles['proxy']]['type'], 'url-test')
+        for key, value in self.src['simple_url_test'].items():
+            self.assertEqual(groups[roles['proxy']][key], value)
         self.assertTrue(groups[roles['proxy']]['include-all'])
         self.assertNotIn('proxies', groups[roles['proxy']])
         self.assertEqual(groups[roles['direct']]['proxies'], ['DIRECT'])
@@ -444,7 +448,9 @@ process.stdout.write(JSON.stringify(result));
         src['rulesets'].append({'id': 'new_business', 'group': '新增业务', 'behavior': 'domain',
                                 'format': 'text', 'url': 'https://example.test/rules', 'stage': 'non_ip'})
         result = yaml.safe_load(gen.compile_config(src, offline=True)['output/PosvdM_rules_simple.yaml'])
-        for role, group in zip(('direct', 'proxy', 'reject', 'match'), result['proxy-groups']):
+        roles_by_name = {name: role for role, name in src['simple_groups'].items()}
+        for group in result['proxy-groups']:
+            role = roles_by_name[group['name']]
             self.assertEqual(group['name'], src['simple_groups'][role])
             self.assertEqual(group['icon'], f'https://example.test/{role}.png')
         self.assertIn('RULE-SET,new_business,' + src['simple_groups']['proxy'], result['rules'])
@@ -458,6 +464,19 @@ process.stdout.write(JSON.stringify(result));
                 invalid['simple_groups']['proxy'] = '不存在'
             with self.assertRaisesRegex(ValueError, 'simple'):
                 gen.compile_config(invalid, offline=True)
+
+    def test_simple_order_and_url_test_follow_source_changes(self):
+        src = copy.deepcopy(self.src)
+        src['proxy_groups'].reverse()
+        src['simple_url_test'] = {'url': 'https://example.test/204', 'interval': 180,
+                                  'tolerance': 80}
+        simple = yaml.safe_load(gen.compile_config(src, offline=True)['output/PosvdM_rules_simple.yaml'])
+        self.assertEqual([g['name'] for g in simple['proxy-groups']],
+                         [g['name'] for g in src['proxy_groups'] if g['name'] in src['simple_groups'].values()])
+        proxy = next(g for g in simple['proxy-groups'] if g['name'] == src['simple_groups']['proxy'])
+        self.assertEqual(proxy['type'], 'url-test')
+        for key, value in src['simple_url_test'].items():
+            self.assertEqual(proxy[key], value)
 
     def test_generation_is_reproducible(self):
         for filename,content in self.files.items():

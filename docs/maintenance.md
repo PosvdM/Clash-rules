@@ -97,7 +97,7 @@ nameserver-policy:
 
 生成器先编译完整规则，再生成精简配置。直连、拒绝和漏网之鱼规则保留原目标，其余业务组统一映射到代理组；末尾 MATCH 使用 `match` 指定的组。规则内容、顺序、`no-resolve`、provider 和 DNS 均保持一致，包括 `local_final` 规则。新增业务规则会自动归入代理，无需增加一份规则清单。
 
-精简代理组为 `select`，使用 `include-all` 纳入节点和 provider，并沿用 `exclude_remarks` 排除提示节点。直连、拒绝和 MATCH 组保留源组类型、图标等字段，选项映射到四类并去重，不引入地区、自动选择或低倍率子组。目前默认分别为 DIRECT、REJECT、DIRECT，代理节点由用户选择。
+四组按 `source.yaml` 的 `proxy_groups` 原始顺序保留，不按类别重新排序。精简代理组为 `url-test`，使用 `include-all` 纳入节点和 provider，并沿用 `exclude_remarks` 排除提示节点。直连、拒绝和 MATCH 组保留源组类型、图标等字段，选项映射到四类并去重，不引入地区、自动选择或低倍率子组。目前默认分别为 DIRECT、REJECT、DIRECT，代理节点根据测速自动选择；测速 URL、间隔和容差由 `source.yaml` 的 `simple_url_test` 设置。
 
 两份精简产物参与相同的生成、`--check` 和 Actions 更新流程。JS 复用完整版的订阅清理、节点凭据保留及国旗逻辑；YAML 不含节点、不执行 JS，也不是 Stash 的 `#!replace` 覆写。自动测试验证两份精简策略一致、规则保全、图标更新、节点来源保留及配置清理，不代表客户端实机验证。
 

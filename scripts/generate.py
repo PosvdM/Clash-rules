@@ -93,13 +93,18 @@ def simplify_config(common, src):
 
     result = copy.deepcopy(common)
     groups = []
-    for role in ('direct', 'proxy', 'reject', 'match'):
-        group = copy.deepcopy(originals[roles[role]])
+    roles_by_name = {name: role for role, name in roles.items()}
+    for original in common['proxy-groups']:
+        role = roles_by_name.get(original['name'])
+        if role is None:
+            continue
+        group = copy.deepcopy(original)
         if role == 'proxy':
             # No country, automatic-test or business subgroups in this profile.
             group = {k: group[k] for k in ('name', 'icon') if k in group}
             exclusion = src['exclude_remarks'].removeprefix('(?i)')
-            group.update({'type': 'select', 'include-all': True,
+            group.update(src['simple_url_test'])
+            group.update({'type': 'url-test', 'include-all': True,
                           'filter': f'(?i)^(?!.*(?:{exclusion}))[\\s\\S]*$'})
         else:
             for key in ('include-all', 'include-all-proxies', 'include-all-providers',
