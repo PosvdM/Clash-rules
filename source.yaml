@@ -250,14 +250,14 @@ proxy_groups:
   proxies:
   - 1️⃣ 港台新
   - 2️⃣ 日韩
+  - 🗄️ 甲骨文
+  - 📌 指定节点
   - 🇭🇰 香港
   - 🇹🇼 台湾
   - 🇸🇬 新加坡
   - 🇯🇵 日本
   - 🇰🇷 韩国
   - 🇺🇲 美国
-  - ♻️ 自动选择
-  - 📌 指定节点
 - name: ✨ 人工智能
   type: select
   proxies:
@@ -345,13 +345,6 @@ proxy_groups:
 - name: 2️⃣ 日韩
   type: url-test
   filter: (?i)(?=.*(日本|韩国|Japan|Korea))^((?!小带宽|倍率|计费|0\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$
-  include-all: true
-  url: https://www.gstatic.com/generate_204
-  interval: 300
-  tolerance: 50
-- name: ♻️ 自动选择
-  type: url-test
-  filter: (?i)(?=.*(香港|台湾|新加坡|美国|日本|韩国|Hong Kong|Taiwan|Singapore|USA|Japan|Korea))^((?!小带宽|倍率|计费|0\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$
   include-all: true
   url: https://www.gstatic.com/generate_204
   interval: 300
