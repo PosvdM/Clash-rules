@@ -335,6 +335,13 @@ proxy_groups:
   - 🗄️ 甲骨文
   - 🧪 低倍检测
   - 🚀 节点选择
+- name: 🗄️ 甲骨文
+  type: url-test
+  filter: (?i)(?=.*(🗄️))
+  include-all: true
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
 - name: 1️⃣ 港台新
   type: url-test
   filter: (?i)(?=.*(香港|台湾|新加坡|Hong Kong|Taiwan|Singapore))^((?!小带宽|倍率|计费|0\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$
@@ -394,13 +401,6 @@ proxy_groups:
 - name: 🇺🇲 美国
   type: url-test
   filter: (?i)(?=.*(美国|USA))^((?!小带宽|倍率|计费|0\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$
-  include-all: true
-  url: https://www.gstatic.com/generate_204
-  interval: 300
-  tolerance: 50
-- name: 🗄️ 甲骨文
-  type: url-test
-  filter: (?i)(?=.*(🗄️))
   include-all: true
   url: https://www.gstatic.com/generate_204
   interval: 300
