@@ -342,6 +342,13 @@ proxy_groups:
   url: https://www.gstatic.com/generate_204
   interval: 300
   tolerance: 50
+- name: 🧪 低倍检测
+  type: url-test
+  filter: (?i)(?=.*(实验)).*$
+  include-all: true
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
 - name: 1️⃣ 港台新
   type: url-test
   filter: (?i)(?=.*(香港|台湾|新加坡|Hong Kong|Taiwan|Singapore))^((?!小带宽|倍率|计费|0\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$
@@ -352,13 +359,6 @@ proxy_groups:
 - name: 2️⃣ 日韩
   type: url-test
   filter: (?i)(?=.*(日本|韩国|Japan|Korea))^((?!小带宽|倍率|计费|0\.|(?:[2-9][0-9]*|1[0-9]+)[x×]).)*$
-  include-all: true
-  url: https://www.gstatic.com/generate_204
-  interval: 300
-  tolerance: 50
-- name: 🧪 低倍检测
-  type: url-test
-  filter: (?i)(?=.*(实验)).*$
   include-all: true
   url: https://www.gstatic.com/generate_204
   interval: 300
