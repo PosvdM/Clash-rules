@@ -377,6 +377,88 @@ assert.strictEqual(JSON.stringify(ctx.main(result)),JSON.stringify(result));
             if rule.startswith('RULE-SET,'):
                 self.assertIn('[]RULE-SET,'+rule.split(',')[1],ini)
 
+    def test_simple_policy_preserves_rules_settings_and_four_groups(self):
+        simple = yaml.safe_load(self.files['output/PosvdM_rules_simple.yaml'])
+        roles = self.src['simple_groups']
+        groups = {g['name']: g for g in simple['proxy-groups']}
+        self.assertEqual(list(groups), [roles[r] for r in ('direct', 'proxy', 'reject', 'match')])
+        self.assertTrue(groups[roles['proxy']]['include-all'])
+        self.assertNotIn('proxies', groups[roles['proxy']])
+        self.assertEqual(groups[roles['direct']]['proxies'], ['DIRECT'])
+        self.assertEqual(groups[roles['reject']]['proxies'], ['REJECT', 'DIRECT'])
+        self.assertEqual(groups[roles['match']]['proxies'], ['DIRECT', roles['proxy']])
+        for key in self.common.keys() - {'proxy-groups', 'rules'}:
+            self.assertEqual(simple[key], self.common[key])
+        self.assertEqual(len(simple['rules']), len(self.common['rules']))
+        for before, after in zip(self.common['rules'], simple['rules']):
+            a, b = before.split(','), after.split(',')
+            index = 1 if a[0] == 'MATCH' else 2
+            original = a.pop(index)
+            actual = b.pop(index)
+            self.assertEqual(a, b)
+            self.assertEqual(actual, original if original in roles.values() else roles['proxy'])
+        self.assertEqual(simple['rules'][-1], 'MATCH,' + roles['match'])
+        for group in groups.values():
+            for name in group.get('proxies', []):
+                self.assertIn(name, set(groups) | {'DIRECT', 'REJECT'})
+
+    def test_simple_js_matches_yaml_and_preserves_node_sources(self):
+        program = """
+const fs=require('fs'),vm=require('vm'),assert=require('assert');
+const ctx={};vm.createContext(ctx);vm.runInContext(fs.readFileSync('output/PosvdM_rules_simple.js','utf8'),ctx);
+const input={proxies:[{name:'香港 01',type:'trojan',password:'keep',server:'example.test'},
+ {name:'剩余流量 10 GB',type:'ss'}],
+ 'proxy-providers':{remote:{type:'http',url:'https://example.test/sub',header:{Authorization:['keep']}}},
+ tun:{enable:true},rules:['MATCH,REJECT'],'proxy-groups':[{name:'old'}],extra:true};
+const before=JSON.stringify(input),result=ctx.main(input);
+assert.strictEqual(JSON.stringify(input),before);
+assert.strictEqual(result.proxies.length,1);
+assert.strictEqual(result.proxies[0].name,'🇭🇰 香港 01');
+assert.strictEqual(result.proxies[0].password,'keep');
+assert.strictEqual(result['proxy-providers'].remote.header.Authorization[0],'keep');
+assert.strictEqual(JSON.stringify(ctx.main(result)),JSON.stringify(result));
+const providerOnly=ctx.main({'proxy-providers':input['proxy-providers']});
+assert.strictEqual(providerOnly['proxy-groups'].length,4);
+assert.throws(()=>ctx.main({}),/订阅中没有代理节点/);
+delete result.proxies;delete result['proxy-providers'];
+process.stdout.write(JSON.stringify(result));
+"""
+        actual = json.loads(subprocess.check_output(['node', '-e', program], cwd=ROOT))
+        self.assertEqual(actual, yaml.safe_load(self.files['output/PosvdM_rules_simple.yaml']))
+
+    def test_simple_names_icons_and_new_business_rules_follow_source(self):
+        src = copy.deepcopy(self.src)
+        for role, old in list(src['simple_groups'].items()):
+            new = f'新图标 {role}'
+            src['simple_groups'][role] = new
+            for group in src['proxy_groups']:
+                if group['name'] == old:
+                    group['name'] = new
+                    group['icon'] = f'https://example.test/{role}.png'
+                group['proxies'] = [new if p == old else p for p in group.get('proxies', [])]
+            for rule in src['rulesets']:
+                if rule['group'] == old:
+                    rule['group'] = new
+            src['tail_rules'] = [r.replace(old, new) for r in src['tail_rules']]
+        src['proxy_groups'].append({'name': '新增业务', 'type': 'select', 'proxies': ['DIRECT']})
+        src['rulesets'].append({'id': 'new_business', 'group': '新增业务', 'behavior': 'domain',
+                                'format': 'text', 'url': 'https://example.test/rules', 'stage': 'non_ip'})
+        result = yaml.safe_load(gen.compile_config(src, offline=True)['output/PosvdM_rules_simple.yaml'])
+        for role, group in zip(('direct', 'proxy', 'reject', 'match'), result['proxy-groups']):
+            self.assertEqual(group['name'], src['simple_groups'][role])
+            self.assertEqual(group['icon'], f'https://example.test/{role}.png')
+        self.assertIn('RULE-SET,new_business,' + src['simple_groups']['proxy'], result['rules'])
+        for change in ('missing', 'duplicate', 'unknown'):
+            invalid = copy.deepcopy(src)
+            if change == 'missing':
+                del invalid['simple_groups']['match']
+            elif change == 'duplicate':
+                invalid['simple_groups']['match'] = invalid['simple_groups']['proxy']
+            else:
+                invalid['simple_groups']['proxy'] = '不存在'
+            with self.assertRaisesRegex(ValueError, 'simple'):
+                gen.compile_config(invalid, offline=True)
+
     def test_generation_is_reproducible(self):
         for filename,content in self.files.items():
             self.assertEqual((ROOT/filename).read_text(),content,filename)
