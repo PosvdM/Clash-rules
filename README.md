@@ -3,9 +3,9 @@
 [![Generate](https://github.com/PosvdM/Clash-rules/actions/workflows/generate.yml/badge.svg)](https://github.com/PosvdM/Clash-rules/actions/workflows/generate.yml)
 [![Last Commit](https://img.shields.io/github/last-commit/PosvdM/Clash-rules)](https://github.com/PosvdM/Clash-rules/commits/main)
 
-适用于 **Clash Party、FlClash、Stash** 等客户端的自用分流配置，支持广告拦截、AI、流媒体、游戏、Telegram、地区节点及低倍率节点分流。
+适用于 **Clash Party、FlClash、Stash** 的自用分流配置，支持广告拦截及 AI、流媒体、游戏、Telegram 分流，提供地区和低倍率节点分组。
 
-配置由 [`source.yaml`](source.yaml) 统一维护，并通过 GitHub Actions 自动生成各客户端所需文件。
+在 [`source.yaml`](source.yaml) 维护配置，由 GitHub Actions 自动生成各客户端入口。
 
 ## 使用
 
@@ -23,13 +23,11 @@ https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/PosvdM_rules.js
 
 JavaScript 覆写仅保留订阅中的 `proxies` 和 `proxy-providers`，其余配置由本仓库接管。
 
-支持自动补全节点名称中缺失的国旗，详见[节点名称说明](docs/maintenance.md#节点名称与国旗)。
+自动补全节点名称中的国旗，见[节点名称说明](docs/maintenance.md#节点名称与国旗)。
 
 ### 四分类精简版
 
-仅保留 **直连、代理、拒绝、MATCH** 四类策略，并保持 `source.yaml` 中的名称、图标及顺序。
-
-代理节点通过 **URL-Test** 自动测速选择。
+保留 **直连、代理、拒绝、MATCH** 四类策略，沿用 `source.yaml` 的名称、图标及顺序。代理组通过 **URL-Test** 自动选择节点。
 
 **JavaScript 覆写**
 
@@ -43,7 +41,7 @@ https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/PosvdM_rules_si
 https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/PosvdM_rules_simple.yaml
 ```
 
-> YAML 不包含订阅节点，需要自行提供 `proxies` 或 `proxy-providers`。节点国旗补全仅由 JavaScript 覆写执行。
+> YAML 不含节点，需补入 `proxies` 或 `proxy-providers`。仅 JS 覆写补全国旗。
 
 ## Stash
 
@@ -51,7 +49,7 @@ https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/PosvdM_rules_si
 https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/override.stoverride
 ```
 
-部分 DNS 配置与 Mihomo 存在兼容性差异，详见[客户端兼容说明](docs/maintenance.md#客户端兼容)。
+部分 DNS 字段需在设备上确认支持情况，见[客户端兼容说明](docs/maintenance.md#客户端兼容)。
 
 ## Subconverter
 
@@ -59,10 +57,8 @@ https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/override.stover
 https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/main.ini
 ```
 
-需要后端支持并保留 `rule-providers`，否则建议使用客户端覆写。
+后端须支持并保留 `rule-providers`；不支持时请使用客户端覆写。
 
 ## 维护
 
-规则添加、配置生成、客户端兼容及本地验证见：
-
-**[维护文档 →](docs/maintenance.md)**
+添加规则、生成配置、本地验证及兼容说明见[维护文档](docs/maintenance.md)。
