@@ -5,38 +5,34 @@
 | 路径 | 用途 |
 | --- | --- |
 | `source.yaml` | 规则引用、策略组、节点筛选和 DNS 设置 |
-| `list/*.list` | 自定义规则内容 |
+| `list/*.list` | 自定义规则 |
 | `scripts/generate.py` | 配置生成器 |
-| `scripts/node-flags.js` | JS 覆写的节点国旗补全逻辑 |
+| `scripts/node-flags.js` | JS 节点国旗补全 |
 | `tests/test_config.py` | 配置与生成行为测试 |
 | `.github/workflows/generate.yml` | 自动校验、生成和提交 |
-| `output/common.yaml` | 不含节点的公共配置，供查看或合并 |
-| `output/PosvdM_rules.js` | Clash Party、FlClash 共用覆写 |
-| `output/override.js` | JS 覆写的旧链接兼容副本，与新入口同步生成 |
-| `output/PosvdM_rules_simple.js` | 四分类 JS 覆写，复用完整版的节点处理逻辑 |
-| `output/PosvdM_rules_simple.yaml` | 四分类 YAML 配置，使用时需补入节点或 provider |
+| `output/common.yaml` | 公共配置，供查看或合并，不含节点 |
+| `output/PosvdM_rules.js` | Clash Party、FlClash 完整版覆写 |
+| `output/override.js` | 完整版 JS 的旧链接兼容副本 |
+| `output/PosvdM_rules_simple.js` | 四分类 JS 覆写 |
+| `output/PosvdM_rules_simple.yaml` | 四分类 YAML 配置，需补入节点或 provider |
 | `output/override.stoverride` | Stash 覆写 |
-| `output/rules/` | 需要拆分的规则快照 |
+| `output/rules/` | 拆分规则快照 |
 | `output/main.ini`、`output/GeneralClashConfig.yml` | Subconverter 入口及基础模板 |
 | `archive/` | 历史配置、测试模板、PAC 和参考文件，不参与构建 |
 
-日常维护修改 `source.yaml` 和 `list/`；构建逻辑放在 `scripts/`，验证放在 `tests/`，说明放在 `docs/`。
+日常修改 `source.yaml` 和 `list/`，然后重新生成 `output/`，不要直接修改产物。构建逻辑、测试和说明分别放在 `scripts/`、`tests/`、`docs/`。
 
-所有生成产物统一放在 `output/`。修改源文件后重新生成，不要手动维护产物。
+旧入口迁移：
 
-Clash Party 通过链接导入覆写时使用 URL 的文件名作为标题。使用 README 中的新链接导入后，标题为 `PosvdM_rules.js`。旧链接仍同步更新脚本内容；已导入条目的标题不会自动改变，可在客户端编辑名称，或使用新链接重新导入。
-
-Subconverter 入口已从 `rules/main.ini` 移至 `output/main.ini`，基础模板从 `yml/GeneralClashConfig.yml` 移至 `output/GeneralClashConfig.yml`。使用旧远程配置地址的订阅需更新为 README 中的新地址；原 `rules/`、`yml/` 目录不再保留。
-
-历史文件统一放在 [`archive/`](../archive/README.md)，旧、新路径见归档索引。归档不纳入生成或自动更新；其中的配置可能依赖旧版客户端或已变化的上游。
-
-`list/game.list` 未被当前 `source.yaml` 引用，保留原路径供单独使用；当前游戏平台分流直接使用上游 GamePlatform 规则。
+- Clash Party 用导入 URL 的文件名作为覆写标题。旧 `override.js` 仍同步更新；要改为 `PosvdM_rules.js`，可编辑客户端条目名称，或用新链接重新导入。
+- `rules/main.ini`、`yml/GeneralClashConfig.yml` 已移至 `output/`，旧目录不再保留。使用旧地址的订阅需更新链接。
+- 历史文件的新旧路径见[归档索引](../archive/README.md)。归档不自动更新，可能依赖旧版客户端或已变化的上游。
 
 ## 添加规则
 
-在对应列表中每行写一条规则，以 `#` 开头的行是注释。
+在对应列表中每行写一条规则，`#` 开头的行是注释。
 
-| 文件 | 策略用途 |
+| 文件 | 用途 |
 | --- | --- |
 | [ai.list](../list/ai.list) | AI 服务 |
 | [proxy.list](../list/proxy.list) | 代理访问 |
@@ -44,10 +40,12 @@ Subconverter 入口已从 `rules/main.ini` 移至 `output/main.ini`，基础模�
 | [SteamDownload.list](../list/SteamDownload.list) | Steam 下载直连 |
 | [bulk.list](../list/bulk.list) | 大宗流量 |
 | [reject.list](../list/reject.list) | 拦截 |
-| [sexy.list](../list/sexy.list) | 成人内容分组 |
-| [final.list](../list/final.list) | 使用“漏网之鱼”策略组的指定站点 |
+| [sexy.list](../list/sexy.list) | 成人内容 |
+| [final.list](../list/final.list) | 指定站点交给“漏网之鱼”组 |
 
-例如，在 `list/proxy.list` 中添加：
+`list/game.list` 供单独使用，未被 `source.yaml` 引用；当前游戏平台分流使用上游 GamePlatform 规则。
+
+例如，在 `list/proxy.list` 添加：
 
 ```text
 # 示例站点
@@ -55,11 +53,9 @@ DOMAIN-SUFFIX,example.com
 DOMAIN,api.example.net
 ```
 
-向现有列表添加域名或 IP，无需修改 `source.yaml`。单一类型的本地列表直接引用原文件；混合域名/进程与目标 IP 时自动拆分；空列表暂时跳过。添加或移除 IP 导致拆分方式变化后，需要更新客户端覆写或重新生成订阅。
+现有列表增删域名或 IP 无需修改 `source.yaml`。生成器直接引用单一类型列表，拆分混合 IP/非 IP 列表，跳过空列表。增删 IP 导致拆分方式变化后，需更新覆写或重新生成订阅。
 
-新增列表时，在 `source.yaml` 的 `rulesets` 中添加唯一 `id`、已有策略组 `group`、`behavior: classical`、`format: text` 和 `file: list/文件名.list`。本地列表由生成器判断类型。外部规则使用 `url` 和 `stage`；需拆分的远程 classical 列表设置 `split: true`，并在线生成一次快照。
-
-例如，新建 `list/custom.list` 后，在 `rulesets` 的所需优先级位置添加：
+新增列表时，在 `source.yaml` 的 `rulesets` 中按所需优先级登记：
 
 ```yaml
 - id: local_custom
@@ -69,17 +65,23 @@ DOMAIN,api.example.net
   file: list/custom.list
 ```
 
-只上传 `.list` 不会自动加入分流，必须登记目标策略组。新列表无需预先创建拆分快照，也无需修改测试；纯非 IP、纯 IP、混合和空列表均自动处理。用于拆分的列表不能包含 `MATCH`、`FINAL`、`RULE-SET` 或逻辑组合规则 `AND` / `OR` / `NOT`，这些内容会明确报错。
+`id` 必须唯一，`group` 必须已存在。仅上传 `.list` 不会加入分流；登记后无需手建快照或修改测试。外部规则使用 `url` 和 `stage`；需拆分的远程 classical 列表加上 `split: true`，再在线生成快照。
 
-策略组的类型、选项顺序和其他字段以 `source.yaml` 为准，测试不固定选项名单或 DNS 策略数量。新增 DNS 规则集引用时，对应 provider 必须存在；本地列表可通过 `dns_name` 创建。重复规则集 ID、缺失文件、错误的本地列表格式和不存在的 DNS provider 会使生成失败，并提示具体条目。
+拆分列表不支持 `MATCH`、`FINAL`、`RULE-SET`、`AND`、`OR`、`NOT`，遇到这些规则会报错。重复 ID、缺失文件、本地列表格式错误或 DNS 引用不存在的 provider 也会使生成失败，并提示具体条目。
+
+策略组类型、选项及顺序以 `source.yaml` 为准；测试不固定选项名单或 DNS 策略数量。
 
 ## 规则与 DNS
 
-规则顺序为：非 IP 规则 → GEOSITE CN → IP 规则 → GEOIP CN → MATCH。各阶段保持源配置顺序，IP 规则集引用使用 `no-resolve`。
+规则按以下阶段排列，各阶段保留源配置顺序：
 
-Sukka、anti-AD、GamePlatform 和单一类型的本地列表由客户端直接更新。远程 YouTube、GoogleFCM 列表及本地混合列表由生成器拆分。第三方规则遵循各自许可证，快照中的 `Source` 注释保留上游地址。
+**非 IP → GEOSITE CN → IP → GEOIP CN → MATCH**
 
-DNS 保持规则集引用，不展开域名：
+IP 规则集引用使用 `no-resolve`，末尾只保留一个 MATCH。
+
+Sukka、anti-AD、GamePlatform 和单一类型的本地列表由客户端直接更新。远程 YouTube、GoogleFCM 列表及本地混合列表由生成器拆分。第三方规则遵循各自许可证，快照的 `Source` 注释保留上游地址。
+
+DNS 使用规则集引用，不展开域名：
 
 ```yaml
 nameserver-policy:
@@ -89,35 +91,61 @@ nameserver-policy:
   geosite:!cn,gfw: https://posvdm.cloudflare-gateway.com/dns-query
 ```
 
-`dns_name` 为直连和 Steam 列表指定 classical provider 名称，直接引用原始列表。单一类型列表的 DNS 和分流共用这个 provider，统一使用 `local_*` 名称，不再额外生成同 URL 的 provider；混合 IP/非 IP 时，DNS 仍引用原列表，分流使用拆分后的 provider，以保持规则顺序。修改列表内容后刷新规则集即可；修改 DNS 设置后更新覆写或订阅。TUN 开关、协议栈和路由由客户端管理。
+`dns_name` 为本地列表指定 classical provider 名称，直接引用原列表：
+
+- 单一类型列表：DNS 与分流共用 `local_*` provider。
+- 混合 IP/非 IP 列表：DNS 引用原列表，分流引用拆分后的 provider，保持规则顺序。
+
+新增 DNS 规则集引用时，须确保 provider 存在。列表内容变化后刷新规则集；DNS 设置变化后更新覆写或订阅。TUN 开关、协议栈和路由由客户端管理。
 
 ## 四分类精简版
 
-`source.yaml` 的 `simple_groups` 将 `direct`、`proxy`、`reject`、`match` 分别关联到已有策略组。四个引用必须存在且互不重复。名称中的 emoji 和可选 `icon` 字段来自原策略组；更名时同时更新源配置中的引用。
+`simple_groups` 将 `direct`、`proxy`、`reject`、`match` 关联到四个不同的已有策略组。名称、emoji、`icon` 和组顺序沿用 `proxy_groups`；更名时需同步修改引用。
 
-生成器先编译完整规则，再生成精简配置。直连、拒绝和漏网之鱼规则保留原目标，其余业务组统一映射到代理组；末尾 MATCH 使用 `match` 指定的组。规则内容、顺序、`no-resolve`、provider 和 DNS 均保持一致，包括 `local_final` 规则。新增业务规则会自动归入代理，无需增加一份规则清单。
+生成器先编译完整规则，再将业务组映射到四类：
 
-四组按 `source.yaml` 的 `proxy_groups` 原始顺序保留，不按类别重新排序。精简代理组为 `url-test`，使用 `include-all` 纳入节点和 provider，并沿用 `exclude_remarks` 排除提示节点。直连、拒绝和 MATCH 组保留源组类型、图标等字段，选项映射到四类并去重，不引入地区、自动选择或低倍率子组。目前默认分别为 DIRECT、REJECT、DIRECT，代理节点根据测速自动选择；测速 URL、间隔和容差由 `source.yaml` 的 `simple_url_test` 设置。
+| 类别 | 规则目标与节点选择 |
+| --- | --- |
+| 直连 | 保留原目标，默认 DIRECT |
+| 代理 | 接收其余业务组规则，通过 `url-test` 自动选择节点 |
+| 拒绝 | 保留原目标，默认 REJECT |
+| MATCH | 保留漏网之鱼规则（含 `local_final`），承接末尾 MATCH，默认 DIRECT |
 
-两份精简产物参与相同的生成、`--check` 和 Actions 更新流程。JS 复用完整版的订阅清理、节点凭据保留及国旗逻辑；YAML 不含节点、不执行 JS，也不是 Stash 的 `#!replace` 覆写。自动测试验证两份精简策略一致、规则保全、图标更新、节点来源保留及配置清理，不代表客户端实机验证。
+规则内容、顺序、`no-resolve`、provider 和 DNS 与完整版一致。新增业务规则自动归入代理，无需另建规则清单。
+
+代理组通过 `include-all` 纳入节点和 provider，用 `exclude_remarks` 排除提示节点；测速 URL、间隔和容差由 `simple_url_test` 设置。其余三组保留源组类型、图标等字段，选项映射到四类后去重，不保留地区、自动选择或低倍率子组。
+
+两份精简产物均参与生成、`--check` 和 Actions 更新。JS 共用完整版的订阅清理、凭据保留及国旗逻辑；YAML 需补入节点，不执行 JS，也不使用 Stash 的 `#!replace`。
 
 ## 节点名称与国旗
 
-JS 覆写使用 `source.yaml` 的 `node_flags` 别名表，为已展开的节点补上国旗，例如 `🌸|印度标准 IEPL 专线 1` → `🌸|🇮🇳 印度标准 IEPL 专线 1`。支持中文、英文名称和大写地区缩写（如 `HK01`）；不查询服务器 IP，也不据此判断真实出口位置。
+JS 根据 `node_flags` 别名表为节点名称补国旗，支持中文、英文和大写地区缩写（如 `HK01`）。只匹配名称，不查询服务器 IP 或判断真实出口位置。
 
-名称有 `|` / `｜` 时，国旗放在第一个分隔符之后，无论前面是图标、文字还是数字；没有分隔符时放在名称开头。上一版的 `🇮🇳 🌸|印度…` 会调整成 `🌸|🇮🇳 印度…`，其他已有国旗的名称保持不变。无法识别、同时命中多个地区、会与已有名称冲突时不改名；较长的完整名称优先，避免将“印度尼西亚”误认成“印度”。原来的图标、编号和线路说明不删除。节点连接参数和凭据保持不变，并同步更新已加载节点的 `dialer-proxy`、provider 的 `proxy` 及 `override.dialer-proxy` 引用。
+| 情况 | 处理方式 |
+| --- | --- |
+| 有 `\|` 或 `｜` | 国旗放在第一个分隔符后，如 `🌸\|印度标准 IEPL 专线 1` → `🌸\|🇮🇳 印度标准 IEPL 专线 1` |
+| 无分隔符 | 国旗放在名称开头 |
+| 国旗在分隔符前 | 将开头的国旗移到分隔符后，如 `🇮🇳 🌸\|印度…` → `🌸\|🇮🇳 印度…` |
+| 其他已有国旗、无法识别、命中多个地区或名称冲突 | 保留原名 |
 
-处理范围为订阅的 `proxies`，以及没有自定义筛选或名称覆写的 inline provider。设置了 `filter`、`exclude-filter` 或名称覆写的 inline provider 保留输入名称，避免影响内核后续处理。远程和文件 provider 在内核加载时才获得节点，这份 JS 不下载或改写其名称；其原有配置保持不变。有关内核处理见 [Mihomo 代理集合文档](https://wiki.metacubex.one/config/proxy-providers/)。
+匹配重叠时优先完整地区名，避免把“印度尼西亚”认成“印度”。原图标、编号、线路说明、连接参数和凭据保留；`dialer-proxy`、provider 的 `proxy` 及 `override.dialer-proxy` 引用随改名更新。
 
-此功能只改变 JS 入口的节点显示名称，不改变分流策略。Stash 的静态 YAML 覆写及 Subconverter 入口不提供这项自动补全。更新 JS 覆写并重新应用到订阅后生效；改名的节点可能需要重新选择一次。
+处理范围包括 `proxies` 和未设置筛选或名称覆写的 inline provider。带 `filter`、`exclude-filter` 或名称覆写的 inline provider 保留原名，避免影响内核后续处理。远程、文件 provider 由内核加载，JS 不下载或改名。参见 [Mihomo 代理集合文档](https://wiki.metacubex.one/config/proxy-providers/)。
+
+更新 JS 覆写并重新应用后生效，改名的节点可能需重新选择。此功能不改变分流策略，Stash 静态覆写和 Subconverter 不提供国旗补全。
 
 ## 自动构建
 
-每次提交到 `main` 都会触发校验和在线生成，有变化的产物由机器人提交。PR 更新执行校验，不提交产物。也可以在 [Actions 页面](https://github.com/PosvdM/Clash-rules/actions/workflows/generate.yml) 选择 **Run workflow** 手动运行。
+| 触发方式 | 操作 |
+| --- | --- |
+| 推送到 `main` | 校验、在线生成，机器人提交产物变化 |
+| PR 更新 | 校验，不提交产物 |
+| 每天北京时间 10:19（`19 2 * * *`） | 定时同步 |
+| [Actions](https://github.com/PosvdM/Clash-rules/actions/workflows/generate.yml) → **Run workflow** | 手动同步 |
 
-定时任务使用 `19 2 * * *`，即每天北京时间 10:19。选择非整点是为了避开任务高峰；GitHub 不保证准时启动。[GitHub 调度说明](https://docs.github.com/actions/using-workflows/events-that-trigger-workflows#schedule)
+定时任务避开整点高峰，但 GitHub 不保证准时启动，见[调度说明](https://docs.github.com/actions/using-workflows/events-that-trigger-workflows#schedule)。
 
-校验任务使用只读权限，更新任务声明 `contents: write`。在线抓取或编译失败时不会写入产物。构建成功不代表客户端已经刷新，需要在客户端更新规则集或覆写。
+校验任务只读，更新任务使用 `contents: write`。抓取或编译失败时不写入产物。构建完成后仍需在客户端更新规则集或覆写。
 
 ## 本地验证
 
@@ -136,18 +164,26 @@ python scripts/generate.py --offline
 python scripts/generate.py --offline --check
 ```
 
-`--check` 不写入文件，发现生成内容不一致或存在过期快照时失败。测试覆盖跨入口一致性、JS 保留节点及凭据、清除订阅额外字段（含 TUN）、输入不变及重复执行隔离、规则保全与拆分、筛选、DNS 引用和可重复生成。
+`--check` 不写文件；产物不一致或存在过期快照时失败。
+
+测试覆盖跨入口一致性、规则拆分与保全、节点与凭据保留、订阅字段清理（含 TUN）、筛选、DNS 引用、国旗和图标更新、输入不变、重复执行隔离及可重复生成。自动测试不能替代客户端的 VPN、DNS 和联网验证。
 
 ## 客户端兼容
 
-各入口共享配置数据，字段是否生效取决于内核。Mihomo 支持 DNS 的 `rule-set:` 写法；Stash 文档未明确说明支持，需在设备上确认。Stash 对部分 Mihomo DNS/fake-ip/fallback 字段的支持也不能假定相同。
+各入口共享配置数据，字段是否生效取决于内核。Mihomo 支持 DNS 的 `rule-set:`；Stash 文档未明确说明支持，需在设备上确认。其他 DNS、fake-ip、fallback 字段也需分别确认。
 
-JS 覆写从公共配置创建新对象，只复制订阅的 `proxies` 和 `proxy-providers`。未在 `source.yaml` 中定义的订阅顶层字段全部丢弃，包括 `sniffer`、`geox-url`、`tun`、端口、认证、监听器和未知字段。节点字段及 provider 的 URL、凭据和连接选项原样保留；provider 属于节点来源，不在脚本中下载或展开。
+### JavaScript 覆写
 
-`source.yaml` 的 `exclude_remarks` 同时用于 JS 节点清理、策略组筛选和 Subconverter。JS 从 `proxies` 和 provider 的内联 `payload` 中删除匹配名称的节点（如 Traffic、Expire、流量和到期提示），为 provider 补入 `exclude-filter`，让内核加载远程或本地节点文件时执行过滤；已有排除条件以“或”合并，保留其大小写语义。正常节点的连接字段不变，不按服务器地址删除节点。若全部节点都被过滤，返回空列表，不恢复提示节点；需补充有效订阅。参见 [Mihomo 代理集合配置](https://wiki.metacubex.one/config/proxy-providers/#exclude-filter)。
+覆写从公共配置创建新对象，仅复制订阅的 `proxies` 和 `proxy-providers`。其余订阅顶层字段全部丢弃，包括 `sniffer`、`geox-url`、`tun`、端口、认证、监听器及未知字段。公共设置写入 `source.yaml` 的 `settings`；节点连接字段、凭据及 provider 的 URL 和连接选项保留。
 
-Clash Party 在执行覆写后还会合并客户端配置。关闭客户端的 DNS 覆写和嗅探覆写，才能避免它们再次覆盖脚本结果；端口、TUN、控制接口、Geo 数据地址等客户端管理项仍可能出现在运行时配置中，不能仅凭这些字段判断订阅配置残留。需要自定义的公共设置写入 `source.yaml` 的 `settings`，客户端管理项则在客户端中调整。不要叠加其他会改写配置的覆写。参见 [Clash Party 运行配置生成逻辑](https://github.com/mihomo-party-org/clash-party/blob/smart_core/src/main/core/factory.ts)。
+`exclude_remarks` 同时用于 JS、策略组筛选和 Subconverter。JS 删除 `proxies` 及内联 `payload` 中的提示节点（如 Traffic、Expire、流量、到期），并给 provider 补入 `exclude-filter`，供内核过滤后续加载的节点。已有排除条件按“或”合并，保留大小写语义。不按服务器地址删除节点；若全部被过滤，返回空列表，需补充有效订阅。参见 [Mihomo 排除筛选说明](https://wiki.metacubex.one/config/proxy-providers/#exclude-filter)。
 
-Stash 覆写以 `#!replace` 替换列出的映射和数组，不会清空未列出的订阅字段，因此不具备 JS 的完整清除语义。
+Clash Party 执行覆写后还会合并客户端设置。要保留脚本中的 DNS 和嗅探配置，需关闭客户端对应覆写，并避免叠加其他配置覆写。端口、TUN、控制接口和 Geo 数据地址等由客户端管理，仍可能出现在运行配置中，不能据此判断订阅字段残留。参见 [Clash Party 配置生成逻辑](https://github.com/mihomo-party-org/clash-party/blob/smart_core/src/main/core/factory.ts)。
 
-Subconverter 使用字面 `RULE-SET` 引用，后端必须保留基础模板中的 `rule-providers`。公共配置不含代理节点，不能作为独立订阅连接。自动测试不能替代客户端的 VPN、DNS 和联网验证。
+### Stash
+
+以 `#!replace` 替换列出的映射和数组，未列出的订阅字段仍会保留。
+
+### Subconverter
+
+使用字面 `RULE-SET` 引用，后端须保留基础模板中的 `rule-providers`。公共配置不含节点，不能直接作为独立订阅连接。
