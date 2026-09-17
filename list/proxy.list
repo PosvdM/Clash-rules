@@ -8,7 +8,7 @@ DOMAIN,api-flowercloud.com
 # 家宽
 DOMAIN-SUFFIX,ipweb.cc
 
-# 3xui
+# 3x-ui
 DOMAIN-SUFFIX,sanaei.dev
 
 # IPcheck
@@ -23,7 +23,7 @@ DOMAIN,steamcloud-hkg.oss-accelerate.aliyuncs.com
 DOMAIN,steamcloud-sgp.oss-accelerate.aliyuncs.com
 DOMAIN,steamcloud-sg.s3.dualstack.ap-southeast-1.amazonaws.com
 
-# z-library
+# Z-Library
 DOMAIN-SUFFIX,go-to-library.sk
 DOMAIN-SUFFIX,z-library.sk
 
@@ -51,20 +51,20 @@ DOMAIN-SUFFIX,asmr-300.com
 DOMAIN-SUFFIX,asmrgay.com
 DOMAIN-SUFFIX,asmr1.cc
 
-# YouTube Download
+# YouTube 下载
 DOMAIN,ddownr.com
 
 # Greasy Fork
 DOMAIN-SUFFIX,greasyfork.org
 DOMAIN-SUFFIX,sleazyfork.org
 
-# Google Password Manager
+# Google 密码管理工具
 DOMAIN,enclave.ua5v.com
 
 # Google 证书
 DOMAIN-SUFFIX,pki.goog
 
-# sexy
+# 成人内容
 DOMAIN-SUFFIX,hanime1.me
 DOMAIN-SUFFIX,sehuatang.org
 DOMAIN,mrds.com
@@ -74,7 +74,7 @@ DOMAIN,tu.ewrewej.la
 DOMAIN-SUFFIX,coser.asia
 DOMAIN-SUFFIX,cosersilo.com
 
-# GalGame db
+# Galgame 数据库
 DOMAIN-SUFFIX,vndb.org
 DOMAIN-SUFFIX,ymgal.games
 
