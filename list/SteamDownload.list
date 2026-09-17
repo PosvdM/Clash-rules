@@ -1,4 +1,4 @@
-# Steam 下载使用国内 CDN
+# 解决Steam下载无法使用国内CDN的问题
 
 DOMAIN,test.steampowered.com
 
