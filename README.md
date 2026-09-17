@@ -1,61 +1,68 @@
 # PosvdM Clash-rules
 
-适用于 Clash Party、FlClash 和 Stash 的自用分流配置，包含广告拦截、AI、流媒体、游戏及 Telegram 分流，提供地区节点选择和低倍率策略组。
+[![Generate](https://github.com/PosvdM/Clash-rules/actions/workflows/generate.yml/badge.svg)](https://github.com/PosvdM/Clash-rules/actions/workflows/generate.yml)
+[![Last Commit](https://img.shields.io/github/last-commit/PosvdM/Clash-rules)](https://github.com/PosvdM/Clash-rules/commits/main)
 
-## 使用方法
+适用于 **Clash Party、FlClash、Stash** 等客户端的自用分流配置，支持广告拦截、AI、流媒体、游戏、Telegram、地区节点及低倍率节点分流。
 
-1. 在客户端导入自己的代理订阅。
-2. 复制下方对应链接，添加覆写并绑定到当前订阅。
-3. 启用覆写，更新规则集，在策略组中选择节点。
+配置由 [`source.yaml`](source.yaml) 统一维护，并通过 GitHub Actions 自动生成各客户端所需文件。
 
-### Clash Party / FlClash 等
+## 使用
 
-添加 JavaScript 覆写：
+1. 导入自己的代理订阅。
+2. 添加对应覆写并绑定订阅。
+3. 启用覆写，更新规则后选择节点。
+
+## Clash Party / FlClash
+
+### 完整版
 
 ```text
 https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/PosvdM_rules.js
 ```
 
-此脚本仅保留订阅的节点及节点来源（`proxies`、`proxy-providers`），其余订阅配置全部丢弃，使用本仓库配置。已展开的节点会按名称补上缺失的国旗，有 `|` / `｜` 时国旗放在第一个分隔符后，没有时放在名称开头；适用范围见[节点名称说明](docs/maintenance.md#节点名称与国旗)。
+JavaScript 覆写仅保留订阅中的 `proxies` 和 `proxy-providers`，其余配置由本仓库接管。
 
-### 四分类精简版（Mihomo）
+支持自动补全节点名称中缺失的国旗，详见[节点名称说明](docs/maintenance.md#节点名称与国旗)。
 
-只保留直连、代理、拒绝、MATCH 四类，沿用 `source.yaml` 中对应组的名称和图标；全部规则和 DNS 设置同步生成。四组保留源配置中的顺序；节点选择使用 URL-Test 自动测速选择节点。业务分流统一走代理，漏网之鱼默认直连，可手动切换。
+### 四分类精简版
 
-JavaScript 覆写（与上方完整版二选一）：
+仅保留 **直连、代理、拒绝、MATCH** 四类策略，并保持 `source.yaml` 中的名称、图标及顺序。
+
+代理节点通过 **URL-Test** 自动测速选择。
+
+**JavaScript 覆写**
 
 ```text
 https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/PosvdM_rules_simple.js
 ```
 
-YAML 配置：
+**YAML 配置**
 
 ```text
 https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/PosvdM_rules_simple.yaml
 ```
 
-YAML 不含订阅节点，使用时需加入自己的 `proxies` 或 `proxy-providers`；通过客户端合并时应替换策略组和规则，避免与原订阅数组叠加。代理组自动纳入节点及 provider。节点国旗补全仅由 JS 覆写执行。
+> YAML 不包含订阅节点，需要自行提供 `proxies` 或 `proxy-providers`。节点国旗补全仅由 JavaScript 覆写执行。
 
-### Stash
-
-添加 Stash 覆写：
+## Stash
 
 ```text
 https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/override.stoverride
 ```
 
-Stash 对部分 DNS 字段的支持与 Mihomo 不同，使用前请查看[兼容说明](docs/maintenance.md#客户端兼容)。
+部分 DNS 配置与 Mihomo 存在兼容性差异，详见[客户端兼容说明](docs/maintenance.md#客户端兼容)。
 
-Stash 的 YAML 覆写只替换列出的字段，不保证清除订阅中其他配置。
-
-### Subconverter
-
-在订阅转换工具中填写远程配置地址：
+## Subconverter
 
 ```text
 https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/main.ini
 ```
 
-后端需要保留 `rule-providers`；不支持时，请改用客户端覆写。
+需要后端支持并保留 `rule-providers`，否则建议使用客户端覆写。
 
-添加规则、自动构建和本地验证见[维护文档](docs/maintenance.md)。
+## 维护
+
+规则添加、配置生成、客户端兼容及本地验证见：
+
+**[维护文档 →](docs/maintenance.md)**
