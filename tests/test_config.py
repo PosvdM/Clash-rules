@@ -63,7 +63,7 @@ process.stdout.write(JSON.stringify(result));
         program = """
 const fs=require('fs'),vm=require('vm'),assert=require('assert');
 const ctx={};vm.createContext(ctx);vm.runInContext(fs.readFileSync('output/PosvdM_rules.js','utf8'),ctx);
-for(const input of [null,undefined,[],42,'bad']) assert.throws(()=>ctx.main(input),/需要先导入机场订阅/);
+for(const input of [null,undefined,[],42,'bad']) assert.throws(()=>ctx.main(input),/请先导入代理订阅/);
 for(const input of [{},{proxies:[]},{'proxy-providers':{}}]) assert.throws(()=>ctx.main(input),/订阅中没有代理节点/);
 const nodes={proxies:[{name:'test',type:'ss',server:'example.org',password:'test-only'}]};
 const providers={'proxy-providers':{airport:{type:'http',url:'https://example.org/sub'}}};

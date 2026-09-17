@@ -1,4 +1,4 @@
-name: Generate unified configuration
+name: 生成分流配置
 on:
   push:
     branches: [main]
@@ -43,7 +43,7 @@ jobs:
       - run: pip install -r scripts/requirements.txt
       - run: python scripts/generate.py
       - run: python -m unittest discover -s tests -v
-      - name: Commit generated outputs
+      - name: 提交生成产物
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
