@@ -6,8 +6,10 @@ const policy = {
     "use-hosts": true,
     "prefer-h3": true,
     "listen": "0.0.0.0:53",
+    "cache-algorithm": "arc",
     "enhanced-mode": "fake-ip",
     "fake-ip-range": "198.18.0.1/16",
+    "fake-ip-filter-mode": "blacklist",
     "fake-ip-filter": [
       "geosite:private",
       "geosite:connectivity-check",
