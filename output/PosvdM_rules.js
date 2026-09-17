@@ -29,9 +29,6 @@ const policy = {
     "fallback-filter": {
       "geoip": true,
       "geoip-code": "CN",
-      "geosite": [
-        "gfw"
-      ],
       "ipcidr": [
         "240.0.0.0/4"
       ]
@@ -39,7 +36,7 @@ const policy = {
     "nameserver-policy": {
       "rule-set:local_direct": "https://dns.alidns.com/dns-query",
       "rule-set:local_SteamDownload": "https://dns.alidns.com/dns-query",
-      "geosite:cn,private,apple": "https://dns.alidns.com/dns-query",
+      "geosite:geolocation-!cn,private,apple": "https://dns.alidns.com/dns-query",
       "geosite:!cn,gfw": "https://posvdm.cloudflare-gateway.com/dns-query"
     }
   },
