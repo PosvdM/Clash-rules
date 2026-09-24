@@ -224,7 +224,6 @@ const policy = {
       "interval": 300,
       "tolerance": 50,
       "proxies": [
-        "🗄️ 甲骨文",
         "🧪 低倍检测",
         "🚀 节点选择"
       ]
