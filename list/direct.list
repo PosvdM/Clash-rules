@@ -22,12 +22,13 @@ DOMAIN-SUFFIX,store-images.s-microsoft.com
 #
 PROCESS-NAME,XboxPcApp.exe
 PROCESS-NAME,ForzaHorizon5.exe
+#
+PROCESS-NAME,legendary.exe
+
+
+DOMAIN-SUFFIX,hybgzs.com
 
 DOMAIN-SUFFIX,deepl.com
-
-DOMAIN-SUFFIX,micu.hk
-
-PROCESS-NAME,legendary.exe
 
 DOMAIN-SUFFIX,cdndrive.uk
 
