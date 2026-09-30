@@ -8,8 +8,8 @@ settings:
     ipv6: true
     use-hosts: true
     prefer-h3: true
-    listen: 0.0.0.0:53
     cache-algorithm: arc
+    listen: 0.0.0.0:53
     enhanced-mode: fake-ip
     fake-ip-range: 198.18.0.1/16
     fake-ip-filter-mode: blacklist
