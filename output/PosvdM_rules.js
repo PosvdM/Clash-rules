@@ -26,7 +26,7 @@ const policy = {
       "https://dns.alidns.com/dns-query"
     ],
     "fallback": [
-      "https://dns.cloudflare.com/dns-query"
+      "https://posvdm.cloudflare-gateway.com/dns-query"
     ],
     "fallback-filter": {
       "geoip": true,
