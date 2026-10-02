@@ -25,8 +25,8 @@ PROCESS-NAME,ForzaHorizon5.exe
 #
 PROCESS-NAME,legendary.exe
 
-
-DOMAIN-SUFFIX,hybgzs.com
+# EMBY
+DOMAIN,cdn.wenjian.de
 
 DOMAIN-SUFFIX,deepl.com
 
