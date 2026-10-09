@@ -180,11 +180,19 @@ assert.strictEqual(JSON.stringify(ctx.main(result)),JSON.stringify(result));
     def test_order_and_native_formats(self):
         providers = self.common['rule-providers']
         rules = self.common['rules']
-        self.assertEqual(rules[-1], self.src['tail_rules'][-1])
-        first_ip = next(i for i,r in enumerate(rules) if r.endswith(',no-resolve'))
-        for r in rules[first_ip:-1]:
-            self.assertTrue(r.endswith(',no-resolve'),r)
-        self.assertLess(rules.index('GEOSITE,cn,🟢 直连'), first_ip)
+        tail = self.src['tail_rules']
+        self.assertEqual(rules[-len(tail):], tail)
+        # Rules follow source.yaml order; split lists keep non-IP before IP in place.
+        owners = []
+        for rule in rules[:-len(tail)]:
+            key = rule.split(',')[1]
+            index = next(i for i, e in enumerate(self.src['rulesets'])
+                         if key in (e['id'], e.get('dns_name'), e['id'] + '_non_ip', e['id'] + '_ip'))
+            owners.append((index, key.endswith('_ip') and not key.endswith('_non_ip')))
+            entry = self.src['rulesets'][index]
+            if 'file' not in entry and not entry.get('split'):
+                self.assertEqual(rule.endswith(',no-resolve'), entry['stage'] == 'ip', rule)
+        self.assertEqual(owners, sorted(owners))
         by_url = {p['url']:p for p in providers.values()}
         self.assertFalse(any('/non_ip/apple_cdn.txt' in u for u in by_url))
         apple = by_url['https://ruleset.skk.moe/Clash/domainset/apple_cdn.txt']
@@ -242,6 +250,20 @@ assert.strictEqual(JSON.stringify(ctx.main(result)),JSON.stringify(result));
                     key = 'local_ai_ip' if mixed else 'local_ai'
                     expected = f"RULE-SET,{key},{entry['group']}" + (',no-resolve' if stage == 'ip' else '')
                     self.assertIn(expected, common['rules'])
+
+    def test_split_snapshots_keep_comments_with_their_rules(self):
+        entry = next(r for r in self.src['rulesets'] if r['id'] == 'local_ai')
+        content = ('# 域名\n\nDOMAIN,a.test\n\n# 混合\nDOMAIN,b.test\nIP-CIDR,192.0.2.0/24,no-resolve\n'
+                   '\n# IP\nIP-ASN,64496,no-resolve\n\nIP-CIDR,198.51.100.0/24,no-resolve\n')
+        original_read = Path.read_text
+        def read(path, *args, **kwargs):
+            return content if path == ROOT / entry['file'] else original_read(path, *args, **kwargs)
+        with patch.object(Path, 'read_text', read):
+            files = gen.compile_config(self.src, offline=True)
+        body = lambda stage: files[f'output/rules/local_ai_{stage}.txt'].split('\n', 2)[2]
+        self.assertEqual(body('non_ip'), '# 域名\nDOMAIN,a.test\n\n# 混合\nDOMAIN,b.test\n')
+        self.assertEqual(body('ip'), '# 混合\nIP-CIDR,192.0.2.0/24,no-resolve\n\n# IP\nIP-ASN,64496,no-resolve\n'
+                         '\nIP-CIDR,198.51.100.0/24,no-resolve\n')
 
     def test_new_local_lists_and_dns_extensions(self):
         src = copy.deepcopy(self.src)

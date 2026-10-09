@@ -65,7 +65,7 @@ DOMAIN,api.example.net
   file: list/custom.list
 ```
 
-`id` 必须唯一，`group` 必须已存在。仅上传 `.list` 不会加入分流；登记后无需手建快照或修改测试。外部规则使用 `url` 和 `stage`；需拆分的远程 classical 列表加上 `split: true`，再在线生成快照，并检查快照的 `Source` 注释。
+`id` 必须唯一，`group` 必须已存在。仅上传 `.list` 不会加入分流；登记后无需手建快照或修改测试。外部规则使用 `url` 和 `stage`，`stage: ip` 的引用加 `no-resolve`；需拆分的远程 classical 列表加上 `split: true`，再在线生成快照，并检查快照的 `Source` 注释。
 
 拆分列表不支持 `MATCH`、`FINAL`、`RULE-SET`、`AND`、`OR`、`NOT`，遇到这些规则会报错。重复 ID、缺失文件、本地列表格式错误或 DNS 引用不存在的 provider 也会使生成失败，并提示具体条目。
 
@@ -73,11 +73,11 @@ DOMAIN,api.example.net
 
 ## 规则与 DNS
 
-规则按以下阶段排列，各阶段保留源配置顺序：
+规则严格按 `source.yaml` 的书写顺序输出：先是 `rulesets`，再是 `tail_rules`。拆分后的列表在原位置先放 `_non_ip`，紧接着放 `_ip`。调整优先级时，直接调整 `source.yaml` 中的顺序。
 
-**非 IP → GEOSITE CN → IP → GEOIP CN → MATCH**
+IP 规则集引用使用 `no-resolve`，域名请求会跳过这些规则，不会提前触发 DNS 解析，因此 IP 规则可以放在任意位置。末尾只保留一个 MATCH。
 
-IP 规则集引用使用 `no-resolve`，末尾只保留一个 MATCH。
+拆分快照按段保留注释：一段是一组注释及其后的规则，规则后的空行结束一段。每个快照只保留在本文件中有规则的段，段之间空一行。
 
 Sukka、anti-AD、GamePlatform 和单一类型的本地列表由客户端直接更新。Sukka 规则使用其原生 provider 格式，Telegram 同时引用域名、IP 和 ASN 列表。上游已废弃 `Clash/non_ip/apple_cdn.txt`，Apple CDN 使用 `Clash/domainset/apple_cdn.txt`。远程 YouTube、GoogleFCM 列表及本地混合列表由生成器拆分。第三方规则遵循各自许可证，快照的 `Source` 注释保留上游地址。
 

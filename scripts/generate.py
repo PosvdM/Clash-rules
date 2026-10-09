@@ -143,7 +143,7 @@ def compile_config(src, offline=False):
             # Anchor both assertions to preserve (?i), alternation and lookaheads.
             g['filter'] = f'(?i)^(?!.*(?:{exclusion}))(?=[\\s\\S]*(?:{original}))[\\s\\S]*$'
 
-    providers, non_ip, ip = {}, [], []
+    providers, rules = {}, []
     rule_ids = set()
     for rule in src['rulesets']:
         key = rule['id']
@@ -178,8 +178,7 @@ def compile_config(src, offline=False):
         providers[key] = {'type': 'http', 'behavior': behavior or rule['behavior'],
                           'format': rule['format'], 'url': url,
                           'path': f'./ruleset/posvdm/{key}.txt', 'interval': 86400}
-        target = ip if stage == 'ip' else non_ip
-        target.append(f"RULE-SET,{key},{rule['group']}" + (',no-resolve' if stage == 'ip' else ''))
+        rules.append(f"RULE-SET,{key},{rule['group']}" + (',no-resolve' if stage == 'ip' else ''))
 
     for rule in src['rulesets']:
         if rule['group'] not in names:
@@ -192,34 +191,52 @@ def compile_config(src, offline=False):
                               'url': raw + '/' + rule['file'],
                               'path': f"./ruleset/posvdm/{rule['id']}.txt", 'interval': 86400}
         if 'file' in rule or rule.get('split'):
-            text = contents[rule['id']]
-            buckets = {'non_ip': [], 'ip': []}
-            for item in lines(text):
+            # A section is a comment block and the rules that follow it; a blank line after rules ends it.
+            sections, section = [], None
+            for item in contents[rule['id']].splitlines():
+                item = item.strip()
+                if not item:
+                    if section and any(section['non_ip'] + section['ip']):
+                        section = None
+                    continue
+                if item.startswith((';', '//')):
+                    continue
+                if item.startswith(('# Generated', '# Source:')):
+                    section = None  # Snapshot headers end the previous section.
+                    continue
+                if item.startswith('#'):
+                    if section is None or any(section['non_ip'] + section['ip']):
+                        section = {'comments': [], 'non_ip': [], 'ip': []}
+                        sections.append(section)
+                    section['comments'].append(item)
+                    continue
                 kind = item.split(',', 1)[0]
                 if ',' not in item or kind in {'MATCH', 'FINAL', 'RULE-SET', 'AND', 'OR', 'NOT'}:
                     raise ValueError(f"Unsupported rule for safe split: {rule['id']}: {item}")
-                buckets['ip' if kind in IP_TYPES else 'non_ip'].append(item)
+                if section is None:
+                    section = {'comments': [], 'non_ip': [], 'ip': []}
+                    sections.append(section)
+                section['ip' if kind in IP_TYPES else 'non_ip'].append(item)
+            buckets = {stage: [x for sec in sections for x in sec[stage]] for stage in ('non_ip', 'ip')}
             origin = rule.get('url', raw + '/' + rule.get('file', ''))
             # Only mixed IP/non-IP local lists need snapshots.
             if 'file' in rule and not all(buckets.values()):
                 stage = 'ip' if buckets['ip'] else 'non_ip'
                 if any(buckets.values()):
                     if rule.get('dns_name'):
-                        target = ip if stage == 'ip' else non_ip
-                        target.append(f"RULE-SET,{rule['dns_name']},{rule['group']}"
-                                      + (',no-resolve' if stage == 'ip' else ''))
+                        rules.append(f"RULE-SET,{rule['dns_name']},{rule['group']}"
+                                     + (',no-resolve' if stage == 'ip' else ''))
                     else:
                         add(rule, rule['id'], origin, stage)
                 continue
-            # Preserve source comments; omit generated headers to avoid duplication.
-            comments = '\n'.join(x for x in text.splitlines() if x.startswith('#') and not x.startswith(('# Generated', '# Source:')))
-            comments = '\n'.join(dict.fromkeys(comments.splitlines()))
+            # Keep each comment block above its rules; skip sections without rules for this stage.
             for stage, items in buckets.items():
                 if not items:
                     continue
                 key = rule['id'] + '_' + stage
                 path = f'output/rules/{key}.txt'
-                files[path] = HEADER + f'# Source: {origin}\n' + comments + '\n' + '\n'.join(items) + '\n'
+                body = '\n\n'.join('\n'.join(sec['comments'] + sec[stage]) for sec in sections if sec[stage])
+                files[path] = HEADER + f'# Source: {origin}\n' + body + '\n'
                 add(rule, key, raw + '/' + path, stage)
         else:
             if rule['behavior'] == 'domain' and rule['stage'] == 'ip':
@@ -232,11 +249,9 @@ def compile_config(src, offline=False):
                 if key.strip() not in providers:
                     raise ValueError(f'Unknown DNS rule provider: {key.strip()}')
 
-    tail = src['tail_rules']
-    # Place country domain rules before IP rules; preserve IP order.
-    domain_tail = [r for r in tail if r.startswith('GEOSITE,')]
-    final_tail = [r for r in tail if not r.startswith('GEOSITE,')]
-    rules = non_ip + domain_tail + ip + final_tail
+    # Keep source order: rulesets, then tail rules. IP rules use no-resolve, so domain
+    # requests skip them without triggering DNS lookups.
+    rules += src['tail_rules']
     if not rules[-1].startswith('MATCH,') or sum(x.startswith('MATCH,') for x in rules) != 1:
         raise ValueError('Exactly one final MATCH required')
     common = {**settings, 'proxy-groups': groups, 'rule-providers': providers, 'rules': rules}
