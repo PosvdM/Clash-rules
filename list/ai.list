@@ -34,6 +34,10 @@ DOMAIN-SUFFIX,scf.usercontent.goog
 # Grok
 DOMAIN-SUFFIX,grokipedia.com
 
+# Muse
+DOMAIN-SUFFIX,muse.ai
+DOMAIN-SUFFIX,metaaivm.com
+
 DOMAIN-SUFFIX,lmarena.ai
 
 # DOMAIN-SUFFIX,perplexity.ai
