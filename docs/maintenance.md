@@ -140,14 +140,14 @@ JS 根据 `node_flags` 别名表为节点名称补国旗，支持中文、英文
 | --- | --- |
 | 推送到 `main` | 校验、在线生成，机器人提交产物变化 |
 | PR 更新 | 校验，不提交产物 |
-| 每天北京时间 10:19（`19 2 * * *`） | 定时同步 |
+| 每周一北京时间 10:19（`19 2 * * 1`） | 定时同步 |
 | [Actions](https://github.com/PosvdM/Clash-rules/actions/workflows/generate.yml) → **Run workflow** | 手动同步 |
 
 定时任务避开整点高峰，但 GitHub 不保证准时启动，见[调度说明](https://docs.github.com/actions/using-workflows/events-that-trigger-workflows#schedule)。
 
-推送到 `main` 时不按文件路径过滤，修改 `source.yaml`、`list/` 或生成器后都会重新生成产物。机器人会向 `main` 提交产物，推送前先拉取远端更新。
+推送和 PR 只忽略 Markdown 文件、`docs/` 和 `archive/` 的改动，其余改动都会触发构建；用排除名单而不是包含名单，新增的配置或脚本文件不会漏掉。定时任务只用于刷新远程拆分快照，这些上游变化不频繁，因此每周运行一次。机器人会向 `main` 提交产物，推送前先拉取远端更新。
 
-校验任务只读，更新任务使用 `contents: write`。抓取或编译失败时不写入产物。构建完成后仍需在客户端更新规则集或覆写。
+工作流先离线生成并测试；PR 到此结束，其他触发方式再在线生成、测试并提交产物。抓取、编译或测试失败时不提交产物。构建完成后仍需在客户端更新规则集或覆写。
 
 ## 本地验证
 
