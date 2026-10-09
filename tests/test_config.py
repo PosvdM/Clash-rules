@@ -269,7 +269,6 @@ assert.strictEqual(JSON.stringify(ctx.main(result)),JSON.stringify(result));
         src = copy.deepcopy(self.src)
         src['rulesets'] = [
             {'id': 'new_list', 'group': src['proxy_groups'][0]['name'],
-             'behavior': 'classical', 'format': 'text',
              'file': 'list/new.list', 'dns_name': 'New DNS'},
         ]
         src['settings']['dns']['nameserver-policy'] = {
@@ -316,7 +315,8 @@ assert.strictEqual(JSON.stringify(ctx.main(result)),JSON.stringify(result));
         for case, message in [('duplicate', 'Duplicate ruleset id'),
                               ('missing', 'Missing local ruleset'),
                               ('dns', 'Unknown DNS rule provider'),
-                              ('format', 'Local ruleset requires classical/text')]:
+                              ('format', 'Local ruleset requires classical/text'),
+                              ('stage', 'Local ruleset stage is detected from content')]:
             with self.subTest(case=case):
                 src = copy.deepcopy(self.src)
                 local = next(r for r in src['rulesets'] if 'file' in r)
@@ -326,6 +326,8 @@ assert.strictEqual(JSON.stringify(ctx.main(result)),JSON.stringify(result));
                     local['file'] = 'list/does-not-exist.list'
                 elif case == 'format':
                     local['format'] = 'yaml'
+                elif case == 'stage':
+                    local['stage'] = 'non_ip'
                 else:
                     src['settings']['dns']['nameserver-policy']['rule-set:missing'] = '1.1.1.1'
                 with self.assertRaisesRegex(ValueError, message):
