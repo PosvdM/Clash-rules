@@ -505,6 +505,26 @@ process.stdout.write(JSON.stringify(result));
 
     def test_generation_is_reproducible(self):
         for filename,content in self.files.items():
-            self.assertEqual((ROOT/filename).read_text(),content,filename)
+            text = (ROOT/filename).read_text()
+            self.assertNotEqual(text, gen.strip_stamp(text), filename)
+            self.assertEqual(gen.strip_stamp(text),content,filename)
+
+    def test_update_time_changes_only_with_content(self):
+        old_time = gen.datetime(2026, 1, 2, 3, 4, tzinfo=gen.timezone(gen.timedelta(hours=8)))
+        new_time = gen.datetime(2026, 5, 6, 7, 8, tzinfo=gen.timezone(gen.timedelta(hours=8)))
+        files = {'output/a.yaml': gen.HEADER + 'a: 1\n', 'output/b.js': '// Generated\nconst b = 1;\n'}
+        with tempfile.TemporaryDirectory() as directory, patch.object(gen, 'ROOT', Path(directory)):
+            first = gen.stamp_outputs(files, old_time)
+            self.assertIn('# Updated: 2026-01-02 03:04 +08:00\n', first['output/a.yaml'])
+            self.assertTrue(first['output/b.js'].startswith('// Generated\n// Updated: 2026-01-02 03:04 +08:00\n'))
+            for name, text in first.items():
+                (Path(directory)/name).parent.mkdir(parents=True, exist_ok=True)
+                (Path(directory)/name).write_text(text)
+            files['output/b.js'] = '// Generated\nconst b = 2;\n'
+            second = gen.stamp_outputs(files, new_time)
+        self.assertEqual(second['output/a.yaml'], first['output/a.yaml'])
+        self.assertIn('// Updated: 2026-05-06 07:08 +08:00\n', second['output/b.js'])
+        for name, text in second.items():
+            self.assertEqual(gen.strip_stamp(text), files[name])
 
 if __name__ == '__main__': unittest.main()

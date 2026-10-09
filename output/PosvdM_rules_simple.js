@@ -1,4 +1,5 @@
 // Generated from source.yaml; Clash Party / FlClash override.
+// Updated: 2026-10-09 14:50 +08:00
 const policy = {
   "dns": {
     "enable": true,
