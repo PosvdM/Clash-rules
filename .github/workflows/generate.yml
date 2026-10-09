@@ -2,9 +2,11 @@ name: 生成分流配置
 on:
   push:
     branches: [main]
+    paths-ignore: ['**.md', 'docs/**', 'archive/**']
   pull_request:
+    paths-ignore: ['**.md', 'docs/**', 'archive/**']
   schedule:
-    - cron: '19 2 * * *'
+    - cron: '19 2 * * 1'
   workflow_dispatch:
 permissions:
   contents: read
@@ -12,23 +14,7 @@ concurrency:
   group: unified-config-${{ github.ref }}
   cancel-in-progress: false
 jobs:
-  validate:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - run: pip install -r scripts/requirements.txt
-      - run: python scripts/generate.py --offline
-      - run: python scripts/generate.py --offline --check
-      - run: python -m unittest discover -s tests -v
-  update:
-    if: github.event_name != 'pull_request'
-    needs: validate
+  generate:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -41,9 +27,18 @@ jobs:
         with:
           node-version: '22'
       - run: pip install -r scripts/requirements.txt
-      - run: python scripts/generate.py
-      - run: python -m unittest discover -s tests -v
+      - name: 离线校验
+        run: |
+          python scripts/generate.py --offline
+          python scripts/generate.py --offline --check
+          python -m unittest discover -s tests -v
+      - name: 在线生成
+        if: github.event_name != 'pull_request'
+        run: |
+          python scripts/generate.py
+          python -m unittest discover -s tests -v
       - name: 提交生成产物
+        if: github.event_name != 'pull_request'
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
