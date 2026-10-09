@@ -116,6 +116,12 @@ rulesets:
   format: text
   file: list/ai.list
   stage: non_ip
+- id: local_anthropic
+  group: ✨ 人工智能
+  behavior: classical
+  format: text
+  file: list/anthropic.list
+  stage: non_ip
 - id: local_proxy
   group: 🚀 节点选择
   behavior: classical
