@@ -320,7 +320,7 @@ const policy = {
     },
     {
       "name": "🟢 直连",
-      "type": "url-test",
+      "type": "select",
       "url": "http://connect.rom.miui.com/generate_204",
       "interval": 300,
       "tolerance": 50,
