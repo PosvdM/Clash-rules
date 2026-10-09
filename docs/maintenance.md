@@ -18,15 +18,11 @@
 | `output/override.stoverride` | Stash 覆写 |
 | `output/rules/` | 拆分规则快照 |
 | `output/main.ini`、`output/GeneralClashConfig.yml` | Subconverter 入口及基础模板 |
-| `archive/` | 历史配置、测试模板、PAC 和参考文件，不参与构建 |
+| `archive/` | 历史配置、测试模板、PAC 和参考文件，不参与构建，见[归档索引](../archive/README.md) |
 
 日常修改 `source.yaml` 和 `list/`，然后重新生成 `output/`，不要直接修改产物。构建逻辑、测试和说明分别放在 `scripts/`、`tests/`、`docs/`。
 
-旧入口迁移：
-
-- Clash Party 用导入 URL 的文件名作为覆写标题。旧 `override.js` 仍同步更新；要改为 `PosvdM_rules.js`，可编辑客户端条目名称，或用新链接重新导入。
-- `rules/main.ini`、`yml/GeneralClashConfig.yml` 已移至 `output/`，旧目录不再保留。使用旧地址的订阅需更新链接。
-- 历史文件的新旧路径见[归档索引](../archive/README.md)。归档不自动更新，可能依赖旧版客户端或已变化的上游。
+`output/override.js` 与 `PosvdM_rules.js` 内容相同，供使用旧链接的客户端继续更新。Clash Party 用导入 URL 的文件名作为覆写标题；要改为 `PosvdM_rules.js`，可编辑客户端条目名称，或用新链接重新导入。
 
 ## 添加规则
 
@@ -60,14 +56,12 @@ DOMAIN,api.example.net
 ```yaml
 - id: local_custom
   group: 🚀 节点选择
-  behavior: classical
-  format: text
   file: list/custom.list
 ```
 
-`id` 必须唯一，`group` 必须已存在。仅上传 `.list` 不会加入分流；登记后无需手建快照或修改测试。外部规则使用 `url` 和 `stage`，`stage: ip` 的引用加 `no-resolve`；需拆分的远程 classical 列表加上 `split: true`，再在线生成快照，并检查快照的 `Source` 注释。
+`id` 必须唯一，`group` 必须已存在。本地列表固定使用 classical 文本格式，生成器根据内容判断是否含 IP 规则，因此不写 `behavior`、`format` 和 `stage`。仅上传 `.list` 不会加入分流；登记后无需手建快照或修改测试。外部规则使用 `url` 和 `stage`，`stage: ip` 的引用加 `no-resolve`；需拆分的远程 classical 列表加上 `split: true`，再在线生成快照，并检查快照的 `Source` 注释。
 
-拆分列表不支持 `MATCH`、`FINAL`、`RULE-SET`、`AND`、`OR`、`NOT`，遇到这些规则会报错。重复 ID、缺失文件、本地列表格式错误或 DNS 引用不存在的 provider 也会使生成失败，并提示具体条目。
+拆分列表不支持 `MATCH`、`FINAL`、`RULE-SET`、`AND`、`OR`、`NOT`，遇到这些规则会报错。重复 ID、缺失文件、本地列表格式错误或写了 `stage`、DNS 引用不存在的 provider 也会使生成失败，并提示具体条目。
 
 策略组类型、选项及顺序以 `source.yaml` 为准；测试不固定选项名单或 DNS 策略数量。
 

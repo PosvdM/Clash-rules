@@ -86,24 +86,15 @@ rulesets:
   stage: non_ip
 - id: local_reject
   group: 🛑 广告隐私
-  behavior: classical
-  format: text
   file: list/reject.list
-  stage: non_ip
 - id: local_direct
   group: 🟢 直连
-  behavior: classical
-  format: text
   file: list/direct.list
   dns_name: local_direct
-  stage: non_ip
 - id: local_SteamDownload
   group: 🟢 直连
-  behavior: classical
-  format: text
   file: list/SteamDownload.list
   dns_name: local_SteamDownload
-  stage: non_ip
 - id: sukka_non_ip_ai
   group: ✨ 人工智能
   behavior: classical
@@ -112,40 +103,22 @@ rulesets:
   stage: non_ip
 - id: local_ai
   group: ✨ 人工智能
-  behavior: classical
-  format: text
   file: list/ai.list
-  stage: non_ip
 - id: local_anthropic
   group: ✨ 人工智能
-  behavior: classical
-  format: text
   file: list/anthropic.list
-  stage: non_ip
 - id: local_proxy
   group: 🚀 节点选择
-  behavior: classical
-  format: text
   file: list/proxy.list
-  stage: non_ip
 - id: local_bulk
   group: 📦 大宗流量
-  behavior: classical
-  format: text
   file: list/bulk.list
-  stage: non_ip
 - id: local_sexy
   group: 🥵 不可以涩涩
-  behavior: classical
-  format: text
   file: list/sexy.list
-  stage: non_ip
 - id: local_final
   group: 🐟 漏网之鱼
-  behavior: classical
-  format: text
   file: list/final.list
-  stage: non_ip
 - id: sukka_non_ip_stream_biliintl
   group: 🟢 直连
   behavior: classical

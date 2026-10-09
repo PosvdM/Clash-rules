@@ -144,8 +144,11 @@ def compile_config(src, offline=False):
             g['filter'] = f'(?i)^(?!.*(?:{exclusion}))(?=[\\s\\S]*(?:{original}))[\\s\\S]*$'
 
     providers, rules = {}, []
+    # Local lists are always classical text; their stage is detected from content.
+    rulesets = [{'behavior': 'classical', 'format': 'text', **r} if 'file' in r else r
+                for r in src['rulesets']]
     rule_ids = set()
-    for rule in src['rulesets']:
+    for rule in rulesets:
         key = rule['id']
         if key in rule_ids:
             raise ValueError(f'Duplicate ruleset id: {key}')
@@ -155,9 +158,11 @@ def compile_config(src, offline=False):
                 raise ValueError(f"Missing local ruleset: {key}: {rule['file']}")
             if (rule['behavior'], rule['format']) != ('classical', 'text'):
                 raise ValueError(f'Local ruleset requires classical/text: {key}')
+            if 'stage' in rule:
+                raise ValueError(f'Local ruleset stage is detected from content: {key}')
         if rule.get('dns_name') and 'file' not in rule:
             raise ValueError(f'dns_name requires a local file: {key}')
-    split_rules = [r for r in src['rulesets'] if 'file' in r or r.get('split')]
+    split_rules = [r for r in rulesets if 'file' in r or r.get('split')]
 
     def get_split(rule):
         if 'file' in rule:
@@ -180,7 +185,7 @@ def compile_config(src, offline=False):
                           'path': f'./ruleset/posvdm/{key}.txt', 'interval': 86400}
         rules.append(f"RULE-SET,{key},{rule['group']}" + (',no-resolve' if stage == 'ip' else ''))
 
-    for rule in src['rulesets']:
+    for rule in rulesets:
         if rule['group'] not in names:
             raise ValueError(f"Unknown policy: {rule['group']}")
         if rule.get('dns_name'):
