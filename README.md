@@ -27,7 +27,7 @@ JavaScript 覆写仅保留订阅中的 `proxies` 和 `proxy-providers`，其余�
 
 ### 四分类精简版
 
-保留 **直连、代理、拒绝、MATCH** 四类策略，沿用 `source.yaml` 的名称、图标及顺序。代理组通过 **URL-Test** 自动选择节点。
+保留 **直连、代理、拒绝、MATCH** 四类策略，沿用 `source.yaml` 的名称、图标及顺序。代理组列出全部节点，手动选择。
 
 **JavaScript 覆写**
 

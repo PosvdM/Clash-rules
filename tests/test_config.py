@@ -383,7 +383,8 @@ assert.strictEqual(JSON.stringify(ctx.main(result)),JSON.stringify(result));
         groups = {g['name']: g for g in simple['proxy-groups']}
         self.assertEqual(list(groups), [g['name'] for g in self.src['proxy_groups']
                                        if g['name'] in roles.values()])
-        self.assertEqual(groups[roles['proxy']]['type'], 'url-test')
+        source_groups = {g['name']: g for g in self.src['proxy_groups']}
+        self.assertEqual(groups[roles['proxy']]['type'], source_groups[roles['proxy']]['type'])
         for key, value in self.src['simple_url_test'].items():
             self.assertEqual(groups[roles['proxy']][key], value)
         self.assertTrue(groups[roles['proxy']]['include-all'])
@@ -474,7 +475,7 @@ process.stdout.write(JSON.stringify(result));
         self.assertEqual([g['name'] for g in simple['proxy-groups']],
                          [g['name'] for g in src['proxy_groups'] if g['name'] in src['simple_groups'].values()])
         proxy = next(g for g in simple['proxy-groups'] if g['name'] == src['simple_groups']['proxy'])
-        self.assertEqual(proxy['type'], 'url-test')
+        self.assertEqual(proxy['type'], next(g['type'] for g in src['proxy_groups'] if g['name'] == proxy['name']))
         for key, value in src['simple_url_test'].items():
             self.assertEqual(proxy[key], value)
 
