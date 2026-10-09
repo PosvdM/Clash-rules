@@ -152,6 +152,20 @@ rule-providers:
     url: https://raw.githubusercontent.com/PosvdM/Clash-rules/main/list/ai.list
     path: ./ruleset/posvdm/local_ai.txt
     interval: 86400
+  local_anthropic_non_ip:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/rules/local_anthropic_non_ip.txt
+    path: ./ruleset/posvdm/local_anthropic_non_ip.txt
+    interval: 86400
+  local_anthropic_ip:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/rules/local_anthropic_ip.txt
+    path: ./ruleset/posvdm/local_anthropic_ip.txt
+    interval: 86400
   local_proxy:
     type: http
     behavior: classical
@@ -348,6 +362,7 @@ rules:
 - RULE-SET,local_SteamDownload_non_ip,🟢 直连
 - RULE-SET,sukka_non_ip_ai,🚀 节点选择
 - RULE-SET,local_ai,🚀 节点选择
+- RULE-SET,local_anthropic_non_ip,🚀 节点选择
 - RULE-SET,local_proxy,🚀 节点选择
 - RULE-SET,local_bulk,🚀 节点选择
 - RULE-SET,local_sexy,🚀 节点选择
@@ -369,6 +384,7 @@ rules:
 - RULE-SET,sukka_non_ip_global,🚀 节点选择
 - GEOSITE,cn,🟢 直连
 - RULE-SET,local_SteamDownload_ip,🟢 直连,no-resolve
+- RULE-SET,local_anthropic_ip,🚀 节点选择,no-resolve
 - RULE-SET,external_Global_Services_YouTube_ip,🚀 节点选择,no-resolve
 - RULE-SET,sukka_ip_stream,🚀 节点选择,no-resolve
 - RULE-SET,external_Ruleset_GoogleFCM_ip,🟢 直连,no-resolve

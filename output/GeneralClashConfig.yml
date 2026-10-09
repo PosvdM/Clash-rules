@@ -127,6 +127,20 @@ rule-providers:
     url: https://raw.githubusercontent.com/PosvdM/Clash-rules/main/list/ai.list
     path: ./ruleset/posvdm/local_ai.txt
     interval: 86400
+  local_anthropic_non_ip:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/rules/local_anthropic_non_ip.txt
+    path: ./ruleset/posvdm/local_anthropic_non_ip.txt
+    interval: 86400
+  local_anthropic_ip:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/PosvdM/Clash-rules/main/output/rules/local_anthropic_ip.txt
+    path: ./ruleset/posvdm/local_anthropic_ip.txt
+    interval: 86400
   local_proxy:
     type: http
     behavior: classical
