@@ -107,13 +107,13 @@ nameserver-policy:
 | 类别 | 规则目标与节点选择 |
 | --- | --- |
 | 直连 | 保留原目标，默认 DIRECT |
-| 代理 | 接收其余业务组规则，通过 `url-test` 自动选择节点 |
+| 代理 | 接收其余业务组规则，沿用源组类型（`select`），手动选择节点 |
 | 拒绝 | 保留原目标，默认 REJECT |
 | MATCH | 保留漏网之鱼规则（含 `local_final`），承接末尾 MATCH，默认 DIRECT |
 
 规则内容、顺序、`no-resolve`、provider 和 DNS 与完整版一致。新增业务规则自动归入代理，无需另建规则清单。
 
-代理组通过 `include-all` 纳入节点和 provider，用 `exclude_remarks` 排除提示节点；测速 URL、间隔和容差由 `simple_url_test` 设置。其余三组保留源组类型、图标等字段，选项映射到四类后去重，不保留地区、自动选择或低倍率子组。
+代理组沿用源组的类型，通过 `include-all` 纳入节点和 provider，用 `exclude_remarks` 排除提示节点；测速 URL、间隔和容差由 `simple_url_test` 设置，`tolerance` 仅对 `url-test` 类型生效。其余三组保留源组类型、图标等字段，选项映射到四类后去重，不保留地区、自动选择或低倍率子组。
 
 两份精简产物均参与生成、`--check` 和 Actions 更新。JS 共用完整版的订阅清理、凭据保留及国旗逻辑；YAML 需补入节点，不执行 JS，也不使用 Stash 的 `#!replace`。
 

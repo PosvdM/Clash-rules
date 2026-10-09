@@ -100,10 +100,10 @@ def simplify_config(common, src):
         group = copy.deepcopy(original)
         if role == 'proxy':
             # Select nodes directly, without country, automatic-test or business subgroups.
-            group = {k: group[k] for k in ('name', 'icon') if k in group}
+            group = {k: group[k] for k in ('name', 'icon', 'type') if k in group}
             exclusion = src['exclude_remarks'].removeprefix('(?i)')
             group.update(src['simple_url_test'])
-            group.update({'type': 'url-test', 'include-all': True,
+            group.update({'include-all': True,
                           'filter': f'(?i)^(?!.*(?:{exclusion}))[\\s\\S]*$'})
         else:
             for key in ('include-all', 'include-all-proxies', 'include-all-providers',
