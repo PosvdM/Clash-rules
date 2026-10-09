@@ -65,7 +65,7 @@ DOMAIN,api.example.net
   file: list/custom.list
 ```
 
-`id` 必须唯一，`group` 必须已存在。仅上传 `.list` 不会加入分流；登记后无需手建快照或修改测试。外部规则使用 `url` 和 `stage`；需拆分的远程 classical 列表加上 `split: true`，再在线生成快照。
+`id` 必须唯一，`group` 必须已存在。仅上传 `.list` 不会加入分流；登记后无需手建快照或修改测试。外部规则使用 `url` 和 `stage`；需拆分的远程 classical 列表加上 `split: true`，再在线生成快照，并检查快照的 `Source` 注释。
 
 拆分列表不支持 `MATCH`、`FINAL`、`RULE-SET`、`AND`、`OR`、`NOT`，遇到这些规则会报错。重复 ID、缺失文件、本地列表格式错误或 DNS 引用不存在的 provider 也会使生成失败，并提示具体条目。
 
@@ -79,7 +79,7 @@ DOMAIN,api.example.net
 
 IP 规则集引用使用 `no-resolve`，末尾只保留一个 MATCH。
 
-Sukka、anti-AD、GamePlatform 和单一类型的本地列表由客户端直接更新。远程 YouTube、GoogleFCM 列表及本地混合列表由生成器拆分。第三方规则遵循各自许可证，快照的 `Source` 注释保留上游地址。
+Sukka、anti-AD、GamePlatform 和单一类型的本地列表由客户端直接更新。Sukka 规则使用其原生 provider 格式，Telegram 同时引用域名、IP 和 ASN 列表。上游已废弃 `Clash/non_ip/apple_cdn.txt`，Apple CDN 使用 `Clash/domainset/apple_cdn.txt`。远程 YouTube、GoogleFCM 列表及本地混合列表由生成器拆分。第三方规则遵循各自许可证，快照的 `Source` 注释保留上游地址。
 
 DNS 使用规则集引用，不展开域名：
 
@@ -96,7 +96,7 @@ nameserver-policy:
 - 单一类型列表：DNS 与分流共用 `local_*` provider。
 - 混合 IP/非 IP 列表：DNS 引用原列表，分流引用拆分后的 provider，保持规则顺序。
 
-新增 DNS 规则集引用时，须确保 provider 存在。列表内容变化后刷新规则集；DNS 设置变化后更新覆写或订阅。TUN 开关、协议栈和路由由客户端管理。
+新增 DNS 规则集引用时，须确保 provider 存在。列表内容变化后刷新规则集；DNS 设置变化后更新覆写或订阅。TUN 开关、协议栈和路由由客户端管理，公共配置和覆写不包含 `tun`。
 
 ## 四分类精简版
 
@@ -145,6 +145,8 @@ JS 根据 `node_flags` 别名表为节点名称补国旗，支持中文、英文
 
 定时任务避开整点高峰，但 GitHub 不保证准时启动，见[调度说明](https://docs.github.com/actions/using-workflows/events-that-trigger-workflows#schedule)。
 
+推送到 `main` 时不按文件路径过滤，修改 `source.yaml`、`list/` 或生成器后都会重新生成产物。机器人会向 `main` 提交产物，推送前先拉取远端更新。
+
 校验任务只读，更新任务使用 `contents: write`。抓取或编译失败时不写入产物。构建完成后仍需在客户端更新规则集或覆写。
 
 ## 本地验证
@@ -164,13 +166,13 @@ python scripts/generate.py --offline
 python scripts/generate.py --offline --check
 ```
 
-`--check` 不写文件；产物不一致或存在过期快照时失败。
+生成时删除 `output/rules/` 中不再引用的快照。`--check` 不写文件；产物不一致或存在过期快照时失败。
 
 测试覆盖跨入口一致性、规则拆分与保全、节点与凭据保留、订阅字段清理（含 TUN）、筛选、DNS 引用、国旗和图标更新、输入不变、重复执行隔离及可重复生成。自动测试不能替代客户端的 VPN、DNS 和联网验证。
 
 ## 客户端兼容
 
-各入口共享配置数据，字段是否生效取决于内核。Mihomo 支持 DNS 的 `rule-set:`；Stash 文档未明确说明支持，需在设备上确认。其他 DNS、fake-ip、fallback 字段也需分别确认。
+各入口共享规则和 DNS 配置，不按客户端分别编写；字段是否生效取决于内核。Mihomo 支持 DNS 的 `rule-set:`；Stash 文档未明确说明支持，需在设备上确认。其他 DNS、fake-ip、fallback 字段也需分别确认。
 
 ### JavaScript 覆写
 
@@ -187,3 +189,7 @@ Clash Party 执行覆写后还会合并客户端设置。要保留脚本中的 D
 ### Subconverter
 
 使用字面 `RULE-SET` 引用，后端须保留基础模板中的 `rule-providers`。公共配置不含节点，不能直接作为独立订阅连接。
+
+## 文档约定
+
+README 只写项目说明和使用方法，每个配置链接单独放在一个代码块中，方便用 GitHub 的按钮复制。实现、维护和迁移说明写在本文档。
