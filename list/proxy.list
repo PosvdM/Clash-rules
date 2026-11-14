@@ -10,7 +10,7 @@ DOMAIN,api-flowercloud.com
 
 # 家宽
 DOMAIN-SUFFIX,nexip.net
-DOMAIN-SUFFIX,ipweb.cc
+DOMAIN-SUFFIX,nexip.cc
 
 # 3x-ui
 DOMAIN-SUFFIX,sanaei.dev
