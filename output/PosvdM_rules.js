@@ -1,5 +1,5 @@
 // Generated from source.yaml; Clash Party / FlClash override.
-// Updated: 2026-10-09 14:50 +08:00
+// Updated: 2026-11-19 00:37 +08:00
 const policy = {
   "dns": {
     "enable": true,
@@ -98,17 +98,7 @@ const policy = {
       "type": "select",
       "proxies": [
         "DIRECT",
-        "🚀 节点选择",
-        "🏷️ 低倍率",
-        "📌 指定节点",
-        "1️⃣ 港台新",
-        "2️⃣ 日韩",
-        "🇭🇰 香港",
-        "🇹🇼 台湾",
-        "🇸🇬 新加坡",
-        "🇯🇵 日本",
-        "🇰🇷 韩国",
-        "🇺🇲 美国"
+        "🚀 节点选择"
       ]
     },
     {
